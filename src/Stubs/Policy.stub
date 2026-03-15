@@ -2,11 +2,13 @@
 
 namespace {{ policy_namespace }};
 
+use GT264\CrudFiesta\Policies\CrudBasePolicy;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use {{ use_model }};
 
-class {{ crud_name }}Policy extends CrudBasePolicy
+class {{ model_name }}Policy extends CrudBasePolicy
 {
 
 }

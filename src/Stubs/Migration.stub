@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('{{ table_name }}', function (Blueprint $table) {
+        $model = new {{ model_class }}();
+        $table_name = $model->getTableName();
+        Schema::create($table_name, function (Blueprint $table) {
             $table->id();
-            {{ fields }}
-            {{ foreign_keys }}
+            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('{{ table_name }}');
+        $model = new {{ model_class }}();
+        $table_name = $model->getTableName();
+        Schema::dropIfExists($table_name);
     }
 };

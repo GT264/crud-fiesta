@@ -4,9 +4,11 @@ namespace GT264\CrudFiesta\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use GT264\CrudFiesta\Helpers\GenerateCrud as GenerateCrudHelper;
+
 class GenerateCrud extends Command
 {
-    protected $argumentName = 'model_name';
+    protected $argument = 'model_name';
 
     /**
      * The name and signature of the console command.
@@ -25,10 +27,10 @@ class GenerateCrud extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(GenerateCrudHelper $generateCrudHelper): void
     {
 
-        dd($this->argument('model_name'));
+        $generateCrudHelper->generateCrud($this->argument('model_name'));
 
     }
 

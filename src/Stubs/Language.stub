@@ -3,7 +3,5 @@
 use {{ use_model }};
 
 return [
-    'fields' => [
-        {{ language_lines }}
-    ]
+    
 ];

@@ -4,12 +4,14 @@ namespace {{ repository_namespace }};
 
 use {{ use_model }};
 
+use GT264\CrudFiesta\Repositories\CrudBaseRepository;
+
 use Illuminate\Database\Eloquent\Model;
 
-class {{ crud_name }}Repository extends CrudBaseRepository
+class {{ model_name }}Repository extends CrudBaseRepository
 {
     protected function makeModel() : Model
     {
-        return new {{ model }};
+        return new {{ model_name }};
     }
 }

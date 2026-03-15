@@ -2,20 +2,27 @@
 
 namespace {{ data_table_namespace }};
 
+use GT264\CrudFiesta\DataTables\CrudBaseDataTable;
+
 use {{ use_model }};
 
-class {{ crud_name }}DataTable extends CrudBaseDataTable
+class {{ model_name }}DataTable extends CrudBaseDataTable
 {
     protected string $model_class = {{ model_class }}::class;
 
-    public const array default_columns = [
-        {{ default_columns }}
-    ];
-
-    public function getFormDetails() : array
+    protected function commonFormDetails(): array
     {
-        return [
-            {{ form_details }}
-        ];
+        return [];
     }
+
+    protected function creationFormDetails(): array
+    {
+        return [];
+    }
+
+    protected function editFormDetails(): array
+    {
+        return [];
+    }
+
 }
