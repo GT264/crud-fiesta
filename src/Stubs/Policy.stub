@@ -1,0 +1,12 @@
+<?php
+
+namespace {{ policy_namespace }};
+
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use {{ use_model }};
+
+class {{ crud_name }}Policy extends CrudBasePolicy
+{
+
+}

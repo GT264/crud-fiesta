@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ data_table_namespace }};
+
+use {{ use_model }};
+
+class {{ crud_name }}DataTable extends CrudBaseDataTable
+{
+    protected string $model_class = {{ model_class }}::class;
+
+    public const array default_columns = [
+        {{ default_columns }}
+    ];
+
+    public function getFormDetails() : array
+    {
+        return [
+            {{ form_details }}
+        ];
+    }
+}

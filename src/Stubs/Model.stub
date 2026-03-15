@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ model_namespace }};
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class {{ crud_name }} extends Model
+{
+    use SoftDeletes;
+
+    {{ model_column_constants }}
+
+    protected $fillable = [
+        {{ fillable }}
+    ];
+
+    {{ relation_methods }}
+}

@@ -4,6 +4,8 @@ namespace GT264\CrudFiesta;
 
 use Illuminate\Support\ServiceProvider;
 
+use GT264\CrudFiesta\Console\Commands\GenerateCrud;
+
 class CrudFiestaServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,11 @@ class CrudFiestaServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/lang' => $this->app->langPath('vendor/crud-fiesta'),
             ], 'crud-fiesta-lang');
+
+            $this->commands([
+                GenerateCrud::class
+            ]);
+            
         }
     }
 
