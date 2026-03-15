@@ -1,7 +1,7 @@
 {
-    "name": "vendor/crud-fiesta",
-    "description": "CRUD Fiesta",
-    "type": "project",
+    "name": "gt264/crud-fiesta",
+    "description": "A Laravel package for rapid CRUD operations with Inertia.js and Spatie Permissions support",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -10,11 +10,21 @@
         }
     ],
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.5",
+        "laravel/framework": "^12.0",
+        "inertiajs/inertia-laravel": "^2.0",
+        "spatie/laravel-permission": "^7.0"
     },
     "autoload": {
         "psr-4": {
-            "Vendor\\CrudFiesta\\": "src/"
+            "GT264\\CrudFiesta\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GT264\\CrudFiesta\\CrudFiestaServiceProvider"
+            ]
         }
     }
 }
