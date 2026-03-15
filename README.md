@@ -2,6 +2,8 @@
 
 Un pacchetto Laravel per la gestione rapida di operazioni CRUD con supporto Inertia.js, Spatie Permissions e DataTable configurabili.
 
+Pacchetto in fase di svilupo, non ancora pronto per la produzione.
+
 ---
 
 ## Requisiti
