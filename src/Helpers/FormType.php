@@ -17,5 +17,5 @@ class FormType
     public const string EDITOR = 'Editor';
     public const string IMAGE = 'Image';
     public const string FILE = 'File';
-    public const string EMAIL = 'email'; // Special case handled in Form.jsx default
+    public const string EMAIL = 'email';
 }
