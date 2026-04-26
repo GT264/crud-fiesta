@@ -87,9 +87,9 @@ abstract class CrudBaseController extends Controller
     {
         try {
             $this->repository->create($request->all());
-            return $this->redirectWithSuccess('Record created successfully');
+            return $this->redirectWithSuccess(__('crud.message.success_create', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
-            return $this->redirectWithError($e->getMessage());
+            return $this->redirectWithError(__('crud.message.error_create', ['model_name' => $this->model_name_singular]));
         }
     }
 
@@ -123,7 +123,7 @@ abstract class CrudBaseController extends Controller
     {
         try {
             $this->repository->update($id, $request->all());
-            return $this->redirectWithSuccess('Record updated successfully');
+            return $this->redirectWithSuccess(__('crud.message.success_update', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());
         }
@@ -135,9 +135,9 @@ abstract class CrudBaseController extends Controller
     {
         try {
             if ($this->repository->delete($id)) {
-                return $this->redirectWithSuccess('Record deleted successfully');
+                return $this->redirectWithSuccess(__('crud.message.success_delete', ['model_name' => $this->model_name_singular]));
             } else {
-                return $this->redirectWithError('Record not deleted');
+                return $this->redirectWithError(__('crud.message.error_delete', ['model_name' => $this->model_name_singular]));
             }
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());
