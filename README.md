@@ -23,10 +23,34 @@ composer require gt264/crud-fiesta
 
 Il ServiceProvider viene registrato automaticamente tramite [Package Discovery](https://laravel.com/docs/packages#package-discovery).
 
-### Pubblica la configurazione (opzionale)
+### Esegui il comando di installazione
+
+Questo comando pubblica i componenti e installa le dipendenze npm:
+
+```bash
+php artisan crud-fiesta:install
+npm run build
+```
+
+### Configura PrimeVue in app.js
+
+Aggiungi nel tuo `resources/js/app.js`:
+
+```javascript
+import setupPrimeVue from './plugins/primevue'
+setupPrimeVue(app)
+```
+
+### Pubblica la configurazione
 
 ```bash
 php artisan vendor:publish --tag=crud-fiesta-config
+```
+
+Poi imposta l'enum delle risorse in `config/crud-fiesta.php`:
+
+```php
+'resource_enum' => \App\Enums\AppResource::class,
 ```
 
 ### Pubblica i file di lingua (opzionale)
@@ -48,7 +72,7 @@ namespace App\Enums;
 
 use GT264\CrudFiesta\Enums\Resource;
 
-enum MyResource: string implements Resource
+enum AppResource: string implements Resource
 {
     case USERS = 'users';
 
@@ -120,15 +144,13 @@ class UserDataTable extends CrudBaseDataTable
 namespace App\Policies;
 
 use GT264\CrudFiesta\Policies\CrudBasePolicy;
-use App\Enums\MyResource;
+use App\Models\User;
 
 class UserPolicy extends CrudBasePolicy
 {
-    protected \GT264\CrudFiesta\Enums\Resource $resource;
-
     public function __construct()
     {
-        $this->resource = MyResource::USERS;
+        $this->resource = $this->resolveResource(User::class);
     }
 }
 ```
@@ -166,6 +188,7 @@ Dopo aver pubblicato il file di configurazione (`config/crud-fiesta.php`):
 
 | Chiave | Default | Descrizione |
 |---|---|---|
+| `resource_enum` | `null` | Classe enum che implementa `Resource` e mappa i model alle permission Spatie |
 | `per_page` | `25` | Righe per pagina nella paginazione |
 | `route_prefix_strategy` | `plural_snake` | Strategia per il prefisso delle rotte |
 | `super_admin_role` | `super_admin` | Nome del ruolo Spatie con accesso totale |

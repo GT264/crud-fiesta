@@ -14,7 +14,7 @@ return new class extends Migration
     public function up(): void
     {
         $model = new {{ model_class }}();
-        $table_name = $model->getTableName();
+        $table_name = $model->getTable();
         Schema::create($table_name, function (Blueprint $table) {
             $table->id();
             
@@ -29,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         $model = new {{ model_class }}();
-        $table_name = $model->getTableName();
+        $table_name = $model->getTable();
         Schema::dropIfExists($table_name);
     }
 };

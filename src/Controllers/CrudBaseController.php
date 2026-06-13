@@ -25,18 +25,15 @@ abstract class CrudBaseController extends Controller
 
     protected string $view_name = 'Crud/Index';
 
-    protected Model $model;
-    protected CrudBaseDataTable $data_table;
-    protected CrudBaseRepository $repository;
-
     use AuthorizesRequests, SetLanguage, SetRoutePrefix;
 
-    public function __construct()
+    public function __construct(
+        protected Model $model,
+        protected CrudBaseDataTable $crud_data_table,
+        protected CrudBaseRepository $crud_base_repository
+    )
     {
-        $this->model = app($this->model_class);
         $this->authorizeResource($this->model_class, $this->model->getKeyName());
-        $this->data_table = app($this->data_table_class);
-        $this->repository = app($this->repository_class);
         $this->setLang();
         $this->setRoutePrefix();
     }
@@ -66,17 +63,18 @@ abstract class CrudBaseController extends Controller
     public function index() : InertiaResponse
     {
         return Inertia::render($this->view_name, [
-            'column_data' => $this->repository->paginate($this->data_table->per_page, [...$this->data_table::default_columns, $this->model->getKeyName()]),
-            'columns_details' => array_values($this->data_table->details_columns),
+            'column_data' => $this->crud_base_repository->paginate($this->crud_data_table->per_page, [...$this->crud_data_table::default_columns, $this->model->getKeyName()]),
+            'columns_details' => array_values($this->crud_data_table->details_columns),
             'route_prefix' => $this->route_prefix,
-            'optional_buttons' => $this->data_table->getOptionalButtons(),
-            'crud_buttons' => $this->data_table->getCrudButtons(),
+            'optional_buttons' => $this->crud_data_table->getOptionalButtons(),
+            'crud_buttons' => $this->crud_data_table->getCrudButtons(),
+            'actions_label' => __('crud.button.actions'),
         ]);
     }
 
     public function create() : JsonResponse
     {
-        $form_details = $this->data_table->getCreationFormDetails();
+        $form_details = $this->crud_data_table->getCreationFormDetails();
 
         return response()->json($form_details);
     }
@@ -86,7 +84,7 @@ abstract class CrudBaseController extends Controller
     ) : RedirectResponse
     {
         try {
-            $this->repository->create($request->all());
+            $this->crud_base_repository->create($request->all());
             return $this->redirectWithSuccess(__('crud.message.success_create', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError(__('crud.message.error_create', ['model_name' => $this->model_name_singular]));
@@ -97,7 +95,7 @@ abstract class CrudBaseController extends Controller
         string|int $id
     ) : InertiaResponse
     {
-        $item = $this->repository->findOrFail($id);
+        $item = $this->crud_base_repository->findOrFail($id);
         return Inertia::render('Crud/Show', [
             'item' => $item,
             'action' => 'show'
@@ -108,11 +106,11 @@ abstract class CrudBaseController extends Controller
         string|int $id
     ) : JsonResponse
     {
-        $item = $this->repository->findOrFail($id);
+        $item = $this->crud_base_repository->findOrFail($id);
         return response()->json([
             'item' => $item,
             'action' => 'edit',
-            'form_details' => $this->data_table->getEditFormDetails()
+            'form_details' => $this->crud_data_table->getEditFormDetails()
         ]);
     }
 
@@ -122,7 +120,7 @@ abstract class CrudBaseController extends Controller
     ) : RedirectResponse
     {
         try {
-            $this->repository->update($id, $request->all());
+            $this->crud_base_repository->update($id, $request->all());
             return $this->redirectWithSuccess(__('crud.message.success_update', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());
@@ -134,7 +132,7 @@ abstract class CrudBaseController extends Controller
     ) : RedirectResponse
     {
         try {
-            if ($this->repository->delete($id)) {
+            if ($this->crud_base_repository->delete($id)) {
                 return $this->redirectWithSuccess(__('crud.message.success_delete', ['model_name' => $this->model_name_singular]));
             } else {
                 return $this->redirectWithError(__('crud.message.error_delete', ['model_name' => $this->model_name_singular]));

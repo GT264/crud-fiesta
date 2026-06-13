@@ -5,6 +5,7 @@ namespace GT264\CrudFiesta\Policies;
 use GT264\CrudFiesta\Enums\Permission;
 use GT264\CrudFiesta\Enums\Resource;
 use GT264\CrudFiesta\Enums\Role;
+use GT264\CrudFiesta\Helpers\ResourceResolver;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -12,6 +13,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 abstract class CrudBasePolicy
 {
     protected Resource $resource;
+
+    protected function resolveResource(string $model_class): Resource
+    {
+        return ResourceResolver::fromModel($model_class);
+    }
 
     public function before(Authenticatable $user, string $ability): bool|null
     {

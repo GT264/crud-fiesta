@@ -4,11 +4,12 @@ namespace {{ policy_namespace }};
 
 use GT264\CrudFiesta\Policies\CrudBasePolicy;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use {{ use_model }};
 
 class {{ model_name }}Policy extends CrudBasePolicy
 {
-
+    public function __construct()
+    {
+        $this->resource = $this->resolveResource({{ model_name }}::class);
+    }
 }

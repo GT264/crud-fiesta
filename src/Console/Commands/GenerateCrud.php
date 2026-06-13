@@ -15,7 +15,7 @@ class GenerateCrud extends Command
      *
      * @var string
      */
-    protected $signature = 'crud:generate {model_name}';
+    protected $signature = 'crud-fiesta:generate {model_name}';
  
     /**
      * The console command description.

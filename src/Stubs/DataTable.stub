@@ -3,12 +3,17 @@
 namespace {{ data_table_namespace }};
 
 use GT264\CrudFiesta\DataTables\CrudBaseDataTable;
+use GT264\CrudFiesta\Helpers\FormType;
 
 use {{ use_model }};
 
 class {{ model_name }}DataTable extends CrudBaseDataTable
 {
     protected string $model_class = {{ model_class }}::class;
+
+    public const array default_columns = [
+        // 'column_name',
+    ];
 
     protected function commonFormDetails(): array
     {
@@ -17,12 +22,19 @@ class {{ model_name }}DataTable extends CrudBaseDataTable
 
     protected function creationFormDetails(): array
     {
-        return [];
+        $common = $this->commonFormDetails();
+
+        return [
+            ...$common,
+        ];
     }
 
     protected function editFormDetails(): array
     {
-        return [];
-    }
+        $common = $this->commonFormDetails();
 
+        return [
+            ...$common,
+        ];
+    }
 }

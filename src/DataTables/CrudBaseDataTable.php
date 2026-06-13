@@ -4,10 +4,10 @@ namespace GT264\CrudFiesta\DataTables;
 
 use GT264\CrudFiesta\Enums\Permission;
 use GT264\CrudFiesta\Enums\Resource;
+use GT264\CrudFiesta\Helpers\FormType;
+use GT264\CrudFiesta\Helpers\ResourceResolver;
 use GT264\CrudFiesta\Traits\SetLanguage;
 use GT264\CrudFiesta\Traits\SetRoutePrefix;
-
-use GT264\CrudFiesta\Helpers\FormType;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,6 @@ abstract class CrudBaseDataTable
     use SetLanguage, SetRoutePrefix;
 
     protected string $model_class;
-    protected Model $model;
 
     protected Resource $resource;
 
@@ -36,13 +35,13 @@ abstract class CrudBaseDataTable
     protected bool $enable_edit = true;
     protected bool $enable_delete = true;
     
-    public function __construct() 
-    {
-        $this->model = app($this->model_class);
+    public function __construct(
+        protected Model $model
+    ) {
         $this->setLang();
         $this->setRoutePrefix();
         $this->initializeColumnsDetails();
-        $this->resource = Resource::getResourceFromModel($this->model_class);
+        $this->resource = ResourceResolver::fromModel($this->model::class);
     }
 
     protected function initializeColumnsDetails() : void
@@ -104,48 +103,73 @@ abstract class CrudBaseDataTable
         return $this->setFormDetails($this->creationFormDetails());
     }
 
+    protected function buildRowActionRoute(string $action): string
+    {
+        return route(
+            "{$this->route_prefix}.{$action}",
+            [$this->model_name_singular => '__CRUD_ID__']
+        );
+    }
+
+    protected function makeCrudButton(
+        string $icon,
+        string $label,
+        string $action,
+        string $method,
+        ?string $event = null,
+    ): array {
+        $button = [
+            'icon' => $icon,
+            'label' => $label,
+            'route' => $this->buildRowActionRoute($action),
+            'binding' => $this->model->getKeyName(),
+            'placeholder' => '__CRUD_ID__',
+            'method' => $method,
+        ];
+
+        if ($event !== null) {
+            $button['event'] = $event;
+        }
+
+        return $button;
+    }
+
     public function getCrudButtons() : array {
 
         $crud_buttons = [];
 
-        // Show button
         if (
             $this->enable_view && Permission::VIEW->getPermissionTo(Auth::user(), $this->resource)
         ) {
-            $crud_buttons[] = [
-                'icon' => 'pi pi-eye',
-                'label' => __('crud.button.view'),
-                'route' => route("$this->route_prefix.show", $this->model->getKeyName()),
-                'binding' => $this->model->getKeyName(),
-                'method' => 'get'
-            ];
+            $crud_buttons[] = $this->makeCrudButton(
+                'pi pi-eye',
+                __('crud.button.view'),
+                'show',
+                'get',
+            );
         }
 
-        // Edit button
         if (
             $this->enable_edit && Permission::UPDATE->getPermissionTo(Auth::user(), $this->resource)
         ) {
-            $crud_buttons[] = [
-                'icon' => 'pi pi-pencil',
-                'label' => __('crud.button.edit'),
-                'route' => route("$this->route_prefix.edit", $this->model->getKeyName()),
-                'binding' => $this->model->getKeyName(),
-                'method' => 'get',
-                'event' => 'edit'
-            ];
+            $crud_buttons[] = $this->makeCrudButton(
+                'pi pi-pencil',
+                __('crud.button.edit'),
+                'edit',
+                'get',
+                'edit',
+            );
         }
 
         if (
             $this->enable_delete && Permission::DELETE->getPermissionTo(Auth::user(), $this->resource)
         ) {
-            $crud_buttons[] = [
-                'icon' => 'pi pi-trash',
-                'label' => __('crud.button.delete'),
-                'route' => route("$this->route_prefix.destroy", $this->model->getKeyName()),
-                'binding' => $this->model->getKeyName(),
-                'method' => 'delete',
-                'event' => 'delete' // Optional, handled by Inertia method usually
-            ];
+            $crud_buttons[] = $this->makeCrudButton(
+                'pi pi-trash',
+                __('crud.button.delete'),
+                'destroy',
+                'delete',
+            );
         }
 
         return $crud_buttons;

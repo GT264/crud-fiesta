@@ -13,4 +13,12 @@ class {{ model_name }}CrudController extends CrudBaseController
     protected string $model_class = {{ model_class }}::class;
     protected string $data_table_class = {{ data_table_class }}::class;
     protected string $repository_class = {{ repository_class }}::class;
+
+    public function __construct(
+        {{ model_class }} $model,
+        {{ data_table_class }} $crud_data_table,
+        {{ repository_class }} $crud_base_repository
+    ) {
+        parent::__construct($model, $crud_data_table, $crud_base_repository);
+    }
 }
