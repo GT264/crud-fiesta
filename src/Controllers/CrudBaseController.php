@@ -19,10 +19,6 @@ use Inertia\Response as InertiaResponse;
 
 abstract class CrudBaseController extends Controller
 {
-    protected string $model_class;
-    protected string $data_table_class;
-    protected string $repository_class;
-
     protected string $view_name = 'Crud/Index';
 
     use AuthorizesRequests, SetLanguage, SetRoutePrefix;
@@ -33,7 +29,7 @@ abstract class CrudBaseController extends Controller
         protected CrudBaseRepository $crud_base_repository
     )
     {
-        $this->authorizeResource($this->model_class, $this->model->getKeyName());
+        $this->authorizeResource($this->model::class, $this->model->getKeyName());
         $this->setLang();
         $this->setRoutePrefix();
     }

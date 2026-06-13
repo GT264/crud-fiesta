@@ -5,6 +5,7 @@ namespace GT264\CrudFiesta;
 use Illuminate\Support\ServiceProvider;
 
 use GT264\CrudFiesta\Console\Commands\GenerateCrud;
+use GT264\CrudFiesta\Console\Commands\Install;
 
 class CrudFiestaServiceProvider extends ServiceProvider
 {
@@ -16,20 +17,10 @@ class CrudFiestaServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/lang', 'crud-fiesta');
 
         if ($this->app->runningInConsole()) {
-            // Publish config
-            $this->publishes([
-                __DIR__ . '/../config/crud-fiesta.php' => config_path('crud-fiesta.php'),
-            ], 'crud-fiesta-config');
-
-            // Publish language files
-            $this->publishes([
-                __DIR__ . '/lang' => $this->app->langPath('vendor/crud-fiesta'),
-            ], 'crud-fiesta-lang');
-
             $this->commands([
-                GenerateCrud::class
+                GenerateCrud::class,
+                Install::class,
             ]);
-            
         }
     }
 
@@ -44,3 +35,4 @@ class CrudFiestaServiceProvider extends ServiceProvider
         );
     }
 }
+

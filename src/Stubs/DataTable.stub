@@ -9,7 +9,11 @@ use {{ use_model }};
 
 class {{ model_name }}DataTable extends CrudBaseDataTable
 {
-    protected string $model_class = {{ model_class }}::class;
+    public function __construct(
+        {{ model_class }} $model,
+    ) {
+        parent::__construct($model);
+    }
 
     public const array default_columns = [
         // 'column_name',

@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Auth;
 abstract class CrudBaseDataTable
 {
     use SetLanguage, SetRoutePrefix;
-
-    protected string $model_class;
-
+    
     protected Resource $resource;
 
     /** @var array
