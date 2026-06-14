@@ -1,0 +1,7 @@
+<?php
+
+use {{ use_model }};
+
+return [
+    
+];

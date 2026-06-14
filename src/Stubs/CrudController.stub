@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ controller_namespace }};
+
+use GT264\CrudFiesta\Controllers\CrudBaseController;
+
+use {{ use_model }};
+use {{ use_data_table }};
+use {{ use_repository }};
+
+class {{ model_name }}CrudController extends CrudBaseController
+{
+
+    public function __construct(
+        {{ model_class }} $model,
+        {{ data_table_class }} $crud_data_table,
+        {{ repository_class }} $crud_base_repository
+    ) {
+        parent::__construct($model, $crud_data_table, $crud_base_repository);
+    }
+}

@@ -1,0 +1,44 @@
+<?php
+
+namespace {{ data_table_namespace }};
+
+use GT264\CrudFiesta\DataTables\CrudBaseDataTable;
+use GT264\CrudFiesta\Helpers\FormType;
+
+use {{ use_model }};
+
+class {{ model_name }}DataTable extends CrudBaseDataTable
+{
+    public function __construct(
+        {{ model_class }} $model,
+    ) {
+        parent::__construct($model);
+    }
+
+    public const array default_columns = [
+        // 'column_name',
+    ];
+
+    protected function commonFormDetails(): array
+    {
+        return [];
+    }
+
+    protected function creationFormDetails(): array
+    {
+        $common = $this->commonFormDetails();
+
+        return [
+            ...$common,
+        ];
+    }
+
+    protected function editFormDetails(): array
+    {
+        $common = $this->commonFormDetails();
+
+        return [
+            ...$common,
+        ];
+    }
+}
