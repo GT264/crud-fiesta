@@ -1,0 +1,5 @@
+var o = { color: "{form.field.icon.color}" }, r = { icon: o };
+export {
+  r as default,
+  o as icon
+};

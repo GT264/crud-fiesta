@@ -1,0 +1,7 @@
+var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { size: "24px", background: "transparent", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, n = { root: o, gutter: r, handle: t };
+export {
+  n as default,
+  r as gutter,
+  t as handle,
+  o as root
+};

@@ -1,69 +1,131 @@
 # CRUD Fiesta 🎉
 
-Un pacchetto Laravel per la gestione rapida di operazioni CRUD con supporto Inertia.js, Spatie Permissions e DataTable configurabili.
+Un pacchetto Laravel per la gestione rapida di operazioni CRUD parametriche con supporto Inertia.js, Vue 3, PrimeVue e Spatie Permissions.
 
-Pacchetto in fase di svilupo, non ancora pronto per la produzione.
+**Il frontend è centralizzato nel pacchetto** — nessun file da copiare nel progetto, tutto funziona tramite plugin Vue.
+
+Pacchetto in fase di sviluppo, non ancora pronto per la produzione.
 
 ---
 
 ## Requisiti
 
-- PHP >= 8.0
-- Laravel >= 12.0
+- PHP >= 8.3
+- Laravel >= 13.0
 - [spatie/laravel-permission](https://github.com/spatie/laravel-permission) ^7.0
-- [inertiajs/inertia-laravel](https://github.com/inertiajs/inertia-laravel)
+- [inertiajs/inertia-laravel](https://github.com/inertiajs/inertia-laravel) ^3.0
+- Node.js con npm
+- PrimeVue ^4.0
+- Vue 3
 
 ---
 
 ## Installazione
 
+### 1. Installa il pacchetto
+
 ```bash
 composer require gt264/crud-fiesta
 ```
 
-Il ServiceProvider viene registrato automaticamente tramite [Package Discovery](https://laravel.com/docs/packages#package-discovery).
+Il ServiceProvider viene registrato automaticamente.
 
-### Esegui il comando di installazione
-
-Questo comando pubblica i componenti e installa le dipendenze npm:
+### 2. Installa le dipendenze npm
 
 ```bash
 php artisan crud-fiesta:install
+npm install
 npm run build
 ```
 
-### Configura PrimeVue in app.js
+### 3. Configura il plugin Vue
 
-Aggiungi nel tuo `resources/js/app.js`:
+Nel tuo `resources/js/app.js` (o `main.js`):
 
 ```javascript
-import setupPrimeVue from './plugins/primevue'
-setupPrimeVue(app)
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+
+// Aggiungi questi due plugin dal pacchetto
+import PrimeVuePlugin from 'crud-fiesta/resources/js/plugins/primevue'
+import CrudPlugin from 'crud-fiesta/resources/js/plugins/crudFiesta'
+
+const app = createApp(App)
+
+app.use(PrimeVuePlugin)  // Setup PrimeVue
+app.use(CrudPlugin)      // Registra i componenti CRUD
+app.use(router)
+app.mount('#app')
 ```
 
-### Pubblica la configurazione
+Fatto! I componenti CRUD sono ora disponibili globalmente.
 
-```bash
-php artisan vendor:publish --tag=crud-fiesta-config
-```
+### 4. Configura l'enum delle risorse
 
-Poi imposta l'enum delle risorse in `config/crud-fiesta.php`:
+Crea un file `app/Enums/AppResource.php`:
 
 ```php
-'resource_enum' => \App\Enums\AppResource::class,
+namespace App\Enums;
+
+use GT264\CrudFiesta\Enums\Resource;
+
+enum AppResource: string implements Resource
+{
+    case USERS = 'users';
+    case POSTS = 'posts';
+
+    public static function getResourceFromModel(string $model_class): self
+    {
+        return match($model_class) {
+            \App\Models\User::class => self::USERS,
+            \App\Models\Post::class => self::POSTS,
+            default => throw new \InvalidArgumentException("Unknown model: $model_class"),
+        };
+    }
+}
 ```
 
-### Pubblica i file di lingua (opzionale)
+Poi aggiungi in `config/app.php` o in un file di configurazione:
 
-```bash
-php artisan vendor:publish --tag=crud-fiesta-lang
+```php
+'crud-fiesta' => [
+    'resource_enum' => \App\Enums\AppResource::class,
+]
 ```
 
 ---
 
-## Utilizzo
+## Utilizzo Rapido
 
-### 1. Crea il tuo `Resource` Enum
+### Opzione 1: Genera Automaticamente (Consigliato)
+
+Usa il comando per generare Controller, Repository, DataTable e Policy in una volta:
+
+```bash
+php artisan crud-fiesta:generate User
+```
+
+Questo crea:
+- `app/Http/Controllers/UserController`
+- `app/Repositories/UserRepository`
+- `app/DataTables/UserDataTable`
+- `app/Policies/UserPolicy`
+
+Poi registra le rotte:
+
+```php
+// routes/web.php
+Route::resource('users', App\Http\Controllers\UserController::class);
+```
+
+**Finito!** Accedi a `/users` e avrai una CRUD completa con frontend da PrimeVue.
+
+### Opzione 2: Setup Manuale
+
+Se preferisci creare i file manualmente:
+
+#### 1. Crea il tuo `Resource` Enum
 
 Implementa l'interfaccia `GT264\CrudFiesta\Enums\Resource`:
 
@@ -86,7 +148,7 @@ enum AppResource: string implements Resource
 }
 ```
 
-### 2. Crea il Repository
+#### 2. Crea il Repository
 
 ```php
 namespace App\Repositories;
@@ -104,7 +166,7 @@ class UserRepository extends CrudBaseRepository
 }
 ```
 
-### 3. Crea il DataTable
+#### 3. Crea il DataTable
 
 ```php
 namespace App\DataTables;
@@ -138,7 +200,7 @@ class UserDataTable extends CrudBaseDataTable
 }
 ```
 
-### 4. Crea la Policy
+#### 4. Crea la Policy
 
 ```php
 namespace App\Policies;
@@ -155,7 +217,7 @@ class UserPolicy extends CrudBasePolicy
 }
 ```
 
-### 5. Crea il Controller
+#### 5. Crea il Controller
 
 ```php
 namespace App\Http\Controllers;
@@ -173,7 +235,7 @@ class UserController extends CrudBaseController
 }
 ```
 
-### 6. Registra le rotte
+#### 6. Registra le rotte
 
 ```php
 // routes/web.php
@@ -182,9 +244,71 @@ Route::resource('users', \App\Http\Controllers\UserController::class);
 
 ---
 
+## Frontend — Componenti Vue
+
+I componenti CRUD sono già integrati nel pacchetto e disponibili tramite il plugin Vue. **Nessuna copia di file necessaria.**
+
+### Componenti Disponibili
+
+- **`<CrudIndex />`** — Pagina principale con DataTable e gestione CRUD
+- **`<CrudDataTable />`** — Componente DataTable riutilizzabile
+- **`<CrudForm />`** — Form in modale per create/edit
+- **`<CrudActions />`** — Barra azioni (view, edit, delete)
+
+### Esempio di utilizzo diretto (avanzato)
+
+Se vuoi personalizzare la pagina Index, puoi creare una pagina custom in `resources/js/Pages/`:
+
+```vue
+<template>
+  <CrudIndex
+    title="Users"
+    :items="items"
+    :columns="columns"
+    :total-records="totalRecords"
+    :crud-buttons="crudButtons"
+    :form-fields="formFields"
+    @store="handleStore"
+    @update="handleUpdate"
+    @delete="handleDelete"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const items = ref([])
+const totalRecords = ref(0)
+
+const columns = [
+  { field: 'name', header: 'Nome' },
+  { field: 'email', header: 'Email' }
+]
+
+const formFields = {
+  name: { form_type: 'text', required: true },
+  email: { form_type: 'email', required: true }
+}
+
+const crudButtons = [
+  { icon: 'pi pi-eye', label: 'View', action: 'view' },
+  { icon: 'pi pi-pencil', label: 'Edit', action: 'edit' },
+  { icon: 'pi pi-trash', label: 'Delete', action: 'delete' }
+]
+</script>
+```
+
+---
+
 ## Configurazione
 
-Dopo aver pubblicato il file di configurazione (`config/crud-fiesta.php`):
+### File di configurazione
+
+Opzionalmente, publica la configurazione:
+
+```bash
+php artisan vendor:publish --tag=crud-fiesta-config
+```
 
 | Chiave | Default | Descrizione |
 |---|---|---|
@@ -192,6 +316,48 @@ Dopo aver pubblicato il file di configurazione (`config/crud-fiesta.php`):
 | `per_page` | `25` | Righe per pagina nella paginazione |
 | `route_prefix_strategy` | `plural_snake` | Strategia per il prefisso delle rotte |
 | `super_admin_role` | `super_admin` | Nome del ruolo Spatie con accesso totale |
+
+### File di lingua
+
+Opzionalmente, publica i file di lingua:
+
+```bash
+php artisan vendor:publish --tag=crud-fiesta-lang
+```
+
+---
+
+## Flusso di Lavoro Tipico
+
+1. **Genera la CRUD** con il comando automatico
+2. **Registra le rotte** nel file routes
+3. **Accedi all'URL** e il frontend è pronto (DataTable, form in modale, pulsanti CRUD)
+4. **Personalizza il DataTable** modificando la classe `DataTable` se necessario
+5. **Aggiungi logica business** nel `Repository` e nel `Controller`
+
+---
+
+## Permessi
+
+Il pacchetto utilizza [Spatie Permissions](https://github.com/spatie/laravel-permission) per gestire i permessi sulle operazioni CRUD.
+
+Crea i permessi per ciascuna risorsa:
+
+```php
+use Spatie\Permission\Models\Permission;
+
+Permission::create(['name' => 'users.view']);
+Permission::create(['name' => 'users.create']);
+Permission::create(['name' => 'users.edit']);
+Permission::create(['name' => 'users.delete']);
+```
+
+Poi assegnali ai ruoli:
+
+```php
+$role = Role::create(['name' => 'editor']);
+$role->givePermissionTo(['users.view', 'users.create', 'users.edit']);
+```
 
 ---
 

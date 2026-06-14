@@ -14,20 +14,27 @@ class Install extends Command
     {
         $this->info('🚀 Installazione CrudFiesta...');
 
-        $this->info('📋 Istruzioni setup:');
-        $this->newLine();
-        $this->info('1. Nel tuo main.js, aggiungi:');
-        $this->line('   import CrudPlugin from "crud-fiesta/resources/js/plugins/crudFiesta"');
-        $this->line('   import PrimeVuePlugin from "crud-fiesta/resources/js/plugins/primevue"');
-        $this->line('   ');
-        $this->line('   app.use(PrimeVuePlugin)');
-        $this->line('   app.use(CrudPlugin)');
-        $this->newLine();
-
         $this->installNpmPackages();
 
         $this->newLine();
-        $this->info('✅ CrudFiesta pronto! I componenti sono disponibili globalmente.');
+        $this->info('📋 Aggiungi l\'alias nel tuo vite.config.ts:');
+        $this->line('');
+        $this->line("   import path from 'path'");
+        $this->line('');
+        $this->line("   resolve: {");
+        $this->line("     alias: {");
+        $this->line("       '@': '/resources/js',");
+        $this->line("       '@crud-fiesta': path.resolve(__dirname, 'vendor/gt264/crud-fiesta/dist'),");
+        $this->line("     }");
+        $this->line("   }");
+        $this->newLine();
+        $this->info('📋 Aggiungi nel tuo app.ts:');
+        $this->line('');
+        $this->line("   import { PrimeVuePlugin, CrudPlugin } from '@crud-fiesta'");
+        $this->line("   app.use(PrimeVuePlugin)");
+        $this->line("   app.use(CrudPlugin)");
+        $this->newLine();
+        $this->info('✅ CrudFiesta pronto!');
 
         return self::SUCCESS;
     }
@@ -39,6 +46,7 @@ class Install extends Command
     {
         $packages = [
             'primevue',
+            '@primevue/themes',
             'primeicons',
         ];
 
@@ -47,35 +55,13 @@ class Install extends Command
             return;
         }
 
-        $already = $this->alreadyInstalledPackages($packages);
-        $toInstall = array_diff($packages, $already);
-
-        if (empty($toInstall)) {
-            $this->info('✅ Dipendenze npm già presenti.');
-            return;
-        }
-
-        $cmd = 'npm install ' . implode(' ', $toInstall);
-        $this->info("📥 Eseguo: $cmd");
+        $cmd = 'npm install ' . implode(' ', $packages);
+        $this->info("📥 Eseguo: {$cmd}");
 
         $result = Process::path(base_path())->run($cmd);
 
         $result->successful()
             ? $this->info('✅ Dipendenze npm installate.')
             : $this->error('❌ Errore npm: ' . $result->errorOutput());
-    }
-
-    // ----------------------------------------------------------------
-    // Helper — controlla cosa è già in package.json
-    // ----------------------------------------------------------------
-    protected function alreadyInstalledPackages(array $packages): array
-    {
-        $packageJson = json_decode(file_get_contents(base_path('package.json')), true);
-        $declared    = array_merge(
-            $packageJson['dependencies']    ?? [],
-            $packageJson['devDependencies'] ?? [],
-        );
-
-        return array_filter($packages, fn($p) => array_key_exists($p, $declared));
     }
 }
