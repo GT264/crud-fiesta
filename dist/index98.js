@@ -1,5 +1,5 @@
-var o = { mask: { background: "{content.background}", color: "{text.muted.color}" }, icon: { size: "2rem" } }, e = { loader: o };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", color: "{content.color}", gap: "0.5rem", padding: "0.75rem" }, r = { root: o };
 export {
-  e as default,
-  o as loader
+  r as default,
+  o as root
 };

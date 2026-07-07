@@ -1,8 +1,28 @@
-var o = { borderColor: "{content.border.color}" }, r = { background: "{content.background}", color: "{text.color}" }, n = { margin: "1rem 0", padding: "0 1rem", content: { padding: "0 0.5rem" } }, t = { margin: "0 1rem", padding: "0.5rem 0", content: { padding: "0.5rem 0" } }, e = { root: o, content: r, horizontal: n, vertical: t };
+var t = `
+    li.p-autocomplete-option,
+    div.p-cascadeselect-option-content,
+    li.p-listbox-option,
+    li.p-multiselect-option,
+    li.p-select-option,
+    li.p-listbox-option,
+    div.p-tree-node-content,
+    li.p-datatable-filter-constraint,
+    .p-datatable .p-datatable-tbody > tr,
+    .p-treetable .p-treetable-tbody > tr,
+    div.p-menu-item-content,
+    div.p-tieredmenu-item-content,
+    div.p-contextmenu-item-content,
+    div.p-menubar-item-content,
+    div.p-megamenu-item-content,
+    div.p-panelmenu-header-content,
+    div.p-panelmenu-item-content,
+    th.p-datatable-header-cell,
+    th.p-treetable-header-cell,
+    thead.p-datatable-thead > tr > th,
+    .p-treetable thead.p-treetable-thead>tr>th {
+        transition: none;
+    }
+`;
 export {
-  r as content,
-  e as default,
-  n as horizontal,
-  o as root,
-  t as vertical
+  t as default
 };

@@ -1,7 +1,9 @@
-var o = { background: "{form.field.background}", borderColor: "{form.field.border.color}", color: "{form.field.color}", height: "18rem", padding: "{form.field.padding.y} {form.field.padding.x}", borderRadius: "{form.field.border.radius}" }, r = { gap: "0.25rem" }, d = { margin: "2px 0" }, e = { root: o, prompt: r, commandResponse: d };
+var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, e = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, a = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, i = { root: o, separator: r, itemLink: t, itemLabel: e, itemNumber: a };
 export {
-  d as commandResponse,
-  e as default,
-  r as prompt,
-  o as root
+  i as default,
+  e as itemLabel,
+  t as itemLink,
+  a as itemNumber,
+  o as root,
+  r as separator
 };

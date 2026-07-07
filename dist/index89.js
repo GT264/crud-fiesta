@@ -1,9 +1,10 @@
-var e = { minHeight: "5rem" }, r = { eventContent: { padding: "1rem 0" } }, o = { eventContent: { padding: "0 1rem" } }, n = { size: "1.125rem", borderRadius: "50%", borderWidth: "2px", background: "{content.background}", borderColor: "{content.border.color}", content: { borderRadius: "50%", size: "0.375rem", background: "{primary.color}", insetShadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" } }, t = { color: "{content.border.color}", size: "2px" }, a = { event: e, horizontal: r, vertical: o, eventMarker: n, eventConnector: t };
+var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}" }, t = { borderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, a = { background: "{content.background}", color: "{content.color}" }, n = { background: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.color}" }, c = { light: { navButton: { shadow: "0px 0px 10px 50px rgba(255, 255, 255, 0.6)" } }, dark: { navButton: { shadow: "0px 0px 10px 50px color-mix(in srgb, {content.background}, transparent 50%)" } } }, e = { root: o, tabList: r, tab: t, tabPanel: a, navButton: n, colorScheme: c };
 export {
-  a as default,
-  e as event,
-  t as eventConnector,
-  n as eventMarker,
-  r as horizontal,
-  o as vertical
+  c as colorScheme,
+  e as default,
+  n as navButton,
+  o as root,
+  t as tab,
+  r as tabList,
+  a as tabPanel
 };

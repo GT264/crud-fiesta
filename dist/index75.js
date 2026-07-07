@@ -1,6 +1,6 @@
-var o = { borderRadius: "{content.border.radius}" }, r = { light: { root: { background: "{surface.200}", animationBackground: "rgba(255,255,255,0.4)" } }, dark: { root: { background: "rgba(255, 255, 255, 0.06)", animationBackground: "rgba(255, 255, 255, 0.04)" } } }, a = { root: o, colorScheme: r };
+var o = { gap: "0.25rem", transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { size: "1rem", color: "{text.muted.color}", hoverColor: "{primary.color}", activeColor: "{primary.color}" }, i = { root: o, icon: r };
 export {
-  r as colorScheme,
-  a as default,
+  i as default,
+  r as icon,
   o as root
 };

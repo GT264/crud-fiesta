@@ -1,5 +1,5 @@
 import r from "primevue/config";
-import t from "./index4.js";
+import t from "./index5.js";
 const i = {
   install: (e) => {
     e.use(r, {

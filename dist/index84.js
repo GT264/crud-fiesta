@@ -1,10 +1,7 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}" }, t = { borderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, a = { background: "{content.background}", color: "{content.color}" }, n = { background: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.color}" }, c = { light: { navButton: { shadow: "0px 0px 10px 50px rgba(255, 255, 255, 0.6)" } }, dark: { navButton: { shadow: "0px 0px 10px 50px color-mix(in srgb, {content.background}, transparent 50%)" } } }, e = { root: o, tabList: r, tab: t, tabPanel: a, navButton: n, colorScheme: c };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { size: "24px", background: "transparent", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, n = { root: o, gutter: r, handle: t };
 export {
-  c as colorScheme,
-  e as default,
-  n as navButton,
-  o as root,
-  t as tab,
-  r as tabList,
-  a as tabPanel
+  n as default,
+  r as gutter,
+  t as handle,
+  o as root
 };

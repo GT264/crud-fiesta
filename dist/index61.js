@@ -1,8 +1,10 @@
-var o = { padding: "0.5rem 1rem", gap: "0.25rem", borderRadius: "{content.border.radius}", background: "{content.background}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "transparent", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}", selectedColor: "{highlight.color}", width: "2.5rem", height: "2.5rem", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}" }, e = { maxWidth: "2.5rem" }, n = { root: o, navButton: r, currentPageReport: t, jumpToPageInput: e };
+var e = { borderRadius: "{content.border.radius}", gap: "1rem" }, a = { background: "{content.border.color}", size: "0.5rem" }, r = { gap: "0.5rem" }, l = { size: "0.5rem" }, o = { size: "1rem" }, s = { verticalGap: "0.5rem", horizontalGap: "1rem" }, t = { root: e, meters: a, label: r, labelMarker: l, labelIcon: o, labelList: s };
 export {
-  t as currentPageReport,
-  n as default,
-  e as jumpToPageInput,
-  r as navButton,
-  o as root
+  t as default,
+  r as label,
+  o as labelIcon,
+  s as labelList,
+  l as labelMarker,
+  a as meters,
+  e as root
 };

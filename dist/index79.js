@@ -1,7 +1,6 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { size: "24px", background: "transparent", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, n = { root: o, gutter: r, handle: t };
+var o = { borderRadius: "{form.field.border.radius}" }, r = { light: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } }, dark: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } } }, d = { root: o, colorScheme: r };
 export {
-  n as default,
-  r as gutter,
-  t as handle,
+  r as colorScheme,
+  d as default,
   o as root
 };

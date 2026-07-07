@@ -1,6 +1,5 @@
-var o = { gap: "1.125rem" }, r = { gap: "0.5rem" }, a = { root: o, controls: r };
+var o = { outline: { width: "2px", color: "{content.background}" } }, t = { root: o };
 export {
-  r as controls,
-  a as default,
+  t as default,
   o as root
 };

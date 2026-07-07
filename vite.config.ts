@@ -20,7 +20,6 @@ export default defineConfig({
                 preserveModulesRoot: 'dist',
             },
         },
-        outDir: 'dist',
-        emptyOutDir: true,
+        outDir: 'dist'
     },
 })

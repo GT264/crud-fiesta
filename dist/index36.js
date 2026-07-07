@@ -1,11 +1,8 @@
-var r = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", transitionDuration: "{transition.duration}" }, o = { background: "transparent", color: "{text.color}", padding: "1.125rem", borderColor: "unset", borderWidth: "0", borderRadius: "0", gap: "0.5rem" }, e = { highlightBorderColor: "{primary.color}", padding: "0 1.125rem 1.125rem 1.125rem", gap: "1rem" }, a = { padding: "1rem", gap: "1rem", borderColor: "{content.border.color}", info: { gap: "0.5rem" } }, t = { gap: "0.5rem" }, n = { height: "0.25rem" }, d = { gap: "0.5rem" }, i = { root: r, header: o, content: e, file: a, fileList: t, progressbar: n, basic: d };
+var o = { borderColor: "{content.border.color}" }, r = { background: "{content.background}", color: "{text.color}" }, n = { margin: "1rem 0", padding: "0 1rem", content: { padding: "0 0.5rem" } }, t = { margin: "0 1rem", padding: "0.5rem 0", content: { padding: "0.5rem 0" } }, e = { root: o, content: r, horizontal: n, vertical: t };
 export {
-  d as basic,
-  e as content,
-  i as default,
-  a as file,
-  t as fileList,
-  o as header,
-  n as progressbar,
-  r as root
+  r as content,
+  e as default,
+  n as horizontal,
+  o as root,
+  t as vertical
 };

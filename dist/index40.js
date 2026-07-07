@@ -1,6 +1,8 @@
-var o = { color: "{form.field.float.label.color}", focusColor: "{form.field.float.label.focus.color}", invalidColor: "{form.field.float.label.invalid.color}", transitionDuration: "0.2s", positionX: "{form.field.padding.x}", top: "{form.field.padding.y}", fontSize: "0.75rem", fontWeight: "400" }, i = { paddingTop: "1.5rem", paddingBottom: "{form.field.padding.y}" }, l = { root: o, input: i };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", color: "{content.color}", padding: "0 1.125rem 1.125rem 1.125rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", hoverBackground: "{content.hover.background}", color: "{content.color}", hoverColor: "{content.hover.color}", borderRadius: "{content.border.radius}", borderWidth: "1px", borderColor: "transparent", padding: "0.5rem 0.75rem", gap: "0.5rem", fontWeight: "600", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}" }, n = { padding: "0" }, e = { root: o, legend: r, toggleIcon: t, content: n };
 export {
-  l as default,
-  i as input,
-  o as root
+  n as content,
+  e as default,
+  r as legend,
+  o as root,
+  t as toggleIcon
 };

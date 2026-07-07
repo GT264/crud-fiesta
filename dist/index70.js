@@ -1,6 +1,6 @@
-var o = { gap: "0.25rem", transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { size: "1rem", color: "{text.muted.color}", hoverColor: "{primary.color}", activeColor: "{primary.color}" }, i = { root: o, icon: r };
+var o = { gap: "1.125rem" }, r = { gap: "0.5rem" }, a = { root: o, controls: r };
 export {
-  i as default,
-  r as icon,
+  r as controls,
+  a as default,
   o as root
 };

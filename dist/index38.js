@@ -1,18 +1,9 @@
-var o = { borderWidth: "1px", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", transitionDuration: "{transition.duration}" }, r = { background: "rgba(255, 255, 255, 0.1)", hoverBackground: "rgba(255, 255, 255, 0.2)", color: "{surface.100}", hoverColor: "{surface.0}", size: "3rem", gutter: "0.5rem", prev: { borderRadius: "50%" }, next: { borderRadius: "50%" }, focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { size: "1.5rem" }, a = { background: "{content.background}", padding: "1rem 0.25rem" }, n = { size: "2rem", borderRadius: "{content.border.radius}", gutter: "0.5rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, s = { size: "1rem" }, c = { background: "rgba(0, 0, 0, 0.5)", color: "{surface.100}", padding: "1rem" }, e = { gap: "0.5rem", padding: "1rem" }, u = { width: "1rem", height: "1rem", activeBackground: "{primary.color}", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, i = { background: "rgba(0, 0, 0, 0.5)" }, d = { background: "rgba(255, 255, 255, 0.4)", hoverBackground: "rgba(255, 255, 255, 0.6)", activeBackground: "rgba(255, 255, 255, 0.9)" }, g = { size: "3rem", gutter: "0.5rem", background: "rgba(255, 255, 255, 0.1)", hoverBackground: "rgba(255, 255, 255, 0.2)", color: "{surface.50}", hoverColor: "{surface.0}", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, f = { size: "1.5rem" }, l = { light: { thumbnailNavButton: { hoverBackground: "{surface.100}", color: "{surface.600}", hoverColor: "{surface.700}" }, indicatorButton: { background: "{surface.200}", hoverBackground: "{surface.300}" } }, dark: { thumbnailNavButton: { hoverBackground: "{surface.700}", color: "{surface.400}", hoverColor: "{surface.0}" }, indicatorButton: { background: "{surface.700}", hoverBackground: "{surface.600}" } } }, h = { root: o, navButton: r, navIcon: t, thumbnailsContent: a, thumbnailNavButton: n, thumbnailNavButtonIcon: s, caption: c, indicatorList: e, indicatorButton: u, insetIndicatorList: i, insetIndicatorButton: d, closeButton: g, closeButtonIcon: f, colorScheme: l };
+var o = { background: "{overlay.modal.background}", borderColor: "{overlay.modal.border.color}", color: "{overlay.modal.color}", shadow: "{overlay.modal.shadow}" }, a = { padding: "{overlay.modal.padding}" }, d = { fontSize: "1.5rem", fontWeight: "600" }, r = { padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}" }, e = { padding: "{overlay.modal.padding}" }, l = { root: o, header: a, title: d, content: r, footer: e };
 export {
-  c as caption,
-  g as closeButton,
-  f as closeButtonIcon,
-  l as colorScheme,
-  h as default,
-  u as indicatorButton,
-  e as indicatorList,
-  d as insetIndicatorButton,
-  i as insetIndicatorList,
-  r as navButton,
-  t as navIcon,
+  r as content,
+  l as default,
+  e as footer,
+  a as header,
   o as root,
-  n as thumbnailNavButton,
-  s as thumbnailNavButtonIcon,
-  a as thumbnailsContent
+  d as title
 };

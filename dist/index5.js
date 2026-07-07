@@ -1,102 +1,98 @@
-import { defineComponent as D, ref as n, computed as F, openBlock as v, createElementBlock as N, createElementVNode as p, toDisplayString as P, createBlock as T, unref as g, createCommentVNode as R, createVNode as r, withCtx as _ } from "vue";
-import { useToast as j } from "primevue/usetoast";
-import q from "primevue/button";
-import I from "primevue/toast";
-import L from "./index6.js";
-import M from "./index7.js";
-import U from "./index8.js";
-const z = { class: "p-6" }, A = { class: "flex justify-between items-center mb-6" }, G = { class: "text-3xl font-bold" }, Y = /* @__PURE__ */ D({
-  __name: "Index",
-  props: {
-    title: {},
-    items: {},
-    columns: {},
-    totalRecords: {},
-    crudButtons: {},
-    formFields: {},
-    perPage: { default: 25 },
-    canCreate: { type: Boolean, default: !0 },
-    canEdit: { type: Boolean, default: !0 },
-    canDelete: { type: Boolean, default: !0 },
-    canView: { type: Boolean, default: !0 }
-  },
-  emits: ["create", "store", "edit", "update", "delete", "view", "search", "paginate"],
-  setup(t, { expose: y, emit: b }) {
-    const d = t, o = b, m = j(), w = n(!1), s = n(!1), u = n(!1), a = n(!1), l = n(null), B = F(
-      () => a.value ? `Modifica ${d.title}` : `Crea ${d.title}`
-    ), C = (e) => {
-      o("paginate", e.page + 1, e.rows);
-    }, h = (e) => {
-    }, x = (e) => {
-      o("search", e.query);
-    }, E = () => {
-      a.value = !1, l.value = null, s.value = !0, o("create");
-    }, S = (e) => {
-      a.value = !0, l.value = { id: e }, s.value = !0, o("edit", e);
-    }, V = (e) => o("view", e), k = (e) => o("delete", e), $ = (e) => {
-      var i;
-      u.value = !0;
-      try {
-        a.value && ((i = l.value) != null && i.id) ? o("update", l.value.id, e) : o("store", e), f();
-      } finally {
-        u.value = !1;
-      }
-    }, f = () => {
-      s.value = !1, l.value = null, a.value = !1;
-    };
-    return y({
-      showSuccess: (e) => {
-        m.add({ severity: "success", summary: "Successo", detail: e, life: 3e3 });
-      },
-      showError: (e) => {
-        m.add({ severity: "error", summary: "Errore", detail: e, life: 3e3 });
-      }
-    }), (e, i) => (v(), N("div", z, [
-      p("div", A, [
-        p("h1", G, P(t.title), 1),
-        t.canCreate ? (v(), T(g(q), {
-          key: 0,
-          icon: "pi pi-plus",
-          label: "Crea",
-          onClick: E
-        })) : R("", !0)
-      ]),
-      r(L, {
-        items: t.items,
-        columns: t.columns,
-        "total-records": t.totalRecords,
-        "per-page": t.perPage,
-        loading: w.value,
-        onPaginate: C,
-        onSort: h,
-        onSearch: x
-      }, {
-        actions: _(({ row: c }) => [
-          r(U, {
-            row: c,
-            buttons: t.crudButtons,
-            onView: V,
-            onEdit: S,
-            onDelete: k
-          }, null, 8, ["row", "buttons"])
-        ]),
-        _: 1
-      }, 8, ["items", "columns", "total-records", "per-page", "loading"]),
-      r(M, {
-        visible: s.value,
-        "onUpdate:visible": i[0] || (i[0] = (c) => s.value = c),
-        title: B.value,
-        fields: t.formFields,
-        data: l.value,
-        loading: u.value,
-        "is-edit": a.value,
-        onSubmit: $,
-        onClose: f
-      }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"]),
-      r(g(I))
-    ]));
-  }
-});
+import e from "./index14.js";
+import f from "./index15.js";
+import a from "./index16.js";
+import $ from "./index17.js";
+import l from "./index18.js";
+import n from "./index19.js";
+import c from "./index20.js";
+import s from "./index21.js";
+import d from "./index22.js";
+import u from "./index23.js";
+import b from "./index24.js";
+import g from "./index25.js";
+import v from "./index26.js";
+import k from "./index27.js";
+import w from "./index28.js";
+import y from "./index29.js";
+import O from "./index30.js";
+import h from "./index31.js";
+import j from "./index32.js";
+import x from "./index33.js";
+import P from "./index34.js";
+import z from "./index35.js";
+import D from "./index36.js";
+import E from "./index37.js";
+import I from "./index38.js";
+import N from "./index39.js";
+import Q from "./index40.js";
+import S from "./index41.js";
+import q from "./index42.js";
+import A from "./index43.js";
+import B from "./index44.js";
+import C from "./index45.js";
+import F from "./index46.js";
+import G from "./index47.js";
+import H from "./index48.js";
+import J from "./index49.js";
+import K from "./index50.js";
+import L from "./index51.js";
+import M from "./index52.js";
+import R from "./index53.js";
+import T from "./index54.js";
+import U from "./index55.js";
+import V from "./index56.js";
+import W from "./index57.js";
+import X from "./index58.js";
+import Y from "./index59.js";
+import Z from "./index60.js";
+import _ from "./index61.js";
+import rr from "./index62.js";
+import or from "./index63.js";
+import mr from "./index64.js";
+import tr from "./index65.js";
+import ir from "./index66.js";
+import pr from "./index67.js";
+import er from "./index68.js";
+import fr from "./index69.js";
+import ar from "./index70.js";
+import $r from "./index71.js";
+import lr from "./index72.js";
+import nr from "./index73.js";
+import cr from "./index74.js";
+import sr from "./index75.js";
+import dr from "./index76.js";
+import ur from "./index77.js";
+import br from "./index78.js";
+import gr from "./index79.js";
+import vr from "./index80.js";
+import kr from "./index81.js";
+import wr from "./index82.js";
+import yr from "./index83.js";
+import Or from "./index84.js";
+import hr from "./index85.js";
+import jr from "./index86.js";
+import xr from "./index87.js";
+import Pr from "./index88.js";
+import zr from "./index89.js";
+import Dr from "./index90.js";
+import Er from "./index91.js";
+import Ir from "./index92.js";
+import Nr from "./index93.js";
+import Qr from "./index94.js";
+import Sr from "./index95.js";
+import qr from "./index96.js";
+import Ar from "./index97.js";
+import Br from "./index98.js";
+import Cr from "./index99.js";
+import Fr from "./index100.js";
+import Gr from "./index101.js";
+import Hr from "./index102.js";
+import Jr from "./index103.js";
+var Kr = Object.defineProperty, Lr = Object.defineProperties, Mr = Object.getOwnPropertyDescriptors, t = Object.getOwnPropertySymbols, Rr = Object.prototype.hasOwnProperty, Tr = Object.prototype.propertyIsEnumerable, i = (m, r, o) => r in m ? Kr(m, r, { enumerable: !0, configurable: !0, writable: !0, value: o }) : m[r] = o, p, Im = (p = ((m, r) => {
+  for (var o in r || (r = {})) Rr.call(r, o) && i(m, o, r[o]);
+  if (t) for (var o of t(r)) Tr.call(r, o) && i(m, o, r[o]);
+  return m;
+})({}, l), Lr(p, Mr({ components: { accordion: e, autocomplete: f, avatar: a, badge: $, blockui: n, breadcrumb: c, button: s, card: d, carousel: u, cascadeselect: b, checkbox: g, chip: v, colorpicker: k, confirmdialog: w, confirmpopup: y, contextmenu: O, datatable: j, dataview: x, datepicker: P, dialog: z, divider: D, dock: E, drawer: I, editor: N, fieldset: Q, fileupload: S, floatlabel: q, galleria: A, iconfield: B, iftalabel: C, image: F, imagecompare: G, inlinemessage: H, inplace: J, inputchips: K, inputgroup: L, inputnumber: M, inputotp: R, inputtext: T, knob: U, listbox: V, megamenu: W, menu: X, menubar: Y, message: Z, metergroup: _, multiselect: rr, orderlist: or, organizationchart: mr, overlaybadge: tr, paginator: ir, panel: pr, panelmenu: er, password: fr, picklist: ar, popover: $r, progressbar: lr, progressspinner: nr, radiobutton: cr, rating: sr, ripple: dr, scrollpanel: ur, select: br, selectbutton: gr, skeleton: vr, slider: kr, speeddial: wr, splitbutton: yr, splitter: Or, stepper: hr, steps: jr, tabmenu: xr, tabs: Pr, tabview: zr, tag: Dr, terminal: Er, textarea: Ir, tieredmenu: Nr, timeline: Qr, toast: Sr, togglebutton: qr, toggleswitch: Ar, toolbar: Br, tooltip: Cr, tree: Fr, treeselect: Gr, treetable: Hr, virtualscroller: Jr }, css: h })));
 export {
-  Y as default
+  Im as default
 };

@@ -1,7 +1,12 @@
-var r = { fontSize: "0.875rem", fontWeight: "700", padding: "0.25rem 0.5rem", gap: "0.25rem", borderRadius: "{content.border.radius}", roundedBorderRadius: "{border.radius.xl}" }, o = { size: "0.75rem" }, a = { light: { primary: { background: "{primary.100}", color: "{primary.700}" }, secondary: { background: "{surface.100}", color: "{surface.600}" }, success: { background: "{green.100}", color: "{green.700}" }, info: { background: "{sky.100}", color: "{sky.700}" }, warn: { background: "{orange.100}", color: "{orange.700}" }, danger: { background: "{red.100}", color: "{red.700}" }, contrast: { background: "{surface.950}", color: "{surface.0}" } }, dark: { primary: { background: "color-mix(in srgb, {primary.500}, transparent 84%)", color: "{primary.300}" }, secondary: { background: "{surface.800}", color: "{surface.300}" }, success: { background: "color-mix(in srgb, {green.500}, transparent 84%)", color: "{green.300}" }, info: { background: "color-mix(in srgb, {sky.500}, transparent 84%)", color: "{sky.300}" }, warn: { background: "color-mix(in srgb, {orange.500}, transparent 84%)", color: "{orange.300}" }, danger: { background: "color-mix(in srgb, {red.500}, transparent 84%)", color: "{red.300}" }, contrast: { background: "{surface.0}", color: "{surface.950}" } } }, c = { root: r, icon: o, colorScheme: a };
+var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}", activeBackground: "{primary.color}", margin: "0 0 0 1.625rem", size: "2px" }, e = { padding: "0.5rem", gap: "1rem" }, t = { padding: "0", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, a = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, n = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, s = { padding: "0.875rem 0.5rem 1.125rem 0.5rem" }, c = { background: "{content.background}", color: "{content.color}", padding: "0", indent: "1rem" }, d = { root: o, separator: r, step: e, stepHeader: t, stepTitle: a, stepNumber: n, steppanels: s, steppanel: c };
 export {
-  a as colorScheme,
-  c as default,
-  o as icon,
-  r as root
+  d as default,
+  o as root,
+  r as separator,
+  e as step,
+  t as stepHeader,
+  n as stepNumber,
+  a as stepTitle,
+  c as steppanel,
+  s as steppanels
 };

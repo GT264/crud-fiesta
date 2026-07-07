@@ -1,7 +1,7 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { size: "9px", borderRadius: "{border.radius.sm}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, s = { light: { bar: { background: "{surface.100}" } }, dark: { bar: { background: "{surface.800}" } } }, a = { root: o, bar: r, colorScheme: s };
+var r = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: "1.25rem" }, o = { background: "{primary.color}" }, a = { color: "{primary.contrast.color}", fontSize: "0.75rem", fontWeight: "600" }, e = { root: r, value: o, label: a };
 export {
-  r as bar,
-  s as colorScheme,
-  a as default,
-  o as root
+  e as default,
+  a as label,
+  r as root,
+  o as value
 };

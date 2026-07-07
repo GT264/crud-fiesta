@@ -1,8 +1,9 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", color: "{content.color}", padding: "0 1.125rem 1.125rem 1.125rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", hoverBackground: "{content.hover.background}", color: "{content.color}", hoverColor: "{content.hover.color}", borderRadius: "{content.border.radius}", borderWidth: "1px", borderColor: "transparent", padding: "0.5rem 0.75rem", gap: "0.5rem", fontWeight: "600", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}" }, n = { padding: "0" }, e = { root: o, legend: r, toggleIcon: t, content: n };
+var o = { background: "{overlay.modal.background}", borderColor: "{overlay.modal.border.color}", color: "{overlay.modal.color}", borderRadius: "{overlay.modal.border.radius}", shadow: "{overlay.modal.shadow}" }, a = { padding: "{overlay.modal.padding}", gap: "0.5rem" }, d = { fontSize: "1.25rem", fontWeight: "600" }, r = { padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}" }, e = { padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}", gap: "0.5rem" }, l = { root: o, header: a, title: d, content: r, footer: e };
 export {
-  n as content,
-  e as default,
-  r as legend,
+  r as content,
+  l as default,
+  e as footer,
+  a as header,
   o as root,
-  t as toggleIcon
+  d as title
 };

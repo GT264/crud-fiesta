@@ -1,4 +1,6 @@
-import f from "./index5.js";
+var r = { maxWidth: "12.5rem", gutter: "0.25rem", shadow: "{overlay.popover.shadow}", padding: "0.5rem 0.75rem", borderRadius: "{overlay.popover.border.radius}" }, o = { light: { root: { background: "{surface.700}", color: "{surface.0}" } }, dark: { root: { background: "{surface.700}", color: "{surface.0}" } } }, e = { root: r, colorScheme: o };
 export {
-  f as default
+  o as colorScheme,
+  e as default,
+  r as root
 };

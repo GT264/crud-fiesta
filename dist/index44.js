@@ -1,6 +1,5 @@
-var o = { padding: "{form.field.padding.y} {form.field.padding.x}", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, transitionDuration: "{transition.duration}" }, r = { hoverBackground: "{content.hover.background}", hoverColor: "{content.hover.color}" }, n = { root: o, display: r };
+var o = { color: "{form.field.icon.color}" }, r = { icon: o };
 export {
-  n as default,
-  r as display,
-  o as root
+  r as default,
+  o as icon
 };

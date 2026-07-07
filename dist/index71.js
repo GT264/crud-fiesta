@@ -1,5 +1,6 @@
-var o = { light: { root: { background: "rgba(0,0,0,0.1)" } }, dark: { root: { background: "rgba(255,255,255,0.3)" } } }, r = { colorScheme: o };
+var o = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", color: "{overlay.popover.color}", borderRadius: "{overlay.popover.border.radius}", shadow: "{overlay.popover.shadow}", gutter: "10px", arrowOffset: "1.25rem" }, r = { padding: "{overlay.popover.padding}" }, e = { root: o, content: r };
 export {
-  o as colorScheme,
-  r as default
+  r as content,
+  e as default,
+  o as root
 };

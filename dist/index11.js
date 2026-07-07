@@ -1,9 +1,4 @@
-var r = { width: "2rem", height: "2rem", fontSize: "1rem", background: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, e = { size: "1rem" }, o = { borderColor: "{content.background}", offset: "-0.75rem" }, t = { width: "3rem", height: "3rem", fontSize: "1.5rem", icon: { size: "1.5rem" }, group: { offset: "-1rem" } }, i = { width: "4rem", height: "4rem", fontSize: "2rem", icon: { size: "2rem" }, group: { offset: "-1.5rem" } }, n = { root: r, icon: e, group: o, lg: t, xl: i };
+import f from "./index7.js";
 export {
-  n as default,
-  o as group,
-  e as icon,
-  t as lg,
-  r as root,
-  i as xl
+  f as default
 };
