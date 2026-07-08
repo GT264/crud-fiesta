@@ -1,12 +1,13 @@
 import r from "primevue/config";
-import t from "./index5.js";
-const i = {
+import m from "primevue/confirmationservice";
+import o from "./index5.js";
+const f = {
   install: (e) => {
     e.use(r, {
-      theme: { preset: t }
-    });
+      theme: { preset: o }
+    }), e.use(m);
   }
 };
 export {
-  i as default
+  f as default
 };
