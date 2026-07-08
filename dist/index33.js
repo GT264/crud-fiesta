@@ -1,10 +1,8 @@
-var o = { borderColor: "transparent", borderWidth: "0", borderRadius: "0", padding: "0" }, r = { background: "{content.background}", color: "{content.color}", borderColor: "{content.border.color}", borderWidth: "0 0 1px 0", padding: "0.75rem 1rem", borderRadius: "0" }, t = { background: "{content.background}", color: "{content.color}", borderColor: "transparent", borderWidth: "0", padding: "0", borderRadius: "0" }, d = { background: "{content.background}", color: "{content.color}", borderColor: "{content.border.color}", borderWidth: "1px 0 0 0", padding: "0.75rem 1rem", borderRadius: "0" }, e = { borderColor: "{content.border.color}", borderWidth: "0 0 1px 0" }, n = { borderColor: "{content.border.color}", borderWidth: "1px 0 0 0" }, a = { root: o, header: r, content: t, footer: d, paginatorTop: e, paginatorBottom: n };
+var o = { borderColor: "{content.border.color}" }, r = { background: "{content.background}", color: "{text.color}" }, n = { margin: "1rem 0", padding: "0 1rem", content: { padding: "0 0.5rem" } }, t = { margin: "0 1rem", padding: "0.5rem 0", content: { padding: "0.5rem 0" } }, e = { root: o, content: r, horizontal: n, vertical: t };
 export {
-  t as content,
-  a as default,
-  d as footer,
-  r as header,
-  n as paginatorBottom,
-  e as paginatorTop,
-  o as root
+  r as content,
+  e as default,
+  n as horizontal,
+  o as root,
+  t as vertical
 };

@@ -13,7 +13,7 @@ export default defineConfig({
         rollupOptions: {
             // Vue e PrimeVue sono nel consumer: non bundliamo per evitare
             // istanze doppie (il PrimeVue plugin va registrato una volta sola)
-            external: ['vue', /^vue\//, /^primevue/, /^primeicons/],
+            external: ['vue', /^vue\//, /^primevue/, /^primeicons/, '@inertiajs/vue3', 'laravel-vue-i18n'],
             output: {
                 // Preserva la struttura delle cartelle in dist/
                 preserveModules: true,

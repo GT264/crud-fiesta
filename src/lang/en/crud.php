@@ -21,4 +21,12 @@ return [
         'error_update' => ':model_name update failed.',
         'error_delete' => ':model_name deletion failed.',
     ],
+    'datatable' => [
+        'search_placeholder' => 'Search...',
+        'no_data' => 'No data available',
+    ],
+    'delete_confirm' => [
+        'header' => 'Confirm',
+        'message' => 'Are you sure you want to delete this item?',
+    ],
 ];

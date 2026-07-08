@@ -1,8 +1,9 @@
-var o = { transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { background: "{primary.color}" }, t = { background: "{content.border.color}" }, a = { color: "{text.muted.color}" }, n = { root: o, value: r, range: t, text: a };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", shadow: "{overlay.navigation.shadow}", transitionDuration: "{transition.duration}" }, a = { padding: "{navigation.list.padding}", gap: "{navigation.list.gap}" }, n = { focusBackground: "{navigation.item.focus.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", padding: "{navigation.item.padding}", borderRadius: "{navigation.item.border.radius}", gap: "{navigation.item.gap}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}" } }, i = { padding: "{navigation.submenu.label.padding}", fontWeight: "{navigation.submenu.label.font.weight}", background: "{navigation.submenu.label.background}", color: "{navigation.submenu.label.color}" }, t = { borderColor: "{content.border.color}" }, r = { root: o, list: a, item: n, submenuLabel: i, separator: t };
 export {
-  n as default,
-  t as range,
+  r as default,
+  n as item,
+  a as list,
   o as root,
-  a as text,
-  r as value
+  t as separator,
+  i as submenuLabel
 };

@@ -21,4 +21,12 @@ return [
         'error_update' => ':model_name aggiornamento fallito.',
         'error_delete' => ':model_name eliminazione fallita.',
     ],
+    'datatable' => [
+        'search_placeholder' => 'Cerca...',
+        'no_data' => 'Nessun dato disponibile',
+    ],
+    'delete_confirm' => [
+        'header' => 'Conferma',
+        'message' => 'Sei sicuro di voler eliminare questo elemento?',
+    ],
 ];

@@ -1,7 +1,7 @@
-import d from "./index6.js";
-const e = {
-  "Crud/Index": d
+import r from "./index6.js";
+const d = {
+  "Crud/Index": r
 };
 export {
-  e as default
+  d as default
 };

@@ -18,7 +18,7 @@
           <i class="pi pi-search" />
           <InputText
             v-model="searchQuery"
-            placeholder="Cerca..."
+            :placeholder="trans('crud.datatable.search_placeholder')"
             @input="onSearchInput"
           />
         </span>
@@ -27,7 +27,7 @@
 
     <template #empty>
       <div class="text-center py-8">
-        <p class="text-gray-500">Nessun dato disponibile</p>
+        <p class="text-gray-500">{{ trans('crud.datatable.no_data') }}</p>
       </div>
     </template>
 
@@ -44,7 +44,7 @@
     />
 
     <Column
-      header="Azioni"
+      :header="trans('crud.button.actions')"
       :body-style="{ width: '8rem' }"
       :style="{ 'text-align': 'center' }"
     >
@@ -60,6 +60,7 @@ import { ref } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
+import { trans } from 'laravel-vue-i18n'
 
 interface TableColumn {
   field: string

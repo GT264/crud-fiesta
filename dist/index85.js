@@ -1,12 +1,11 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}", activeBackground: "{primary.color}", margin: "0 0 0 1.625rem", size: "2px" }, e = { padding: "0.5rem", gap: "1rem" }, t = { padding: "0", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, a = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, n = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, s = { padding: "0.875rem 0.5rem 1.125rem 0.5rem" }, c = { background: "{content.background}", color: "{content.color}", padding: "0", indent: "1rem" }, d = { root: o, separator: r, step: e, stepHeader: t, stepTitle: a, stepNumber: n, steppanels: s, steppanel: c };
+var o = { transitionDuration: "{transition.duration}" }, r = { borderWidth: "0 0 1px 0", background: "{content.background}", borderColor: "{content.border.color}" }, t = { background: "transparent", hoverBackground: "transparent", activeBackground: "transparent", borderWidth: "0 0 1px 0", borderColor: "{content.border.color}", hoverBorderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}", padding: "1rem 1.125rem", fontWeight: "600", margin: "0 0 -1px 0", gap: "0.5rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "-1px", shadow: "{focus.ring.shadow}" } }, n = { background: "{content.background}", color: "{content.color}", padding: "0.875rem 1.125rem 1.125rem 1.125rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "inset {focus.ring.shadow}" } }, a = { background: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.color}", width: "2.5rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "-1px", shadow: "{focus.ring.shadow}" } }, c = { height: "1px", bottom: "-1px", background: "{primary.color}" }, e = { light: { navButton: { shadow: "0px 0px 10px 50px rgba(255, 255, 255, 0.6)" } }, dark: { navButton: { shadow: "0px 0px 10px 50px color-mix(in srgb, {content.background}, transparent 50%)" } } }, s = { root: o, tablist: r, tab: t, tabpanel: n, navButton: a, activeBar: c, colorScheme: e };
 export {
-  d as default,
+  c as activeBar,
+  e as colorScheme,
+  s as default,
+  a as navButton,
   o as root,
-  r as separator,
-  e as step,
-  t as stepHeader,
-  n as stepNumber,
-  a as stepTitle,
-  c as steppanel,
-  s as steppanels
+  t as tab,
+  r as tablist,
+  n as tabpanel
 };

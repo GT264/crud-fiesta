@@ -1,5 +1,4 @@
-var o = { mask: { background: "{content.background}", color: "{text.muted.color}" }, icon: { size: "2rem" } }, e = { loader: o };
+import f from "./index9.js";
 export {
-  e as default,
-  o as loader
+  f as default
 };

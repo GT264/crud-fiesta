@@ -1,9 +1,4 @@
-const s = (t, e) => {
-  const o = t.__vccOpts || t;
-  for (const [r, c] of e)
-    o[r] = c;
-  return o;
-};
+import f from "./index6.js";
 export {
-  s as default
+  f as default
 };

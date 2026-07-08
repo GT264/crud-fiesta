@@ -1,7 +1,9 @@
-var o = { padding: "1rem", background: "{content.background}", gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { color: "{text.muted.color}", hoverColor: "{text.color}", borderRadius: "{content.border.radius}", gap: "{navigation.item.gap}", icon: { color: "{navigation.item.icon.color}", hoverColor: "{navigation.item.icon.focus.color}" }, focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{navigation.item.icon.color}" }, i = { root: o, item: r, separator: t };
+var r = { transitionDuration: "{transition.duration}" }, o = { gap: "0.25rem" }, a = { padding: "1rem", gap: "0.5rem" }, i = { width: "2rem", height: "0.5rem", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, c = { light: { indicator: { background: "{surface.200}", hoverBackground: "{surface.300}", activeBackground: "{primary.color}" } }, dark: { indicator: { background: "{surface.700}", hoverBackground: "{surface.600}", activeBackground: "{primary.color}" } } }, t = { root: r, content: o, indicatorList: a, indicator: i, colorScheme: c };
 export {
-  i as default,
-  r as item,
-  o as root,
-  t as separator
+  c as colorScheme,
+  o as content,
+  t as default,
+  i as indicator,
+  a as indicatorList,
+  r as root
 };

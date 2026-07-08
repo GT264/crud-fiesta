@@ -1,9 +1,10 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, e = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, a = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, i = { root: o, separator: r, itemLink: t, itemLabel: e, itemNumber: a };
+var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}" }, t = { borderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, a = { background: "{content.background}", color: "{content.color}" }, n = { background: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.color}" }, c = { light: { navButton: { shadow: "0px 0px 10px 50px rgba(255, 255, 255, 0.6)" } }, dark: { navButton: { shadow: "0px 0px 10px 50px color-mix(in srgb, {content.background}, transparent 50%)" } } }, e = { root: o, tabList: r, tab: t, tabPanel: a, navButton: n, colorScheme: c };
 export {
-  i as default,
-  e as itemLabel,
-  t as itemLink,
-  a as itemNumber,
+  c as colorScheme,
+  e as default,
+  n as navButton,
   o as root,
-  r as separator
+  t as tab,
+  r as tabList,
+  a as tabPanel
 };

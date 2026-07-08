@@ -20,6 +20,7 @@ import { computed } from 'vue'
 import Button from 'primevue/button'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
+import { trans } from 'laravel-vue-i18n'
 
 interface CrudButton {
   action: string
@@ -48,8 +49,8 @@ const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
 const handleAction = (action: string) => {
   if (action === 'delete') {
     confirm.require({
-      message: 'Sei sicuro di voler eliminare questo elemento?',
-      header: 'Conferma',
+      message: trans('crud.delete_confirm.message'),
+      header: trans('crud.delete_confirm.header'),
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         emit('delete', rowId.value)

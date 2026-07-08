@@ -1,28 +1,29 @@
-import { defineComponent as f, computed as p, openBlock as o, createElementBlock as c, Fragment as s, createElementVNode as v, renderList as C, createBlock as k, unref as a, createVNode as _ } from "vue";
-import g from "primevue/button";
+import { defineComponent as p, computed as v, openBlock as r, createElementBlock as c, Fragment as s, createElementVNode as _, renderList as g, createBlock as k, unref as a, createVNode as C } from "vue";
+import h from "primevue/button";
 import w from "primevue/confirmdialog";
 import { useConfirm as x } from "primevue/useconfirm";
-const y = { class: "flex gap-2 justify-center" }, E = /* @__PURE__ */ f({
+import { trans as m } from "laravel-vue-i18n";
+const y = { class: "flex gap-2 justify-center" }, q = /* @__PURE__ */ p({
   __name: "CrudActions",
   props: {
     row: {},
     buttons: {}
   },
   emits: ["view", "edit", "delete"],
-  setup(i, { emit: m }) {
-    const r = i, l = m, d = x(), n = p(() => r.row.id ?? Object.values(r.row)[0]), u = (t) => {
-      t === "delete" ? d.require({
-        message: "Sei sicuro di voler eliminare questo elemento?",
-        header: "Conferma",
+  setup(o, { emit: d }) {
+    const i = o, n = d, u = x(), l = v(() => i.row.id ?? Object.values(i.row)[0]), f = (t) => {
+      t === "delete" ? u.require({
+        message: m("crud.delete_confirm.message"),
+        header: m("crud.delete_confirm.header"),
         icon: "pi pi-exclamation-triangle",
         accept: () => {
-          l("delete", n.value);
+          n("delete", l.value);
         }
-      }) : l(t, n.value);
+      }) : n(t, l.value);
     };
-    return (t, h) => (o(), c(s, null, [
-      v("div", y, [
-        (o(!0), c(s, null, C(i.buttons, (e) => (o(), k(a(g), {
+    return (t, B) => (r(), c(s, null, [
+      _("div", y, [
+        (r(!0), c(s, null, g(o.buttons, (e) => (r(), k(a(h), {
           key: e.action,
           icon: e.icon,
           label: e.label,
@@ -30,13 +31,13 @@ const y = { class: "flex gap-2 justify-center" }, E = /* @__PURE__ */ f({
           size: "small",
           text: "",
           title: e.label,
-          onClick: (B) => u(e.action)
+          onClick: (b) => f(e.action)
         }, null, 8, ["icon", "label", "severity", "title", "onClick"]))), 128))
       ]),
-      _(a(w))
+      C(a(w))
     ], 64));
   }
 });
 export {
-  E as default
+  q as default
 };
