@@ -1,9 +1,9 @@
-import { defineComponent as x, ref as v, openBlock as d, createBlock as m, unref as r, withCtx as s, createElementBlock as F, Fragment as T, renderList as V, createVNode as p, renderSlot as k, createElementVNode as o, toDisplayString as B } from "vue";
-import C from "primevue/datatable";
+import { defineComponent as T, ref as v, openBlock as u, createBlock as p, unref as n, withCtx as l, createElementBlock as F, Fragment as V, renderList as B, createVNode as m, renderSlot as C, createElementVNode as o, toDisplayString as P } from "vue";
+import { usePage as S } from "@inertiajs/vue3";
+import k from "primevue/datatable";
 import f from "primevue/column";
-import S from "primevue/inputtext";
-import { trans as u } from "laravel-vue-i18n";
-const D = { class: "flex items-center justify-between" }, I = { class: "p-input-icon-left" }, P = { class: "text-center py-8" }, _ = { class: "text-gray-500" }, q = /* @__PURE__ */ x({
+import D from "primevue/inputtext";
+const I = { class: "flex items-center justify-between" }, _ = { class: "p-input-icon-left" }, E = { class: "text-center py-8" }, L = { class: "text-gray-500" }, z = /* @__PURE__ */ T({
   __name: "CrudDataTable",
   props: {
     items: {},
@@ -14,20 +14,25 @@ const D = { class: "flex items-center justify-between" }, I = { class: "p-input-
   },
   emits: ["paginate", "sort", "filter", "search"],
   setup(a, { emit: g }) {
-    const n = g, i = v("");
+    const s = g, h = S();
+    function i(e) {
+      var t;
+      return ((t = h.props.crudLang) == null ? void 0 : t[e]) ?? e;
+    }
+    const d = v("");
     let c;
-    const h = (e) => {
-      n("paginate", { page: e.page, rows: e.rows });
-    }, y = (e) => {
-      n("sort", { sortField: e.sortField, sortOrder: e.sortOrder });
+    const y = (e) => {
+      s("paginate", { page: e.page, rows: e.rows });
     }, b = (e) => {
-      n("filter", { globalFilter: e.globalFilter });
-    }, w = () => {
+      s("sort", { sortField: e.sortField, sortOrder: e.sortOrder });
+    }, w = (e) => {
+      s("filter", { globalFilter: e.globalFilter });
+    }, x = () => {
       clearTimeout(c), c = setTimeout(() => {
-        n("search", { query: i.value });
+        s("search", { query: d.value });
       }, 300);
     };
-    return (e, l) => (d(), m(r(C), {
+    return (e, t) => (u(), p(n(k), {
       value: a.items,
       paginator: !0,
       rows: a.perPage,
@@ -36,45 +41,45 @@ const D = { class: "flex items-center justify-between" }, I = { class: "p-input-
       lazy: !0,
       "global-filter-fields": ["*"],
       "responsive-layout": "scroll",
-      onPage: h,
-      onSort: y,
-      onFilter: b
+      onPage: y,
+      onSort: b,
+      onFilter: w
     }, {
-      header: s(() => [
-        o("div", D, [
-          o("span", I, [
-            l[1] || (l[1] = o("i", { class: "pi pi-search" }, null, -1)),
-            p(r(S), {
-              modelValue: i.value,
-              "onUpdate:modelValue": l[0] || (l[0] = (t) => i.value = t),
-              placeholder: r(u)("crud.datatable.search_placeholder"),
-              onInput: w
+      header: l(() => [
+        o("div", I, [
+          o("span", _, [
+            t[1] || (t[1] = o("i", { class: "pi pi-search" }, null, -1)),
+            m(n(D), {
+              modelValue: d.value,
+              "onUpdate:modelValue": t[0] || (t[0] = (r) => d.value = r),
+              placeholder: i("crud.datatable.search_placeholder"),
+              onInput: x
             }, null, 8, ["modelValue", "placeholder"])
           ])
         ])
       ]),
-      empty: s(() => [
-        o("div", P, [
-          o("p", _, B(r(u)("crud.datatable.no_data")), 1)
+      empty: l(() => [
+        o("div", E, [
+          o("p", L, P(i("crud.datatable.no_data")), 1)
         ])
       ]),
-      loadingicon: s(() => [...l[2] || (l[2] = [
+      loadingicon: l(() => [...t[2] || (t[2] = [
         o("i", { class: "pi pi-spin pi-spinner" }, null, -1)
       ])]),
-      default: s(() => [
-        (d(!0), F(T, null, V(a.columns, (t) => (d(), m(r(f), {
-          key: t.field,
-          field: t.field,
-          header: t.header,
+      default: l(() => [
+        (u(!0), F(V, null, B(a.columns, (r) => (u(), p(n(f), {
+          key: r.field,
+          field: r.field,
+          header: r.header,
           sortable: !0
         }, null, 8, ["field", "header"]))), 128)),
-        p(r(f), {
-          header: r(u)("crud.button.actions"),
+        m(n(f), {
+          header: i("crud.button.actions"),
           "body-style": { width: "8rem" },
           style: { "text-align": "center" }
         }, {
-          body: s(({ data: t }) => [
-            k(e.$slots, "actions", { row: t })
+          body: l(({ data: r }) => [
+            C(e.$slots, "actions", { row: r })
           ]),
           _: 3
         }, 8, ["header"])
@@ -84,5 +89,5 @@ const D = { class: "flex items-center justify-between" }, I = { class: "p-input-
   }
 });
 export {
-  q as default
+  z as default
 };

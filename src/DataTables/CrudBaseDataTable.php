@@ -72,9 +72,9 @@ abstract class CrudBaseDataTable
         $this->form_details[$field]['placeholder'] = match(
             $formType
         ) {
-            FormType::IMAGE, FormType::FILE => __('crud.form.load', ['field' => __("$this->lang.fields.$field")]),
-            FormType::DROPDOWN, FormType::MULTI_SELECT => __('crud.form.select', ['field' => __("$this->lang.fields.$field")]),
-            default => __('crud.form.insert', ['field' => __("$this->lang.fields.$field")])
+            FormType::IMAGE, FormType::FILE => __('crud-fiesta::crud.form.load', ['field' => __("$this->lang.fields.$field")]),
+            FormType::DROPDOWN, FormType::MULTI_SELECT => __('crud-fiesta::crud.form.select', ['field' => __("$this->lang.fields.$field")]),
+            default => __('crud-fiesta::crud.form.insert', ['field' => __("$this->lang.fields.$field")])
         };
     }
 
@@ -141,7 +141,7 @@ abstract class CrudBaseDataTable
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-eye',
-                __('crud.button.view'),
+                __('crud-fiesta::crud.button.view'),
                 'show',
                 'get',
             );
@@ -152,7 +152,7 @@ abstract class CrudBaseDataTable
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-pencil',
-                __('crud.button.edit'),
+                __('crud-fiesta::crud.button.edit'),
                 'edit',
                 'get',
                 'edit',
@@ -164,7 +164,7 @@ abstract class CrudBaseDataTable
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-trash',
-                __('crud.button.delete'),
+                __('crud-fiesta::crud.button.delete'),
                 'destroy',
                 'delete',
             );

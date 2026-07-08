@@ -17,10 +17,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
-import { trans } from 'laravel-vue-i18n'
 
 interface CrudButton {
   action: string
@@ -42,6 +42,12 @@ const emit = defineEmits<{
   delete: [id: any]
 }>()
 
+const page = usePage()
+
+function crudT(key: string): string {
+  return (page.props.crudLang as Record<string, string>)?.[key] ?? key
+}
+
 const confirm = useConfirm()
 
 const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
@@ -49,8 +55,8 @@ const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
 const handleAction = (action: string) => {
   if (action === 'delete') {
     confirm.require({
-      message: trans('crud.delete_confirm.message'),
-      header: trans('crud.delete_confirm.header'),
+      message: crudT('crud.delete_confirm.message'),
+      header: crudT('crud.delete_confirm.header'),
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         emit('delete', rowId.value)

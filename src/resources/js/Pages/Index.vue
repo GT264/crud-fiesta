@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-4">
       <h1 class="text-2xl font-bold">{{ title }}</h1>
       <Button
-        :label="trans('crud.button.create')"
+        :label="crudT('crud.button.create')"
         icon="pi pi-plus"
         @click="goToCreate"
       />
@@ -34,8 +34,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { router } from '@inertiajs/vue3'
-import { trans } from 'laravel-vue-i18n'
+import { router, usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import CrudDataTable from '../Components/Crud/CrudDataTable.vue'
 import CrudActions from '../Components/Crud/CrudActions.vue'
@@ -74,6 +73,12 @@ interface Props {
   columns_details: ColumnDetail[]
   route_prefix: string
   crud_buttons: BackendCrudButton[]
+}
+
+const page = usePage()
+
+function crudT(key: string): string {
+  return (page.props.crudLang as Record<string, string>)?.[key] ?? key
 }
 
 const props = withDefaults(defineProps<Props>(), {

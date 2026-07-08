@@ -1,10 +1,9 @@
-import { defineComponent as S, ref as w, computed as $, openBlock as b, createElementBlock as y, createElementVNode as u, toDisplayString as B, createVNode as i, unref as c, withCtx as C } from "vue";
-import { router as o } from "@inertiajs/vue3";
-import { trans as F } from "laravel-vue-i18n";
-import k from "primevue/button";
-import D from "./index7.js";
-import E from "./index9.js";
-const V = { class: "crud-index-page" }, A = { class: "flex items-center justify-between mb-4" }, I = { class: "text-2xl font-bold" }, R = /* @__PURE__ */ S({
+import { defineComponent as w, ref as $, computed as b, openBlock as y, createElementBlock as B, createElementVNode as u, toDisplayString as C, createVNode as i, unref as F, withCtx as D } from "vue";
+import { usePage as E, router as o } from "@inertiajs/vue3";
+import T from "primevue/button";
+import V from "./index7.js";
+import k from "./index9.js";
+const A = { class: "crud-index-page" }, I = { class: "flex items-center justify-between mb-4" }, N = { class: "text-2xl font-bold" }, R = /* @__PURE__ */ w({
   __name: "Index",
   props: {
     title: { default: "CRUD Index" },
@@ -14,37 +13,42 @@ const V = { class: "crud-index-page" }, A = { class: "flex items-center justify-
     crud_buttons: {}
   },
   setup(n) {
-    const r = n, t = w(!1), s = {
+    const c = E();
+    function s(e) {
+      var r;
+      return ((r = c.props.crudLang) == null ? void 0 : r[e]) ?? e;
+    }
+    const a = n, t = $(!1), d = {
       show: "view",
       edit: "edit",
       destroy: "delete"
     };
-    function d(e) {
+    function m(e) {
       if (e.event)
         return e.event;
-      const l = e.route.split("."), a = l[l.length - 1];
-      return s[a] || a;
+      const r = e.route.split("."), l = r[r.length - 1];
+      return d[l] || l;
     }
-    const m = $(
-      () => r.crud_buttons.map((e) => ({
-        action: d(e),
+    const p = b(
+      () => a.crud_buttons.map((e) => ({
+        action: m(e),
         icon: e.icon,
         label: e.label
       }))
     );
-    function p() {
-      o.get(`/${r.route_prefix}/create`);
-    }
-    function f(e) {
-      o.get(`/${r.route_prefix}/${e}`);
+    function f() {
+      o.get(`/${a.route_prefix}/create`);
     }
     function _(e) {
-      o.get(`/${r.route_prefix}/${e}/edit`);
+      o.get(`/${a.route_prefix}/${e}`);
     }
     function g(e) {
-      o.delete(`/${r.route_prefix}/${e}`);
+      o.get(`/${a.route_prefix}/${e}/edit`);
     }
     function v(e) {
+      o.delete(`/${a.route_prefix}/${e}`);
+    }
+    function h(e) {
       o.get(
         window.location.pathname,
         { page: e.page + 1, per_page: e.rows },
@@ -57,7 +61,7 @@ const V = { class: "crud-index-page" }, A = { class: "flex items-center justify-
         }
       );
     }
-    function h(e) {
+    function x(e) {
       o.get(
         window.location.pathname,
         { sort_field: e.sortField, sort_order: e.sortOrder },
@@ -70,7 +74,7 @@ const V = { class: "crud-index-page" }, A = { class: "flex items-center justify-
         }
       );
     }
-    function x(e) {
+    function S(e) {
       o.get(
         window.location.pathname,
         { search: e.query },
@@ -84,32 +88,32 @@ const V = { class: "crud-index-page" }, A = { class: "flex items-center justify-
         }
       );
     }
-    return (e, l) => (b(), y("div", V, [
-      u("div", A, [
-        u("h1", I, B(n.title), 1),
-        i(c(k), {
-          label: c(F)("crud.button.create"),
+    return (e, r) => (y(), B("div", A, [
+      u("div", I, [
+        u("h1", N, C(n.title), 1),
+        i(F(T), {
+          label: s("crud.button.create"),
           icon: "pi pi-plus",
-          onClick: p
+          onClick: f
         }, null, 8, ["label"])
       ]),
-      i(D, {
+      i(V, {
         items: n.column_data.data,
         columns: n.columns_details,
         "total-records": n.column_data.total,
         "per-page": n.column_data.per_page,
         loading: t.value,
-        onPaginate: v,
-        onSort: h,
-        onSearch: x
+        onPaginate: h,
+        onSort: x,
+        onSearch: S
       }, {
-        actions: C(({ row: a }) => [
-          i(E, {
-            row: a,
-            buttons: m.value,
-            onView: f,
-            onEdit: _,
-            onDelete: g
+        actions: D(({ row: l }) => [
+          i(k, {
+            row: l,
+            buttons: p.value,
+            onView: _,
+            onEdit: g,
+            onDelete: v
           }, null, 8, ["row", "buttons"])
         ]),
         _: 1

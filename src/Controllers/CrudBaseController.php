@@ -64,7 +64,7 @@ abstract class CrudBaseController extends Controller
             'route_prefix' => $this->route_prefix,
             'optional_buttons' => $this->crud_data_table->getOptionalButtons(),
             'crud_buttons' => $this->crud_data_table->getCrudButtons(),
-            'actions_label' => __('crud.button.actions'),
+            'actions_label' => __('crud-fiesta::crud.button.actions'),
         ]);
     }
 
@@ -81,9 +81,9 @@ abstract class CrudBaseController extends Controller
     {
         try {
             $this->crud_base_repository->create($request->all());
-            return $this->redirectWithSuccess(__('crud.message.success_create', ['model_name' => $this->model_name_singular]));
+            return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_create', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
-            return $this->redirectWithError(__('crud.message.error_create', ['model_name' => $this->model_name_singular]));
+            return $this->redirectWithError(__('crud-fiesta::crud.message.error_create', ['model_name' => $this->model_name_singular]));
         }
     }
 
@@ -117,7 +117,7 @@ abstract class CrudBaseController extends Controller
     {
         try {
             $this->crud_base_repository->update($id, $request->all());
-            return $this->redirectWithSuccess(__('crud.message.success_update', ['model_name' => $this->model_name_singular]));
+            return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_update', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());
         }
@@ -129,9 +129,9 @@ abstract class CrudBaseController extends Controller
     {
         try {
             if ($this->crud_base_repository->delete($id)) {
-                return $this->redirectWithSuccess(__('crud.message.success_delete', ['model_name' => $this->model_name_singular]));
+                return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_delete', ['model_name' => $this->model_name_singular]));
             } else {
-                return $this->redirectWithError(__('crud.message.error_delete', ['model_name' => $this->model_name_singular]));
+                return $this->redirectWithError(__('crud-fiesta::crud.message.error_delete', ['model_name' => $this->model_name_singular]));
             }
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());

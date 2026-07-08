@@ -18,7 +18,7 @@
           <i class="pi pi-search" />
           <InputText
             v-model="searchQuery"
-            :placeholder="trans('crud.datatable.search_placeholder')"
+            :placeholder="crudT('crud.datatable.search_placeholder')"
             @input="onSearchInput"
           />
         </span>
@@ -27,7 +27,7 @@
 
     <template #empty>
       <div class="text-center py-8">
-        <p class="text-gray-500">{{ trans('crud.datatable.no_data') }}</p>
+        <p class="text-gray-500">{{ crudT('crud.datatable.no_data') }}</p>
       </div>
     </template>
 
@@ -44,7 +44,7 @@
     />
 
     <Column
-      :header="trans('crud.button.actions')"
+      :header="crudT('crud.button.actions')"
       :body-style="{ width: '8rem' }"
       :style="{ 'text-align': 'center' }"
     >
@@ -57,10 +57,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
-import { trans } from 'laravel-vue-i18n'
 
 interface TableColumn {
   field: string
@@ -86,6 +86,12 @@ const emit = defineEmits<{
   filter: [event: { globalFilter: any }]
   search: [event: { query: string }]
 }>()
+
+const page = usePage()
+
+function crudT(key: string): string {
+  return (page.props.crudLang as Record<string, string>)?.[key] ?? key
+}
 
 const searchQuery = ref('')
 let searchTimeout: ReturnType<typeof setTimeout> | undefined
