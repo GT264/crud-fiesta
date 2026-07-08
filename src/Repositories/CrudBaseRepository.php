@@ -118,9 +118,15 @@ abstract class CrudBaseRepository
      * @param array $columns
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, array $columns = ['*']): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc'): LengthAwarePaginator
     {
-        return $this->model->paginate($perPage, $columns);
+        $query = $this->model->newQuery();
+
+        if ($sortField !== null) {
+            $query->orderBy($sortField, $sortOrder);
+        }
+
+        return $query->paginate($perPage, $columns);
     }
 
     /**

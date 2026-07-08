@@ -155,7 +155,12 @@ function onPaginate(event: { page: number; rows: number }) {
 function onSort(event: { sortField: string; sortOrder: number }) {
   router.get(
     window.location.pathname,
-    { sort_field: event.sortField, sort_order: event.sortOrder },
+    {
+      page: props.column_data.current_page,
+      per_page: props.column_data.per_page,
+      sort_field: event.sortField,
+      sort_order: event.sortOrder,
+    },
     {
       preserveState: true,
       preserveScroll: true,

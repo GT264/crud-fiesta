@@ -1,5 +1,5 @@
-import { defineComponent as w, ref as $, computed as b, openBlock as y, createElementBlock as B, createElementVNode as u, toDisplayString as C, createVNode as i, unref as F, withCtx as D } from "vue";
-import { usePage as E, router as o } from "@inertiajs/vue3";
+import { defineComponent as w, ref as $, computed as b, openBlock as y, createElementBlock as B, createElementVNode as c, toDisplayString as C, createVNode as u, unref as F, withCtx as D } from "vue";
+import { usePage as E, router as n } from "@inertiajs/vue3";
 import T from "primevue/button";
 import V from "./index7.js";
 import k from "./index9.js";
@@ -12,70 +12,75 @@ const A = { class: "crud-index-page" }, I = { class: "flex items-center justify-
     route_prefix: {},
     crud_buttons: {}
   },
-  setup(n) {
-    const c = E();
+  setup(r) {
+    const i = E();
     function s(e) {
-      var r;
-      return ((r = c.props.crudLang) == null ? void 0 : r[e]) ?? e;
+      var a;
+      return ((a = i.props.crudLang) == null ? void 0 : a[e]) ?? e;
     }
-    const a = n, t = $(!1), d = {
+    const t = r, o = $(!1), d = {
       show: "view",
       edit: "edit",
       destroy: "delete"
     };
-    function m(e) {
+    function p(e) {
       if (e.event)
         return e.event;
-      const r = e.route.split("."), l = r[r.length - 1];
+      const a = e.route.split("."), l = a[a.length - 1];
       return d[l] || l;
     }
-    const p = b(
-      () => a.crud_buttons.map((e) => ({
-        action: m(e),
+    const m = b(
+      () => t.crud_buttons.map((e) => ({
+        action: p(e),
         icon: e.icon,
         label: e.label
       }))
     );
     function f() {
-      o.get(`/${a.route_prefix}/create`);
+      n.get(`/${t.route_prefix}/create`);
     }
     function _(e) {
-      o.get(`/${a.route_prefix}/${e}`);
+      n.get(`/${t.route_prefix}/${e}`);
     }
     function g(e) {
-      o.get(`/${a.route_prefix}/${e}/edit`);
+      n.get(`/${t.route_prefix}/${e}/edit`);
     }
     function v(e) {
-      o.delete(`/${a.route_prefix}/${e}`);
+      n.delete(`/${t.route_prefix}/${e}`);
     }
     function h(e) {
-      o.get(
+      n.get(
         window.location.pathname,
         { page: e.page + 1, per_page: e.rows },
         {
           preserveState: !0,
           preserveScroll: !0,
           only: ["column_data"],
-          onStart: () => t.value = !0,
-          onFinish: () => t.value = !1
+          onStart: () => o.value = !0,
+          onFinish: () => o.value = !1
         }
       );
     }
     function x(e) {
-      o.get(
+      n.get(
         window.location.pathname,
-        { sort_field: e.sortField, sort_order: e.sortOrder },
+        {
+          page: t.column_data.current_page,
+          per_page: t.column_data.per_page,
+          sort_field: e.sortField,
+          sort_order: e.sortOrder
+        },
         {
           preserveState: !0,
           preserveScroll: !0,
           only: ["column_data"],
-          onStart: () => t.value = !0,
-          onFinish: () => t.value = !1
+          onStart: () => o.value = !0,
+          onFinish: () => o.value = !1
         }
       );
     }
     function S(e) {
-      o.get(
+      n.get(
         window.location.pathname,
         { search: e.query },
         {
@@ -83,34 +88,34 @@ const A = { class: "crud-index-page" }, I = { class: "flex items-center justify-
           preserveScroll: !0,
           only: ["column_data"],
           replace: !0,
-          onStart: () => t.value = !0,
-          onFinish: () => t.value = !1
+          onStart: () => o.value = !0,
+          onFinish: () => o.value = !1
         }
       );
     }
-    return (e, r) => (y(), B("div", A, [
-      u("div", I, [
-        u("h1", N, C(n.title), 1),
-        i(F(T), {
+    return (e, a) => (y(), B("div", A, [
+      c("div", I, [
+        c("h1", N, C(r.title), 1),
+        u(F(T), {
           label: s("crud.button.create"),
           icon: "pi pi-plus",
           onClick: f
         }, null, 8, ["label"])
       ]),
-      i(V, {
-        items: n.column_data.data,
-        columns: n.columns_details,
-        "total-records": n.column_data.total,
-        "per-page": n.column_data.per_page,
-        loading: t.value,
+      u(V, {
+        items: r.column_data.data,
+        columns: r.columns_details,
+        "total-records": r.column_data.total,
+        "per-page": r.column_data.per_page,
+        loading: o.value,
         onPaginate: h,
         onSort: x,
         onSearch: S
       }, {
         actions: D(({ row: l }) => [
-          i(k, {
+          u(k, {
             row: l,
-            buttons: p.value,
+            buttons: m.value,
             onView: _,
             onEdit: g,
             onDelete: v

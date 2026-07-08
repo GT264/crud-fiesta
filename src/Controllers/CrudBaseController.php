@@ -56,10 +56,24 @@ abstract class CrudBaseController extends Controller
         return $this->redirect('success', $message);
     }
 
-    public function index() : InertiaResponse
+    public function index(Request $request) : InertiaResponse
     {
+        $sortField = $request->query('sort_field');
+        $sortOrder = $request->query('sort_order');
+
+        // Map PrimeVue sort order: 1 = ascending, -1 = descending
+        $sortDirection = 'asc';
+        if ($sortOrder !== null) {
+            $sortDirection = (int) $sortOrder === -1 ? 'desc' : 'asc';
+        }
+
         return Inertia::render($this->view_name, [
-            'column_data' => $this->crud_base_repository->paginate($this->crud_data_table->per_page, [...$this->crud_data_table::default_columns, $this->model->getKeyName()]),
+            'column_data' => $this->crud_base_repository->paginate(
+                $this->crud_data_table->per_page,
+                [...$this->crud_data_table::default_columns, $this->model->getKeyName()],
+                $sortField,
+                $sortDirection,
+            ),
             'columns_details' => array_values($this->crud_data_table->details_columns),
             'route_prefix' => $this->route_prefix,
             'optional_buttons' => $this->crud_data_table->getOptionalButtons(),
