@@ -8,6 +8,7 @@ use GT264\CrudFiesta\Helpers\FormType;
 use GT264\CrudFiesta\Helpers\ResourceResolver;
 use GT264\CrudFiesta\Traits\SetLanguage;
 use GT264\CrudFiesta\Traits\SetRoutePrefix;
+use GT264\CrudFiesta\Enums\Role;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -137,7 +138,7 @@ abstract class CrudBaseDataTable
         $crud_buttons = [];
 
         if (
-            $this->enable_view && Permission::VIEW->getPermissionTo(Auth::user(), $this->resource)
+            ($this->enable_view && Permission::VIEW->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-eye',
@@ -148,7 +149,7 @@ abstract class CrudBaseDataTable
         }
 
         if (
-            $this->enable_edit && Permission::UPDATE->getPermissionTo(Auth::user(), $this->resource)
+            ($this->enable_edit && Permission::UPDATE->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-pencil',
@@ -160,7 +161,7 @@ abstract class CrudBaseDataTable
         }
 
         if (
-            $this->enable_delete && Permission::DELETE->getPermissionTo(Auth::user(), $this->resource)
+            ($this->enable_delete && Permission::DELETE->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
                 'pi pi-trash',

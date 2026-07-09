@@ -1,24 +1,44 @@
 <template>
   <div class="flex gap-2 justify-center">
+    <!-- Single action: show button directly -->
     <Button
-      v-for="button in buttons"
-      :key="button.action"
-      :icon="button.icon"
-      :label="button.label"
-      :severity="button.severity"
+      v-if="buttons.length === 1"
+      :icon="buttons[0].icon"
+      :label="buttons[0].label"
+      :severity="buttons[0].severity"
       size="small"
-      text
-      :title="button.label"
-      @click="handleAction(button.action)"
+      outlined
+      :title="buttons[0].label"
+      @click="handleAction(buttons[0].action)"
     />
+
+    <!-- Multiple actions: dropdown menu -->
+    <div v-else-if="buttons.length > 1" class="relative">
+      <Button
+        :label="crudT('crud.button.actions')"
+        icon="pi pi-chevron-down"
+        icon-pos="right"
+        :severity="actionsSeverity"
+        size="small"
+        outlined
+        @click="toggleMenu"
+      />
+      <Menu
+        ref="menu"
+        :model="menuItems"
+        :popup="true"
+      />
+    </div>
+
+    <ConfirmDialog />
   </div>
-  <ConfirmDialog />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
+import Menu from 'primevue/menu'
 import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
 
@@ -49,8 +69,27 @@ function crudT(key: string): string {
 }
 
 const confirm = useConfirm()
+const menu = ref()
 
 const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
+
+// Derive severity for the dropdown trigger from the most "important" action
+const actionsSeverity = computed(() => {
+  if (props.buttons.some((b) => b.action === 'delete')) return 'danger'
+  return 'secondary'
+})
+
+const menuItems = computed(() =>
+  props.buttons.map((btn) => ({
+    label: btn.label,
+    icon: btn.icon,
+    command: () => handleAction(btn.action),
+  })),
+)
+
+function toggleMenu(event: Event) {
+  menu.value.toggle(event)
+}
 
 const handleAction = (action: string) => {
   if (action === 'delete') {

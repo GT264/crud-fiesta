@@ -1,15 +1,21 @@
-import { defineComponent as g, computed as x, ref as B, watch as C, openBlock as t, createBlock as u, unref as r, withCtx as f, createElementVNode as b, withModifiers as S, createElementBlock as p, Fragment as y, renderList as D, createTextVNode as N, toDisplayString as E, createCommentVNode as V, createVNode as h } from "vue";
-import F from "primevue/dialog";
-import T from "primevue/inputtext";
-import M from "primevue/textarea";
-import A from "primevue/dropdown";
-import H from "primevue/multiselect";
-import q from "primevue/fileupload";
-import U from "primevue/button";
-const I = ["for"], L = {
+import { defineComponent as I, defineAsyncComponent as B, computed as D, ref as N, watch as S, openBlock as u, createBlock as d, unref as r, withCtx as v, createElementVNode as q, withModifiers as E, createElementBlock as n, Fragment as M, renderList as T, createTextVNode as F, toDisplayString as P, createCommentVNode as h, createVNode as b } from "vue";
+import _ from "primevue/dialog";
+import U from "primevue/inputtext";
+import A from "primevue/textarea";
+import R from "primevue/inputnumber";
+import H from "primevue/datepicker";
+import L from "primevue/checkbox";
+import O from "primevue/dropdown";
+import j from "primevue/multiselect";
+import z from "primevue/password";
+import G from "primevue/rating";
+import J from "primevue/inputmask";
+import w from "primevue/fileupload";
+import f from "primevue/button";
+const K = ["for"], Q = {
   key: 0,
   class: "text-red-500"
-}, R = /* @__PURE__ */ g({
+}, te = /* @__PURE__ */ I({
   __name: "CrudForm",
   props: {
     visible: { type: Boolean },
@@ -20,40 +26,40 @@ const I = ["for"], L = {
     isEdit: { type: Boolean, default: !1 }
   },
   emits: ["update:visible", "submit", "close"],
-  setup(i, { emit: _ }) {
-    const m = i, n = _, s = x({
-      get: () => m.visible,
-      set: (d) => n("update:visible", d)
-    }), o = B({});
-    C(
-      () => m.visible,
-      (d) => {
-        d && m.data ? o.value = { ...m.data } : d && (o.value = {});
+  setup(i, { emit: g }) {
+    const x = B(() => import("primevue/editor")), p = i, m = g, s = D({
+      get: () => p.visible,
+      set: (t) => m("update:visible", t)
+    }), a = N({});
+    S(
+      () => p.visible,
+      (t) => {
+        t && p.data ? a.value = { ...p.data } : t && (a.value = {});
       },
       { immediate: !0 }
     );
-    const w = () => {
-      n("submit", o.value);
+    const C = () => {
+      m("submit", a.value);
     }, c = () => {
-      o.value = {}, n("close"), n("update:visible", !1);
+      a.value = {}, m("close"), m("update:visible", !1);
     };
-    return (d, v) => (t(), u(r(F), {
+    return (t, V) => (u(), d(r(_), {
       visible: s.value,
-      "onUpdate:visible": v[0] || (v[0] = (e) => s.value = e),
+      "onUpdate:visible": V[0] || (V[0] = (e) => s.value = e),
       header: i.title,
       modal: !0,
       closable: !0,
       class: "w-full md:w-1/2",
       onHide: c
     }, {
-      footer: f(() => [
-        h(r(U), {
+      footer: v(() => [
+        b(r(f), {
           label: "Annulla",
           icon: "pi pi-times",
           class: "p-button-text",
           onClick: c
         }),
-        h(r(U), {
+        b(r(f), {
           label: "Salva",
           icon: "pi pi-check",
           loading: i.loading,
@@ -61,81 +67,140 @@ const I = ["for"], L = {
           form: "crud-form"
         }, null, 8, ["loading"])
       ]),
-      default: f(() => [
-        b("form", {
+      default: v(() => [
+        q("form", {
           id: "crud-form",
-          onSubmit: S(w, ["prevent"]),
+          onSubmit: E(C, ["prevent"]),
           class: "space-y-4"
         }, [
-          (t(!0), p(y, null, D(i.fields, (e, l) => (t(), p("div", {
+          (u(!0), n(M, null, T(i.fields, (e, l) => (u(), n("div", {
             key: l,
             class: "field"
           }, [
-            b("label", {
+            q("label", {
               for: l,
               class: "block mb-2 font-semibold"
             }, [
-              N(E(e.label) + " ", 1),
-              e.required ? (t(), p("span", L, "*")) : V("", !0)
-            ], 8, I),
-            e.form_type === "text" || e.form_type === "email" ? (t(), u(r(T), {
+              F(P(e.label) + " ", 1),
+              e.required ? (u(), n("span", Q, "*")) : h("", !0)
+            ], 8, K),
+            e.type === "InputText" ? (u(), d(r(U), {
               key: 0,
               id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
-              type: e.form_type,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
               placeholder: e.placeholder,
               class: "w-full",
               required: e.required
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "type", "placeholder", "required"])) : e.form_type === "textarea" ? (t(), u(r(M), {
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "email" ? (u(), d(r(U), {
               key: 1,
               id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              type: "email",
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "InputTextarea" ? (u(), d(r(A), {
+              key: 2,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
               placeholder: e.placeholder,
               class: "w-full",
               required: e.required,
               rows: "4"
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.form_type === "dropdown" ? (t(), u(r(A), {
-              key: 2,
-              id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
-              options: e.options || [],
-              "option-label": "label",
-              "option-value": "value",
-              placeholder: e.placeholder,
-              class: "w-full",
-              required: e.required
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.form_type === "multi_select" ? (t(), u(r(H), {
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "InputNumber" ? (u(), d(r(R), {
               key: 3,
               id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "Calendar" ? (u(), d(r(H), {
+              key: 4,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "Checkbox" ? (u(), d(r(L), {
+              key: 5,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              binary: !0,
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "Password" ? (u(), d(r(z), {
+              key: 6,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required,
+              "toggle-mask": ""
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "Rating" ? (u(), d(r(G), {
+              key: 7,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              required: e.required
+            }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "InputMask" ? (u(), d(r(J), {
+              key: 8,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "Editor" ? (u(), d(r(x), {
+              key: 9,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              "editor-style": "height: 200px",
+              required: e.required
+            }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "Dropdown" ? (u(), d(r(O), {
+              key: 10,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
               options: e.options || [],
               "option-label": "label",
               "option-value": "value",
               placeholder: e.placeholder,
               class: "w-full",
               required: e.required
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.form_type === "file" ? (t(), u(r(q), {
-              key: 4,
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "MultiSelect" ? (u(), d(r(j), {
+              key: 11,
               id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
+              options: e.options || [],
+              "option-label": "label",
+              "option-value": "value",
+              placeholder: e.placeholder,
+              class: "w-full",
+              required: e.required
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "File" ? (u(), d(r(w), {
+              key: 12,
+              id: l,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
               auto: !1,
               multiple: !1,
               required: e.required
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.form_type === "image" ? (t(), u(r(q), {
-              key: 5,
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "Image" ? (u(), d(r(w), {
+              key: 13,
               id: l,
-              modelValue: o.value[l],
-              "onUpdate:modelValue": (a) => o.value[l] = a,
+              modelValue: a.value[l],
+              "onUpdate:modelValue": (o) => a.value[l] = o,
               auto: !1,
               accept: "image/*",
               multiple: !1,
               required: e.required
-            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : V("", !0)
+            }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : h("", !0)
           ]))), 128))
         ], 32)
       ]),
@@ -144,5 +209,5 @@ const I = ["for"], L = {
   }
 });
 export {
-  R as default
+  te as default
 };

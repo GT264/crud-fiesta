@@ -29,6 +29,18 @@
         />
       </template>
     </CrudDataTable>
+
+    <CrudForm
+      :visible="formVisible"
+      :title="formTitle"
+      :fields="formFields"
+      :data="formData"
+      :loading="formLoading"
+      :is-edit="formIsEdit"
+      @update:visible="formVisible = $event"
+      @submit="onFormSubmit"
+      @close="onFormClose"
+    />
   </div>
 </template>
 
@@ -38,6 +50,7 @@ import { router, usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import CrudDataTable from '../Components/Crud/CrudDataTable.vue'
 import CrudActions from '../Components/Crud/CrudActions.vue'
+import CrudForm from '../Components/Crud/CrudForm.vue'
 
 interface ColumnDetail {
   field: string
@@ -87,18 +100,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const loading = ref(false)
 
-/**
- * Map backend crud_buttons to the format expected by CrudActions.
- *
- * Backend button shape (from CrudBaseDataTable::makeCrudButton):
- *   { icon, label, route, binding, placeholder, method, event? }
- *
- * The `route` value is a Laravel route name (e.g. "posts.show").
- * We extract the last segment to determine the action.
- *
- * CrudActions expects:
- *   { action: 'view' | 'edit' | 'delete', icon, label }
- */
+// ── CrudForm dialog state ──────────────────────────────────────────────
+
+const formVisible = ref(false)
+const formTitle = ref('')
+const formFields = ref<Record<string, any>>({})
+const formData = ref<Record<string, any> | null>(null)
+const formIsEdit = ref(false)
+const formLoading = ref(false)
+const editingId = ref<number | string | null>(null)
+
+// ── Button mapping ─────────────────────────────────────────────────────
+
 const routeSegmentToAction: Record<string, string> = {
   show: 'view',
   edit: 'edit',
@@ -122,21 +135,85 @@ const mappedButtons = computed<FrontendCrudButton[]>(() =>
   })),
 )
 
-function goToCreate() {
-  router.get(`/${props.route_prefix}/create`)
+// ── Create / Edit ──────────────────────────────────────────────────────
+
+async function goToCreate() {
+  formLoading.value = true
+  try {
+    const res = await fetch(`/${props.route_prefix}/create`, {
+      headers: { 'Accept': 'application/json' },
+    })
+    const fields = await res.json()
+    formFields.value = fields
+    formTitle.value = crudT('crud.button.create')
+    formData.value = null
+    formIsEdit.value = false
+    editingId.value = null
+    formVisible.value = true
+  } catch (err) {
+    console.error('Failed to load create form:', err)
+  } finally {
+    formLoading.value = false
+  }
 }
+
+async function onEdit(id: any) {
+  formLoading.value = true
+  try {
+    const res = await fetch(`/${props.route_prefix}/${id}/edit`, {
+      headers: { 'Accept': 'application/json' },
+    })
+    const json = await res.json()
+    formFields.value = json.form_details
+    formTitle.value = crudT('crud.button.edit')
+    formData.value = json.item
+    formIsEdit.value = true
+    editingId.value = id
+    formVisible.value = true
+  } catch (err) {
+    console.error('Failed to load edit form:', err)
+  } finally {
+    formLoading.value = false
+  }
+}
+
+function onFormSubmit(data: Record<string, any>) {
+  formLoading.value = true
+
+  if (formIsEdit.value && editingId.value !== null) {
+    router.put(`/${props.route_prefix}/${editingId.value}`, data, {
+      onFinish: () => {
+        formLoading.value = false
+        formVisible.value = false
+      },
+    })
+  } else {
+    router.post(`/${props.route_prefix}`, data, {
+      onFinish: () => {
+        formLoading.value = false
+        formVisible.value = false
+      },
+    })
+  }
+}
+
+function onFormClose() {
+  formVisible.value = false
+  formData.value = null
+  editingId.value = null
+}
+
+// ── View / Delete ──────────────────────────────────────────────────────
 
 function onView(id: any) {
   router.get(`/${props.route_prefix}/${id}`)
 }
 
-function onEdit(id: any) {
-  router.get(`/${props.route_prefix}/${id}/edit`)
-}
-
 function onDelete(id: any) {
   router.delete(`/${props.route_prefix}/${id}`)
 }
+
+// ── Pagination / Sort / Search ─────────────────────────────────────────
 
 function onPaginate(event: { page: number; rows: number }) {
   router.get(

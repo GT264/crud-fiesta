@@ -14,20 +14,30 @@
           <span v-if="field.required" class="text-red-500">*</span>
         </label>
 
-        <!-- Text / Email -->
+        <!-- InputText -->
         <InputText
-          v-if="field.form_type === 'text' || field.form_type === 'email'"
+          v-if="field.type === 'InputText'"
           :id="key"
           v-model="formData[key]"
-          :type="field.form_type"
           :placeholder="field.placeholder"
           class="w-full"
           :required="field.required"
         />
 
-        <!-- Textarea -->
+        <!-- Email -->
+        <InputText
+          v-else-if="field.type === 'email'"
+          :id="key"
+          v-model="formData[key]"
+          type="email"
+          :placeholder="field.placeholder"
+          class="w-full"
+          :required="field.required"
+        />
+
+        <!-- InputTextarea -->
         <Textarea
-          v-else-if="field.form_type === 'textarea'"
+          v-else-if="field.type === 'InputTextarea'"
           :id="key"
           v-model="formData[key]"
           :placeholder="field.placeholder"
@@ -36,9 +46,74 @@
           rows="4"
         />
 
-        <!-- Dropdown -->
+        <!-- InputNumber -->
+        <InputNumber
+          v-else-if="field.type === 'InputNumber'"
+          :id="key"
+          v-model="formData[key]"
+          :placeholder="field.placeholder"
+          class="w-full"
+          :required="field.required"
+        />
+
+        <!-- Calendar / DatePicker -->
+        <DatePicker
+          v-else-if="field.type === 'Calendar'"
+          :id="key"
+          v-model="formData[key]"
+          :placeholder="field.placeholder"
+          class="w-full"
+          :required="field.required"
+        />
+
+        <!-- Checkbox -->
+        <Checkbox
+          v-else-if="field.type === 'Checkbox'"
+          :id="key"
+          v-model="formData[key]"
+          :binary="true"
+          :required="field.required"
+        />
+
+        <!-- Password -->
+        <Password
+          v-else-if="field.type === 'Password'"
+          :id="key"
+          v-model="formData[key]"
+          :placeholder="field.placeholder"
+          class="w-full"
+          :required="field.required"
+          toggle-mask
+        />
+
+        <!-- Rating -->
+        <Rating
+          v-else-if="field.type === 'Rating'"
+          v-model="formData[key]"
+          :required="field.required"
+        />
+
+        <!-- InputMask -->
+        <InputMask
+          v-else-if="field.type === 'InputMask'"
+          :id="key"
+          v-model="formData[key]"
+          :placeholder="field.placeholder"
+          class="w-full"
+          :required="field.required"
+        />
+
+        <!-- Editor (rich text) -->
+        <Editor
+          v-else-if="field.type === 'Editor'"
+          v-model="formData[key]"
+          editor-style="height: 200px"
+          :required="field.required"
+        />
+
+        <!-- Dropdown (placeholder for later) -->
         <Dropdown
-          v-else-if="field.form_type === 'dropdown'"
+          v-else-if="field.type === 'Dropdown'"
           :id="key"
           v-model="formData[key]"
           :options="field.options || []"
@@ -49,9 +124,9 @@
           :required="field.required"
         />
 
-        <!-- MultiSelect -->
+        <!-- MultiSelect (placeholder for later) -->
         <MultiSelect
-          v-else-if="field.form_type === 'multi_select'"
+          v-else-if="field.type === 'MultiSelect'"
           :id="key"
           v-model="formData[key]"
           :options="field.options || []"
@@ -64,7 +139,7 @@
 
         <!-- File -->
         <FileUpload
-          v-else-if="field.form_type === 'file'"
+          v-else-if="field.type === 'File'"
           :id="key"
           v-model="formData[key]"
           :auto="false"
@@ -74,7 +149,7 @@
 
         <!-- Image -->
         <FileUpload
-          v-else-if="field.form_type === 'image'"
+          v-else-if="field.type === 'Image'"
           :id="key"
           v-model="formData[key]"
           :auto="false"
@@ -104,18 +179,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, defineAsyncComponent } from 'vue'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
+import InputNumber from 'primevue/inputnumber'
+import DatePicker from 'primevue/datepicker'
+import Checkbox from 'primevue/checkbox'
 import Dropdown from 'primevue/dropdown'
 import MultiSelect from 'primevue/multiselect'
+import Password from 'primevue/password'
+import Rating from 'primevue/rating'
+import InputMask from 'primevue/inputmask'
 import FileUpload from 'primevue/fileupload'
 import Button from 'primevue/button'
 
+const Editor = defineAsyncComponent(() => import('primevue/editor'))
+
 interface FieldConfig {
   label: string
-  form_type: string
+  type: string
   placeholder?: string
   required?: boolean
   options?: Array<{ label: string; value: any }>
@@ -157,7 +240,7 @@ watch(
       formData.value = {}
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const onSubmit = () => {

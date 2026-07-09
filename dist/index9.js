@@ -1,48 +1,76 @@
-import { defineComponent as v, computed as _, openBlock as o, createElementBlock as a, Fragment as m, createElementVNode as C, renderList as h, createBlock as k, unref as d, createVNode as w } from "vue";
-import { usePage as x } from "@inertiajs/vue3";
-import y from "primevue/button";
-import B from "primevue/confirmdialog";
-import { useConfirm as b } from "primevue/useconfirm";
-const j = { class: "flex gap-2 justify-center" }, z = /* @__PURE__ */ v({
+import { defineComponent as C, ref as w, computed as r, openBlock as c, createElementBlock as f, createBlock as x, unref as i, createVNode as s, createCommentVNode as B } from "vue";
+import { usePage as j } from "@inertiajs/vue3";
+import b from "primevue/button";
+import z from "primevue/menu";
+import A from "primevue/confirmdialog";
+import { useConfirm as I } from "primevue/useconfirm";
+const M = { class: "flex gap-2 justify-center" }, N = {
+  key: 1,
+  class: "relative"
+}, S = /* @__PURE__ */ C({
   __name: "CrudActions",
   props: {
     row: {},
     buttons: {}
   },
   emits: ["view", "edit", "delete"],
-  setup(n, { emit: u }) {
-    const i = n, c = u, p = x();
+  setup(t, { emit: v }) {
+    const n = t, u = v, g = j();
     function l(e) {
-      var r;
-      return ((r = p.props.crudLang) == null ? void 0 : r[e]) ?? e;
+      var o;
+      return ((o = g.props.crudLang) == null ? void 0 : o[e]) ?? e;
     }
-    const f = b(), s = _(() => i.row.id ?? Object.values(i.row)[0]), g = (e) => {
-      e === "delete" ? f.require({
+    const p = I(), a = w(), m = r(() => n.row.id ?? Object.values(n.row)[0]), y = r(() => n.buttons.some((e) => e.action === "delete") ? "danger" : "secondary"), h = r(
+      () => n.buttons.map((e) => ({
+        label: e.label,
+        icon: e.icon,
+        command: () => d(e.action)
+      }))
+    );
+    function k(e) {
+      a.value.toggle(e);
+    }
+    const d = (e) => {
+      e === "delete" ? p.require({
         message: l("crud.delete_confirm.message"),
         header: l("crud.delete_confirm.header"),
         icon: "pi pi-exclamation-triangle",
         accept: () => {
-          c("delete", s.value);
+          u("delete", m.value);
         }
-      }) : c(e, s.value);
+      }) : u(e, m.value);
     };
-    return (e, r) => (o(), a(m, null, [
-      C("div", j, [
-        (o(!0), a(m, null, h(n.buttons, (t) => (o(), k(d(y), {
-          key: t.action,
-          icon: t.icon,
-          label: t.label,
-          severity: t.severity,
+    return (e, o) => (c(), f("div", M, [
+      t.buttons.length === 1 ? (c(), x(i(b), {
+        key: 0,
+        icon: t.buttons[0].icon,
+        label: t.buttons[0].label,
+        severity: t.buttons[0].severity,
+        size: "small",
+        outlined: "",
+        title: t.buttons[0].label,
+        onClick: o[0] || (o[0] = (V) => d(t.buttons[0].action))
+      }, null, 8, ["icon", "label", "severity", "title"])) : t.buttons.length > 1 ? (c(), f("div", N, [
+        s(i(b), {
+          label: l("crud.button.actions"),
+          icon: "pi pi-chevron-down",
+          "icon-pos": "right",
+          severity: y.value,
           size: "small",
-          text: "",
-          title: t.label,
-          onClick: (A) => g(t.action)
-        }, null, 8, ["icon", "label", "severity", "title", "onClick"]))), 128))
-      ]),
-      w(d(B))
-    ], 64));
+          outlined: "",
+          onClick: k
+        }, null, 8, ["label", "severity"]),
+        s(i(z), {
+          ref_key: "menu",
+          ref: a,
+          model: h.value,
+          popup: !0
+        }, null, 8, ["model"])
+      ])) : B("", !0),
+      s(i(A))
+    ]));
   }
 });
 export {
-  z as default
+  S as default
 };
