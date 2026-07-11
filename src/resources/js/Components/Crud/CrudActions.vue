@@ -3,26 +3,32 @@
     <!-- Single action: show button directly -->
     <Button
       v-if="buttons.length === 1"
-      :icon="buttons[0].icon"
-      :label="buttons[0].label"
       :severity="buttons[0].severity"
       size="small"
       outlined
       :title="buttons[0].label"
       @click="handleAction(buttons[0].action)"
-    />
+    >
+      <template #icon>
+        <i :class="buttons[0].icon" />
+      </template>
+      {{ buttons[0].label }}
+    </Button>
 
     <!-- Multiple actions: dropdown menu -->
     <div v-else-if="buttons.length > 1" class="relative">
       <Button
         :label="crudT('crud.button.actions')"
-        icon="pi pi-chevron-down"
         icon-pos="right"
         :severity="actionsSeverity"
         size="small"
         outlined
         @click="toggleMenu"
-      />
+      >
+        <template #icon>
+          <i class="pi pi-chevron-down" />
+        </template>
+      </Button>
       <Menu
         ref="menu"
         :model="menuItems"
@@ -101,8 +107,10 @@ const handleAction = (action: string) => {
         emit('delete', rowId.value)
       },
     })
-  } else {
-    emit(action as 'view' | 'edit', rowId.value)
+  } else if (action === 'view') {
+    emit('view', rowId.value)
+  } else if (action === 'edit') {
+    emit('edit', rowId.value)
   }
 }
 </script>

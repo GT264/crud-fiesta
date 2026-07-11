@@ -1,9 +1,5 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, e = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, a = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, i = { root: o, separator: r, itemLink: t, itemLabel: e, itemNumber: a };
+var r = { borderRadius: "{form.field.border.radius}", roundedBorderRadius: "2rem", raisedShadow: "0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12)" }, d = { root: r };
 export {
-  i as default,
-  e as itemLabel,
-  t as itemLink,
-  a as itemNumber,
-  o as root,
-  r as separator
+  d as default,
+  r as root
 };

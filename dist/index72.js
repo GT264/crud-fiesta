@@ -1,6 +1,7 @@
-var o = { gap: "0.25rem", transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { size: "1rem", color: "{text.muted.color}", hoverColor: "{primary.color}", activeColor: "{primary.color}" }, i = { root: o, icon: r };
+var r = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: "1.25rem" }, o = { background: "{primary.color}" }, a = { color: "{primary.contrast.color}", fontSize: "0.75rem", fontWeight: "600" }, e = { root: r, value: o, label: a };
 export {
-  i as default,
-  r as icon,
-  o as root
+  e as default,
+  a as label,
+  r as root,
+  o as value
 };

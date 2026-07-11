@@ -7,8 +7,11 @@
     "build": "vite build"
   },
   "devDependencies": {
+    "@inertiajs/vue3": "^3.0.0",
     "@primeuix/themes": "^2.0.3",
     "@vitejs/plugin-vue": "^5.0.0",
+    "primevue": "^4.0.0",
+    "quill": "^2.0.0",
     "typescript": "^5.0.0",
     "vite": "^6.0.0",
     "vue": "^3.4.0"

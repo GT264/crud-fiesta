@@ -43,7 +43,7 @@
 - [ ] **I. Vue Composition API Only**: All `.vue` files use `<script setup lang="ts">`. No Options API (`data()`, `methods`, etc.) present.
 - [ ] **II. PSR-12 PHP Standards**: All PHP files follow PSR-12 (4-space indent, camelCase methods, no closing `?>` tags, proper namespace/use ordering).
 - [ ] **III. Laravel Best Practices**: Dependency injection over facades. Controllers extend `CrudBaseController`, Repositories extend `CrudBaseRepository`. Business logic in repositories, not controllers.
-- [ ] **IV. Compiled Assets in Version Control**: Vite config does NOT use `emptyOutDir: true`. `dist/` is tracked in git (not in `.gitignore`). External deps (Vue, PrimeVue, primeicons) are in `rollupOptions.external`.
+- [ ] **IV. Compiled Assets in Version Control**: Vite config does NOT use `emptyOutDir: true`. `dist/` is tracked in git (not in `.gitignore`). External deps (`vue`, `/^vue\//`, `/^primevue/`, `/^primeicons/`, `@inertiajs/vue3`) are in `rollupOptions.external`.
 - [ ] **V. Package Architecture**: Code lives under `GT264\CrudFiesta` namespace. Console commands follow `crud-fiesta:*` naming. Generated stubs compile without manual edits. En/dis translations provided.
 
 ## Project Structure

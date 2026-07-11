@@ -1,29 +1,20 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: none → 1.0.0 (initial constitution)
-  Modified principles: n/a (all newly defined)
-  Added sections:
-    - I. Vue Composition API Only
-    - II. PSR-12 PHP Standards
-    - III. Laravel Best Practices
-    - IV. Compiled Assets in Version Control
-    - V. Package Architecture
-    - Technology Stack
-    - Development Workflow
-    - Governance
+  Version change: 1.0.0 → 1.0.1 (PATCH — clarification to Principle IV: add @inertiajs/vue3 to required externals)
+  Modified principles:
+    - IV. Compiled Assets in Version Control: Added explicit requirement that @inertiajs/vue3
+      MUST be declared as external in Vite rollupOptions alongside Vue, PrimeVue, and primeicons.
+  Added sections: n/a
   Removed sections: n/a
   Templates requiring updates:
-    - .specify/templates/plan-template.md: ⚠ pending — Constitution Check section references placeholder;
-      should be updated to list the five principles as gates
+    - .specify/templates/plan-template.md: ✅ updated — Constitution Check item IV now lists @inertiajs/vue3
     - .specify/templates/spec-template.md: ✅ no changes needed
     - .specify/templates/tasks-template.md: ✅ no changes needed
     - .specify/templates/checklist-template.md: ✅ no changes needed
     - .specify/scripts/bash/*.sh: ✅ no agent-specific references found
     - .clinerules/workflows/*.md: ✅ no constitution references to update
-  Follow-up TODOs:
-    - TODO(vite.config.ts): Remove `emptyOutDir: true` from vite.config.ts (violates Principle IV)
-    - TODO(plan-template.md): Replace "[Gates determined based on constitution file]" with concrete gate list
+  Follow-up TODOs: none
 -->
 
 # CRUD Fiesta Constitution
@@ -92,8 +83,12 @@ and treated as part of the package distribution.
 - Vite configuration MUST NOT use `emptyOutDir: true` — this option wipes the entire
   `dist/` directory before each build, destroying committed compiled components such as
   Vue SFC render outputs.
-- External dependencies (Vue, PrimeVue, primeicons) MUST be declared as `external` in
-  the Vite `rollupOptions` to prevent bundling duplicates at the consumer's end.
+- External dependencies MUST be declared as `external` in the Vite `rollupOptions`
+  to prevent bundling duplicates at the consumer's end. The following packages MUST
+  be externalized: `vue`, `/^vue\//`, `/^primevue/`, `/^primeicons/`,
+  and `@inertiajs/vue3`. This prevents the package and the consuming project from
+  bundling two separate Inertia instances, which causes runtime breakage (e.g.,
+  `page.props` being `undefined` in components that call `usePage()`).
 - Library entry point MUST be `src/resources/js/index.ts`, producing ES module output
   in `dist/index.js`.
 - Preserve modules MUST be enabled (`preserveModules: true`) to maintain the directory
@@ -210,4 +205,4 @@ The constitution follows Semantic Versioning (MAJOR.MINOR.PATCH):
 - Complexity or deviations from principles MUST be explicitly justified in the
   implementation plan's Complexity Tracking table.
 
-**Version**: 1.0.0 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-07
+**Version**: 1.0.1 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-11

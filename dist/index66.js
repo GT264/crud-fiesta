@@ -1,9 +1,8 @@
-var o = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: ".75rem" }, r = { color: "{form.field.icon.color}" }, e = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", borderRadius: "{overlay.popover.border.radius}", color: "{overlay.popover.color}", padding: "{overlay.popover.padding}", shadow: "{overlay.popover.shadow}" }, a = { gap: "0.5rem" }, d = { light: { strength: { weakBackground: "{red.500}", mediumBackground: "{amber.500}", strongBackground: "{green.500}" } }, dark: { strength: { weakBackground: "{red.400}", mediumBackground: "{amber.400}", strongBackground: "{green.400}" } } }, n = { meter: o, icon: r, overlay: e, content: a, colorScheme: d };
+var o = { padding: "0.5rem 1rem", gap: "0.25rem", borderRadius: "{content.border.radius}", background: "{content.background}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "transparent", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}", selectedColor: "{highlight.color}", width: "2.5rem", height: "2.5rem", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}" }, e = { maxWidth: "2.5rem" }, n = { root: o, navButton: r, currentPageReport: t, jumpToPageInput: e };
 export {
-  d as colorScheme,
-  a as content,
+  t as currentPageReport,
   n as default,
-  r as icon,
-  o as meter,
-  e as overlay
+  e as jumpToPageInput,
+  r as navButton,
+  o as root
 };

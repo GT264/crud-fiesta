@@ -1,5 +1,6 @@
-var t = { gap: "0.5rem", transitionDuration: "{transition.duration}" }, a = { root: t };
+var o = { borderRadius: "{form.field.border.radius}" }, r = { light: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } }, dark: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } } }, d = { root: o, colorScheme: r };
 export {
-  a as default,
-  t as root
+  r as colorScheme,
+  d as default,
+  o as root
 };

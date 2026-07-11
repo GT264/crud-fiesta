@@ -1,9 +1,5 @@
-var o = { gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}", borderWidth: "1px", color: "{content.color}", padding: "0.25rem 0.25rem", borderRadius: "{content.border.radius}", first: { borderWidth: "1px", topBorderRadius: "{content.border.radius}" }, last: { borderWidth: "1px", bottomBorderRadius: "{content.border.radius}" } }, n = { focusBackground: "{navigation.item.focus.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", gap: "0.5rem", padding: "{navigation.item.padding}", borderRadius: "{content.border.radius}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}" } }, i = { indent: "1rem" }, t = { color: "{navigation.submenu.icon.color}", focusColor: "{navigation.submenu.icon.focus.color}" }, a = { root: o, panel: r, item: n, submenu: i, submenuIcon: t };
+var o = { outline: { width: "2px", color: "{content.background}" } }, t = { root: o };
 export {
-  a as default,
-  n as item,
-  r as panel,
-  o as root,
-  i as submenu,
-  t as submenuIcon
+  t as default,
+  o as root
 };

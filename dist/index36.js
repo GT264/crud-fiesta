@@ -1,9 +1,8 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}" }, r = { color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, e = { background: "{overlay.select.background}", borderColor: "{overlay.select.border.color}", borderRadius: "{overlay.select.border.radius}", color: "{overlay.select.color}", shadow: "{overlay.select.shadow}", padding: "{list.padding}" }, t = { focusBackground: "{list.option.focus.background}", color: "{list.option.color}", focusColor: "{list.option.focus.color}", padding: "{list.option.padding}", borderRadius: "{list.option.border.radius}" }, l = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, a = { toolbar: o, toolbarItem: r, overlay: e, overlayOption: t, content: l };
+var o = { borderColor: "{content.border.color}" }, r = { background: "{content.background}", color: "{text.color}" }, n = { margin: "1rem 0", padding: "0 1rem", content: { padding: "0 0.5rem" } }, t = { margin: "0 1rem", padding: "0.5rem 0", content: { padding: "0.5rem 0" } }, e = { root: o, content: r, horizontal: n, vertical: t };
 export {
-  l as content,
-  a as default,
-  e as overlay,
-  t as overlayOption,
-  o as toolbar,
-  r as toolbarItem
+  r as content,
+  e as default,
+  n as horizontal,
+  o as root,
+  t as vertical
 };

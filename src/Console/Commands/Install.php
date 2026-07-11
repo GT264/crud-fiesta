@@ -48,6 +48,7 @@ class Install extends Command
             'primevue',
             '@primevue/themes',
             'primeicons',
+            'quill',
         ];
 
         if (! file_exists(base_path('package.json'))) {

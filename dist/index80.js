@@ -1,5 +1,6 @@
-var r = { borderRadius: "{form.field.border.radius}", roundedBorderRadius: "2rem", raisedShadow: "0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12)" }, d = { root: r };
+var o = { borderRadius: "{content.border.radius}" }, r = { light: { root: { background: "{surface.200}", animationBackground: "rgba(255,255,255,0.4)" } }, dark: { root: { background: "rgba(255, 255, 255, 0.06)", animationBackground: "rgba(255, 255, 255, 0.04)" } } }, a = { root: o, colorScheme: r };
 export {
-  d as default,
-  r as root
+  r as colorScheme,
+  a as default,
+  o as root
 };

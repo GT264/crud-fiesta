@@ -1,6 +1,5 @@
-var o = { borderRadius: "{form.field.border.radius}" }, r = { light: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } }, dark: { root: { invalidBorderColor: "{form.field.invalid.border.color}" } } }, d = { root: o, colorScheme: r };
+var o = { light: { root: { background: "rgba(0,0,0,0.1)" } }, dark: { root: { background: "rgba(255,255,255,0.3)" } } }, r = { colorScheme: o };
 export {
-  r as colorScheme,
-  d as default,
-  o as root
+  o as colorScheme,
+  r as default
 };

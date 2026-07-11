@@ -1,76 +1,88 @@
-import { defineComponent as C, ref as w, computed as r, openBlock as c, createElementBlock as f, createBlock as x, unref as i, createVNode as s, createCommentVNode as B } from "vue";
-import { usePage as j } from "@inertiajs/vue3";
+import { defineComponent as x, ref as B, computed as c, openBlock as u, createElementBlock as v, createBlock as N, unref as i, withCtx as a, createTextVNode as V, toDisplayString as z, createElementVNode as g, normalizeClass as j, createVNode as m, createCommentVNode as A } from "vue";
+import { usePage as D } from "@inertiajs/vue3";
 import b from "primevue/button";
-import z from "primevue/menu";
-import A from "primevue/confirmdialog";
-import { useConfirm as I } from "primevue/useconfirm";
-const M = { class: "flex gap-2 justify-center" }, N = {
+import E from "primevue/menu";
+import I from "primevue/confirmdialog";
+import { useConfirm as M } from "primevue/useconfirm";
+const S = { class: "flex gap-2 justify-center" }, T = {
   key: 1,
   class: "relative"
-}, S = /* @__PURE__ */ C({
+}, H = /* @__PURE__ */ x({
   __name: "CrudActions",
   props: {
     row: {},
     buttons: {}
   },
   emits: ["view", "edit", "delete"],
-  setup(t, { emit: v }) {
-    const n = t, u = v, g = j();
-    function l(e) {
+  setup(t, { emit: p }) {
+    const n = t, l = p, y = D();
+    function r(e) {
       var o;
-      return ((o = g.props.crudLang) == null ? void 0 : o[e]) ?? e;
+      return ((o = y.props.crudLang) == null ? void 0 : o[e]) ?? e;
     }
-    const p = I(), a = w(), m = r(() => n.row.id ?? Object.values(n.row)[0]), y = r(() => n.buttons.some((e) => e.action === "delete") ? "danger" : "secondary"), h = r(
+    const w = M(), d = B(), s = c(() => n.row.id ?? Object.values(n.row)[0]), C = c(() => n.buttons.some((e) => e.action === "delete") ? "danger" : "secondary"), h = c(
       () => n.buttons.map((e) => ({
         label: e.label,
         icon: e.icon,
-        command: () => d(e.action)
+        command: () => f(e.action)
       }))
     );
     function k(e) {
-      a.value.toggle(e);
+      d.value.toggle(e);
     }
-    const d = (e) => {
-      e === "delete" ? p.require({
-        message: l("crud.delete_confirm.message"),
-        header: l("crud.delete_confirm.header"),
+    const f = (e) => {
+      e === "delete" ? w.require({
+        message: r("crud.delete_confirm.message"),
+        header: r("crud.delete_confirm.header"),
         icon: "pi pi-exclamation-triangle",
         accept: () => {
-          u("delete", m.value);
+          l("delete", s.value);
         }
-      }) : u(e, m.value);
+      }) : e === "view" ? l("view", s.value) : e === "edit" && l("edit", s.value);
     };
-    return (e, o) => (c(), f("div", M, [
-      t.buttons.length === 1 ? (c(), x(i(b), {
+    return (e, o) => (u(), v("div", S, [
+      t.buttons.length === 1 ? (u(), N(i(b), {
         key: 0,
-        icon: t.buttons[0].icon,
-        label: t.buttons[0].label,
         severity: t.buttons[0].severity,
         size: "small",
         outlined: "",
         title: t.buttons[0].label,
-        onClick: o[0] || (o[0] = (V) => d(t.buttons[0].action))
-      }, null, 8, ["icon", "label", "severity", "title"])) : t.buttons.length > 1 ? (c(), f("div", N, [
-        s(i(b), {
-          label: l("crud.button.actions"),
-          icon: "pi pi-chevron-down",
+        onClick: o[0] || (o[0] = (q) => f(t.buttons[0].action))
+      }, {
+        icon: a(() => [
+          g("i", {
+            class: j(t.buttons[0].icon)
+          }, null, 2)
+        ]),
+        default: a(() => [
+          V(" " + z(t.buttons[0].label), 1)
+        ]),
+        _: 1
+      }, 8, ["severity", "title"])) : t.buttons.length > 1 ? (u(), v("div", T, [
+        m(i(b), {
+          label: r("crud.button.actions"),
           "icon-pos": "right",
-          severity: y.value,
+          severity: C.value,
           size: "small",
           outlined: "",
           onClick: k
-        }, null, 8, ["label", "severity"]),
-        s(i(z), {
+        }, {
+          icon: a(() => [...o[1] || (o[1] = [
+            g("i", { class: "pi pi-chevron-down" }, null, -1)
+          ])]),
+          _: 1
+        }, 8, ["label", "severity"]),
+        m(i(E), {
           ref_key: "menu",
-          ref: a,
+          ref: d,
           model: h.value,
           popup: !0
         }, null, 8, ["model"])
-      ])) : B("", !0),
-      s(i(A))
+      ])) : A("", !0),
+      m(i(I))
     ]));
   }
 });
 export {
-  S as default
+  H as default
 };
