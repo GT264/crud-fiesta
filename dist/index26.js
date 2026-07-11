@@ -1,9 +1,8 @@
-var o = { borderRadius: "16px", paddingX: "0.75rem", paddingY: "0.5rem", gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { width: "2rem", height: "2rem" }, e = { size: "1rem" }, c = { size: "1rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{form.field.focus.ring.shadow}" } }, s = { light: { root: { background: "{surface.100}", color: "{surface.800}" }, icon: { color: "{surface.800}" }, removeIcon: { color: "{surface.800}" } }, dark: { root: { background: "{surface.800}", color: "{surface.0}" }, icon: { color: "{surface.0}" }, removeIcon: { color: "{surface.0}" } } }, a = { root: o, image: r, icon: e, removeIcon: c, colorScheme: s };
+var o = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", color: "{overlay.popover.color}", borderRadius: "{overlay.popover.border.radius}", shadow: "{overlay.popover.shadow}", gutter: "10px", arrowOffset: "1.25rem" }, r = { padding: "{overlay.popover.padding}", gap: "1rem" }, e = { size: "1.5rem", color: "{overlay.popover.color}" }, a = { gap: "0.5rem", padding: "0 {overlay.popover.padding} {overlay.popover.padding} {overlay.popover.padding}" }, p = { root: o, content: r, icon: e, footer: a };
 export {
-  s as colorScheme,
-  a as default,
+  r as content,
+  p as default,
+  a as footer,
   e as icon,
-  r as image,
-  c as removeIcon,
   o as root
 };

@@ -1,8 +1,10 @@
-var o = { gutter: "0.75rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", borderColor: "{content.border.color}", color: "{content.color}", selectedColor: "{highlight.color}", hoverColor: "{content.hover.color}", padding: "0.75rem 1rem", toggleablePadding: "0.75rem 1rem 1.25rem 1rem", borderRadius: "{content.border.radius}" }, e = { background: "{content.background}", hoverBackground: "{content.hover.background}", borderColor: "{content.border.color}", color: "{text.muted.color}", hoverColor: "{text.color}", size: "1.5rem", borderRadius: "50%", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{content.border.color}", borderRadius: "{content.border.radius}", height: "24px" }, n = { root: o, node: r, nodeToggleButton: e, connector: t };
+var r = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, o = { background: "transparent", color: "{text.color}", padding: "1.125rem", borderColor: "{content.border.color}", borderWidth: "0", borderRadius: "0" }, e = { padding: "0.375rem 1.125rem" }, t = { fontWeight: "600" }, d = { padding: "0 1.125rem 1.125rem 1.125rem" }, a = { padding: "0 1.125rem 1.125rem 1.125rem" }, n = { root: r, header: o, toggleableHeader: e, title: t, content: d, footer: a };
 export {
-  t as connector,
+  d as content,
   n as default,
-  r as node,
-  e as nodeToggleButton,
-  o as root
+  a as footer,
+  o as header,
+  r as root,
+  t as title,
+  e as toggleableHeader
 };

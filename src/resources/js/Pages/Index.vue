@@ -205,8 +205,8 @@ function onFormClose() {
 
 // ── View / Delete ──────────────────────────────────────────────────────
 
-function onView(id: any) {
-  router.get(`/${props.route_prefix}/${id}`)
+function onView(_id: any) {
+  // Show is ignored for now
 }
 
 function onDelete(id: any) {

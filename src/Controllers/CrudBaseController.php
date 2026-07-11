@@ -29,7 +29,6 @@ abstract class CrudBaseController extends Controller
         protected CrudBaseRepository $crud_base_repository
     )
     {
-        $this->authorizeResource($this->model::class, $this->model->getKeyName());
         $this->setLang();
         $this->setRoutePrefix();
     }
@@ -58,6 +57,8 @@ abstract class CrudBaseController extends Controller
 
     public function index(Request $request) : InertiaResponse
     {
+        $this->authorize('viewAny', $this->model::class);
+
         $sortField = $request->query('sort_field');
         $sortOrder = $request->query('sort_order');
 
@@ -84,6 +85,8 @@ abstract class CrudBaseController extends Controller
 
     public function create() : JsonResponse
     {
+        $this->authorize('create', $this->model::class);
+
         $form_details = $this->crud_data_table->getCreationFormDetails();
 
         return response()->json($form_details);
@@ -93,6 +96,8 @@ abstract class CrudBaseController extends Controller
         Request $request
     ) : RedirectResponse
     {
+        $this->authorize('create', $this->model::class);
+
         try {
             $this->crud_base_repository->create($request->all());
             return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_create', ['model_name' => $this->model_name_singular]));
@@ -106,6 +111,7 @@ abstract class CrudBaseController extends Controller
     ) : InertiaResponse
     {
         $item = $this->crud_base_repository->findOrFail($id);
+        $this->authorize('view', $item);
         return Inertia::render('Crud/Show', [
             'item' => $item,
             'action' => 'show'
@@ -117,6 +123,7 @@ abstract class CrudBaseController extends Controller
     ) : JsonResponse
     {
         $item = $this->crud_base_repository->findOrFail($id);
+        $this->authorize('update', $item);
         return response()->json([
             'item' => $item,
             'action' => 'edit',
@@ -129,6 +136,9 @@ abstract class CrudBaseController extends Controller
         string|int $id
     ) : RedirectResponse
     {
+        $item = $this->crud_base_repository->findOrFail($id);
+        $this->authorize('update', $item);
+
         try {
             $this->crud_base_repository->update($id, $request->all());
             return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_update', ['model_name' => $this->model_name_singular]));
@@ -141,6 +151,9 @@ abstract class CrudBaseController extends Controller
         string|int $id
     ) : RedirectResponse
     {
+        $item = $this->crud_base_repository->findOrFail($id);
+        $this->authorize('delete', $item);
+
         try {
             if ($this->crud_base_repository->delete($id)) {
                 return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_delete', ['model_name' => $this->model_name_singular]));

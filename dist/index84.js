@@ -1,7 +1,9 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { size: "24px", background: "transparent", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, n = { root: o, gutter: r, handle: t };
+var o = { transitionDuration: "{transition.duration}" }, r = { borderWidth: "0 0 1px 0", background: "{content.background}", borderColor: "{content.border.color}" }, t = { background: "transparent", hoverBackground: "transparent", activeBackground: "transparent", borderWidth: "0 0 1px 0", borderColor: "{content.border.color}", hoverBorderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}", padding: "1rem 1.125rem", fontWeight: "600", margin: "0 0 -1px 0", gap: "0.5rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, e = { color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, a = { height: "1px", bottom: "-1px", background: "{primary.color}" }, c = { root: o, tablist: r, item: t, itemIcon: e, activeBar: a };
 export {
-  n as default,
-  r as gutter,
-  t as handle,
-  o as root
+  a as activeBar,
+  c as default,
+  t as item,
+  e as itemIcon,
+  o as root,
+  r as tablist
 };

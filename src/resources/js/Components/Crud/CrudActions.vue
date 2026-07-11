@@ -36,7 +36,7 @@
       />
     </div>
 
-    <ConfirmDialog />
+    <ConfirmDialog appendTo="body" />
   </div>
 </template>
 

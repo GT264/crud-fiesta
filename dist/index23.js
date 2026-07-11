@@ -1,9 +1,9 @@
-var r = { transitionDuration: "{transition.duration}" }, o = { gap: "0.25rem" }, a = { padding: "1rem", gap: "0.5rem" }, i = { width: "2rem", height: "0.5rem", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, c = { light: { indicator: { background: "{surface.200}", hoverBackground: "{surface.300}", activeBackground: "{primary.color}" } }, dark: { indicator: { background: "{surface.700}", hoverBackground: "{surface.600}", activeBackground: "{primary.color}" } } }, t = { root: r, content: o, indicatorList: a, indicator: i, colorScheme: c };
+var o = { borderRadius: "16px", paddingX: "0.75rem", paddingY: "0.5rem", gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { width: "2rem", height: "2rem" }, e = { size: "1rem" }, c = { size: "1rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{form.field.focus.ring.shadow}" } }, s = { light: { root: { background: "{surface.100}", color: "{surface.800}" }, icon: { color: "{surface.800}" }, removeIcon: { color: "{surface.800}" } }, dark: { root: { background: "{surface.800}", color: "{surface.0}" }, icon: { color: "{surface.0}" }, removeIcon: { color: "{surface.0}" } } }, a = { root: o, image: r, icon: e, removeIcon: c, colorScheme: s };
 export {
-  c as colorScheme,
-  o as content,
-  t as default,
-  i as indicator,
-  a as indicatorList,
-  r as root
+  s as colorScheme,
+  a as default,
+  e as icon,
+  r as image,
+  c as removeIcon,
+  o as root
 };
