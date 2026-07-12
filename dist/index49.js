@@ -1,7 +1,6 @@
-var r = { transitionDuration: "{transition.duration}" }, o = { width: "2.5rem", borderRadius: "{form.field.border.radius}", verticalPadding: "{form.field.padding.y}" }, e = { light: { button: { background: "transparent", hoverBackground: "{surface.100}", activeBackground: "{surface.200}", borderColor: "{form.field.border.color}", hoverBorderColor: "{form.field.border.color}", activeBorderColor: "{form.field.border.color}", color: "{surface.400}", hoverColor: "{surface.500}", activeColor: "{surface.600}" } }, dark: { button: { background: "transparent", hoverBackground: "{surface.800}", activeBackground: "{surface.700}", borderColor: "{form.field.border.color}", hoverBorderColor: "{form.field.border.color}", activeBorderColor: "{form.field.border.color}", color: "{surface.400}", hoverColor: "{surface.300}", activeColor: "{surface.200}" } } }, a = { root: r, button: o, colorScheme: e };
+var t = { gap: "0.5rem" }, r = { width: "2.5rem", sm: { width: "2rem" }, lg: { width: "3rem" } }, e = { root: t, input: r };
 export {
-  o as button,
-  e as colorScheme,
-  a as default,
-  r as root
+  e as default,
+  r as input,
+  t as root
 };

@@ -7,6 +7,7 @@ return [
         'edit'    => 'Edit',
         'delete'  => 'Delete',
         'create'  => 'Create',
+        'cancel'  => 'Cancel',
     ],
     'form' => [
         'insert' => 'Insert :field',

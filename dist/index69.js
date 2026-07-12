@@ -1,7 +1,5 @@
-var r = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: "1.25rem" }, o = { background: "{primary.color}" }, a = { color: "{primary.contrast.color}", fontSize: "0.75rem", fontWeight: "600" }, e = { root: r, value: o, label: a };
+var o = { light: { root: { colorOne: "{red.500}", colorTwo: "{blue.500}", colorThree: "{green.500}", colorFour: "{yellow.500}" } }, dark: { root: { colorOne: "{red.400}", colorTwo: "{blue.400}", colorThree: "{green.400}", colorFour: "{yellow.400}" } } }, r = { colorScheme: o };
 export {
-  e as default,
-  a as label,
-  r as root,
-  o as value
+  o as colorScheme,
+  r as default
 };

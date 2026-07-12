@@ -1,10 +1,9 @@
-var r = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, o = { background: "transparent", color: "{text.color}", padding: "1.125rem", borderColor: "{content.border.color}", borderWidth: "0", borderRadius: "0" }, e = { padding: "0.375rem 1.125rem" }, t = { fontWeight: "600" }, d = { padding: "0 1.125rem 1.125rem 1.125rem" }, a = { padding: "0 1.125rem 1.125rem 1.125rem" }, n = { root: r, header: o, toggleableHeader: e, title: t, content: d, footer: a };
+var o = { gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}", borderWidth: "1px", color: "{content.color}", padding: "0.25rem 0.25rem", borderRadius: "{content.border.radius}", first: { borderWidth: "1px", topBorderRadius: "{content.border.radius}" }, last: { borderWidth: "1px", bottomBorderRadius: "{content.border.radius}" } }, n = { focusBackground: "{navigation.item.focus.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", gap: "0.5rem", padding: "{navigation.item.padding}", borderRadius: "{content.border.radius}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}" } }, i = { indent: "1rem" }, t = { color: "{navigation.submenu.icon.color}", focusColor: "{navigation.submenu.icon.focus.color}" }, a = { root: o, panel: r, item: n, submenu: i, submenuIcon: t };
 export {
-  d as content,
-  n as default,
-  a as footer,
-  o as header,
-  r as root,
-  t as title,
-  e as toggleableHeader
+  a as default,
+  n as item,
+  r as panel,
+  o as root,
+  i as submenu,
+  t as submenuIcon
 };

@@ -1,10 +1,28 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", shadow: "{overlay.navigation.shadow}", transitionDuration: "{transition.duration}" }, i = { padding: "{navigation.list.padding}", gap: "{navigation.list.gap}" }, a = { focusBackground: "{navigation.item.focus.background}", activeBackground: "{navigation.item.active.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", activeColor: "{navigation.item.active.color}", padding: "{navigation.item.padding}", borderRadius: "{navigation.item.border.radius}", gap: "{navigation.item.gap}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}", activeColor: "{navigation.item.icon.active.color}" } }, n = { mobileIndent: "1rem" }, t = { size: "{navigation.submenu.icon.size}", color: "{navigation.submenu.icon.color}", focusColor: "{navigation.submenu.icon.focus.color}", activeColor: "{navigation.submenu.icon.active.color}" }, r = { borderColor: "{content.border.color}" }, c = { root: o, list: i, item: a, submenu: n, submenuIcon: t, separator: r };
+var t = `
+    li.p-autocomplete-option,
+    div.p-cascadeselect-option-content,
+    li.p-listbox-option,
+    li.p-multiselect-option,
+    li.p-select-option,
+    li.p-listbox-option,
+    div.p-tree-node-content,
+    li.p-datatable-filter-constraint,
+    .p-datatable .p-datatable-tbody > tr,
+    .p-treetable .p-treetable-tbody > tr,
+    div.p-menu-item-content,
+    div.p-tieredmenu-item-content,
+    div.p-contextmenu-item-content,
+    div.p-menubar-item-content,
+    div.p-megamenu-item-content,
+    div.p-panelmenu-header-content,
+    div.p-panelmenu-item-content,
+    th.p-datatable-header-cell,
+    th.p-treetable-header-cell,
+    thead.p-datatable-thead > tr > th,
+    .p-treetable thead.p-treetable-thead>tr>th {
+        transition: none;
+    }
+`;
 export {
-  c as default,
-  a as item,
-  i as list,
-  o as root,
-  r as separator,
-  n as submenu,
-  t as submenuIcon
+  t as default
 };

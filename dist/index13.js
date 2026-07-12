@@ -1,9 +1,10 @@
-var r = { width: "2rem", height: "2rem", fontSize: "1rem", background: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, e = { size: "1rem" }, o = { borderColor: "{content.background}", offset: "-0.75rem" }, t = { width: "3rem", height: "3rem", fontSize: "1.5rem", icon: { size: "1.5rem" }, group: { offset: "-1rem" } }, i = { width: "4rem", height: "4rem", fontSize: "2rem", icon: { size: "2rem" }, group: { offset: "-1.5rem" } }, n = { root: r, icon: e, group: o, lg: t, xl: i };
+var r = { borderRadius: "{border.radius.md}", padding: "0 0.5rem", fontSize: "0.75rem", fontWeight: "700", minWidth: "1.5rem", height: "1.5rem" }, o = { size: "0.5rem" }, e = { fontSize: "0.625rem", minWidth: "1.25rem", height: "1.25rem" }, a = { fontSize: "0.875rem", minWidth: "1.75rem", height: "1.75rem" }, c = { fontSize: "1rem", minWidth: "2rem", height: "2rem" }, n = { light: { primary: { background: "{primary.color}", color: "{primary.contrast.color}" }, secondary: { background: "{surface.100}", color: "{surface.600}" }, success: { background: "{green.500}", color: "{surface.0}" }, info: { background: "{sky.500}", color: "{surface.0}" }, warn: { background: "{orange.500}", color: "{surface.0}" }, danger: { background: "{red.500}", color: "{surface.0}" }, contrast: { background: "{surface.950}", color: "{surface.0}" } }, dark: { primary: { background: "{primary.color}", color: "{primary.contrast.color}" }, secondary: { background: "{surface.800}", color: "{surface.300}" }, success: { background: "{green.400}", color: "{green.950}" }, info: { background: "{sky.400}", color: "{sky.950}" }, warn: { background: "{orange.400}", color: "{orange.950}" }, danger: { background: "{red.400}", color: "{red.950}" }, contrast: { background: "{surface.0}", color: "{surface.950}" } } }, s = { root: r, dot: o, sm: e, lg: a, xl: c, colorScheme: n };
 export {
-  n as default,
-  o as group,
-  e as icon,
-  t as lg,
+  n as colorScheme,
+  s as default,
+  o as dot,
+  a as lg,
   r as root,
-  i as xl
+  e as sm,
+  c as xl
 };

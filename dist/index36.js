@@ -1,9 +1,8 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}" }, r = { color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, e = { background: "{overlay.select.background}", borderColor: "{overlay.select.border.color}", borderRadius: "{overlay.select.border.radius}", color: "{overlay.select.color}", shadow: "{overlay.select.shadow}", padding: "{list.padding}" }, t = { focusBackground: "{list.option.focus.background}", color: "{list.option.color}", focusColor: "{list.option.focus.color}", padding: "{list.option.padding}", borderRadius: "{list.option.border.radius}" }, l = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}" }, a = { toolbar: o, toolbarItem: r, overlay: e, overlayOption: t, content: l };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", color: "{content.color}", padding: "0 1.125rem 1.125rem 1.125rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", hoverBackground: "{content.hover.background}", color: "{content.color}", hoverColor: "{content.hover.color}", borderRadius: "{content.border.radius}", borderWidth: "1px", borderColor: "transparent", padding: "0.5rem 0.75rem", gap: "0.5rem", fontWeight: "600", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}" }, n = { padding: "0" }, e = { root: o, legend: r, toggleIcon: t, content: n };
 export {
-  l as content,
-  a as default,
-  e as overlay,
-  t as overlayOption,
-  o as toolbar,
-  r as toolbarItem
+  n as content,
+  e as default,
+  r as legend,
+  o as root,
+  t as toggleIcon
 };

@@ -1,42 +1,35 @@
 <template>
   <div class="flex gap-2 justify-center">
-    <!-- Single action: show button directly -->
     <Button
-      v-if="buttons.length === 1"
-      :severity="buttons[0].severity"
+      v-for="btn in buttons"
+      :key="btn.action"
+      :severity="btn.action === 'delete' ? 'danger' : (btn.severity ?? 'secondary')"
       size="small"
       outlined
-      :title="buttons[0].label"
-      @click="handleAction(buttons[0].action)"
+      :title="btn.label"
+      @click="handleAction(btn.action)"
     >
       <template #icon>
-        <i :class="buttons[0].icon" />
+        <i :class="btn.icon" />
       </template>
-      {{ buttons[0].label }}
+      {{ btn.label }}
     </Button>
 
-    <!-- Multiple actions: dropdown menu -->
-    <div v-else-if="buttons.length > 1" class="relative">
-      <Button
-        :label="crudT('crud.button.actions')"
-        icon-pos="right"
-        :severity="actionsSeverity"
-        size="small"
-        outlined
-        @click="toggleMenu"
-      >
-        <template #icon>
-          <i class="pi pi-chevron-down" />
-        </template>
-      </Button>
-      <Menu
-        ref="menu"
-        :model="menuItems"
-        :popup="true"
-      />
-    </div>
-
-    <ConfirmDialog appendTo="body" />
+    <Dialog
+      v-model:visible="deleteDialogVisible"
+      :header="crudT('crud.delete_confirm.header')"
+      :modal="true"
+      :style="{ width: '25rem' }"
+    >
+      <div class="flex items-center gap-3">
+        <i class="pi pi-exclamation-triangle" style="font-size: 1.5rem; color: var(--p-yellow-500)" />
+        <span>{{ crudT('crud.delete_confirm.message') }}</span>
+      </div>
+      <template #footer>
+        <Button :label="crudT('crud.button.cancel')" severity="secondary" outlined @click="deleteDialogVisible = false" />
+        <Button :label="crudT('crud.button.delete')" severity="danger" @click="confirmDelete" />
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -44,9 +37,7 @@
 import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
-import Menu from 'primevue/menu'
-import ConfirmDialog from 'primevue/confirmdialog'
-import { useConfirm } from 'primevue/useconfirm'
+import Dialog from 'primevue/dialog'
 
 interface CrudButton {
   action: string
@@ -74,43 +65,21 @@ function crudT(key: string): string {
   return (page.props.crudLang as Record<string, string>)?.[key] ?? key
 }
 
-const confirm = useConfirm()
-const menu = ref()
-
 const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
-
-// Derive severity for the dropdown trigger from the most "important" action
-const actionsSeverity = computed(() => {
-  if (props.buttons.some((b) => b.action === 'delete')) return 'danger'
-  return 'secondary'
-})
-
-const menuItems = computed(() =>
-  props.buttons.map((btn) => ({
-    label: btn.label,
-    icon: btn.icon,
-    command: () => handleAction(btn.action),
-  })),
-)
-
-function toggleMenu(event: Event) {
-  menu.value.toggle(event)
-}
+const deleteDialogVisible = ref(false)
 
 const handleAction = (action: string) => {
   if (action === 'delete') {
-    confirm.require({
-      message: crudT('crud.delete_confirm.message'),
-      header: crudT('crud.delete_confirm.header'),
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        emit('delete', rowId.value)
-      },
-    })
+    deleteDialogVisible.value = true
   } else if (action === 'view') {
     emit('view', rowId.value)
   } else if (action === 'edit') {
     emit('edit', rowId.value)
   }
+}
+
+function confirmDelete() {
+  deleteDialogVisible.value = false
+  emit('delete', rowId.value)
 }
 </script>

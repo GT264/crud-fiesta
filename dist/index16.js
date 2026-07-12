@@ -1,5 +1,7 @@
-var r = { borderRadius: "{content.border.radius}" }, o = { root: r };
+var o = { padding: "1rem", background: "{content.background}", gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { color: "{text.muted.color}", hoverColor: "{text.color}", borderRadius: "{content.border.radius}", gap: "{navigation.item.gap}", icon: { color: "{navigation.item.icon.color}", hoverColor: "{navigation.item.icon.focus.color}" }, focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{navigation.item.icon.color}" }, i = { root: o, item: r, separator: t };
 export {
-  o as default,
-  r as root
+  i as default,
+  r as item,
+  o as root,
+  t as separator
 };

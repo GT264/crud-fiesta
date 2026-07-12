@@ -1,10 +1,9 @@
-var o = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", shadow: "{overlay.navigation.shadow}", transitionDuration: "{transition.duration}" }, i = { padding: "{navigation.list.padding}", gap: "{navigation.list.gap}" }, a = { focusBackground: "{navigation.item.focus.background}", activeBackground: "{navigation.item.active.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", activeColor: "{navigation.item.active.color}", padding: "{navigation.item.padding}", borderRadius: "{navigation.item.border.radius}", gap: "{navigation.item.gap}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}", activeColor: "{navigation.item.icon.active.color}" } }, n = { mobileIndent: "1rem" }, t = { size: "{navigation.submenu.icon.size}", color: "{navigation.submenu.icon.color}", focusColor: "{navigation.submenu.icon.focus.color}", activeColor: "{navigation.submenu.icon.active.color}" }, r = { borderColor: "{content.border.color}" }, c = { root: o, list: i, item: a, submenu: n, submenuIcon: t, separator: r };
+var e = { minHeight: "5rem" }, r = { eventContent: { padding: "1rem 0" } }, o = { eventContent: { padding: "0 1rem" } }, n = { size: "1.125rem", borderRadius: "50%", borderWidth: "2px", background: "{content.background}", borderColor: "{content.border.color}", content: { borderRadius: "50%", size: "0.375rem", background: "{primary.color}", insetShadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" } }, t = { color: "{content.border.color}", size: "2px" }, a = { event: e, horizontal: r, vertical: o, eventMarker: n, eventConnector: t };
 export {
-  c as default,
-  a as item,
-  i as list,
-  o as root,
-  r as separator,
-  n as submenu,
-  t as submenuIcon
+  a as default,
+  e as event,
+  t as eventConnector,
+  n as eventMarker,
+  r as horizontal,
+  o as vertical
 };

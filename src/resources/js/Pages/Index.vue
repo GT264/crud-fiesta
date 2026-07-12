@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
+import { route } from 'ziggy-js'
 import Button from 'primevue/button'
 import CrudDataTable from '../Components/Crud/CrudDataTable.vue'
 import CrudActions from '../Components/Crud/CrudActions.vue'
@@ -58,12 +59,10 @@ interface ColumnDetail {
 }
 
 interface BackendCrudButton {
+  action: string
   icon: string
   label: string
-  route: string
-  binding: string
-  placeholder: string
-  method: string
+  route_name: string
   event?: string
 }
 
@@ -119,12 +118,8 @@ const routeSegmentToAction: Record<string, string> = {
 }
 
 function mapButtonAction(btn: BackendCrudButton): string {
-  if (btn.event) {
-    return btn.event
-  }
-  const segments = btn.route.split('.')
-  const lastSegment = segments[segments.length - 1]
-  return routeSegmentToAction[lastSegment] || lastSegment
+  if (btn.event) return btn.event
+  return routeSegmentToAction[btn.action] || btn.action
 }
 
 const mappedButtons = computed<FrontendCrudButton[]>(() =>
@@ -137,10 +132,20 @@ const mappedButtons = computed<FrontendCrudButton[]>(() =>
 
 // ── Create / Edit ──────────────────────────────────────────────────────
 
+function buildRoute(name: string): string {
+  return route(name)
+}
+
+function buildRouteWithId(name: string, id: string | number): string {
+  return route(name, { id })
+}
+
 async function goToCreate() {
+  const btn = props.crud_buttons.find(b => b.action === 'create')
   formLoading.value = true
   try {
-    const res = await fetch(`/${props.route_prefix}/create`, {
+    const url = btn ? buildRoute(btn.route_name) : `/${props.route_prefix}/create`
+    const res = await fetch(url, {
       headers: { 'Accept': 'application/json' },
     })
     const fields = await res.json()
@@ -158,9 +163,11 @@ async function goToCreate() {
 }
 
 async function onEdit(id: any) {
+  const btn = props.crud_buttons.find(b => b.action === 'edit')
   formLoading.value = true
   try {
-    const res = await fetch(`/${props.route_prefix}/${id}/edit`, {
+    const url = btn ? buildRouteWithId(btn.route_name, id) : `/${props.route_prefix}/${id}/edit`
+    const res = await fetch(url, {
       headers: { 'Accept': 'application/json' },
     })
     const json = await res.json()

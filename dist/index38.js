@@ -1,11 +1,8 @@
-var r = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", transitionDuration: "{transition.duration}" }, o = { background: "transparent", color: "{text.color}", padding: "1.125rem", borderColor: "unset", borderWidth: "0", borderRadius: "0", gap: "0.5rem" }, e = { highlightBorderColor: "{primary.color}", padding: "0 1.125rem 1.125rem 1.125rem", gap: "1rem" }, a = { padding: "1rem", gap: "1rem", borderColor: "{content.border.color}", info: { gap: "0.5rem" } }, t = { gap: "0.5rem" }, n = { height: "0.25rem" }, d = { gap: "0.5rem" }, i = { root: r, header: o, content: e, file: a, fileList: t, progressbar: n, basic: d };
+var o = { color: "{form.field.float.label.color}", focusColor: "{form.field.float.label.focus.color}", activeColor: "{form.field.float.label.active.color}", invalidColor: "{form.field.float.label.invalid.color}", transitionDuration: "0.2s", positionX: "{form.field.padding.x}", positionY: "{form.field.padding.y}", fontWeight: "500", active: { fontSize: "0.75rem", fontWeight: "400" } }, i = { active: { top: "-1.25rem" } }, a = { input: { paddingTop: "1.5rem", paddingBottom: "{form.field.padding.y}" }, active: { top: "{form.field.padding.y}" } }, r = { borderRadius: "{border.radius.xs}", active: { background: "{form.field.background}", padding: "0 0.125rem" } }, d = { root: o, over: i, in: a, on: r };
 export {
-  d as basic,
-  e as content,
-  i as default,
-  a as file,
-  t as fileList,
-  o as header,
-  n as progressbar,
-  r as root
+  d as default,
+  a as inside,
+  r as on,
+  i as over,
+  o as root
 };

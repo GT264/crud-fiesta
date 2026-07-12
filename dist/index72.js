@@ -1,6 +1,5 @@
-var o = { gap: "0.25rem", transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { size: "1rem", color: "{text.muted.color}", hoverColor: "{primary.color}", activeColor: "{primary.color}" }, i = { root: o, icon: r };
+var o = { light: { root: { background: "rgba(0,0,0,0.1)" } }, dark: { root: { background: "rgba(255,255,255,0.3)" } } }, r = { colorScheme: o };
 export {
-  i as default,
-  r as icon,
-  o as root
+  o as colorScheme,
+  r as default
 };

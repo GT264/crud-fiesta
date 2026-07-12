@@ -27,7 +27,7 @@ enum Permission: string
         Resource $resource
     ) : bool
     {
-        return $user->hasDirectPermission("$resource->value-$this->value");
+        return $user->hasPermissionTo("$resource->value-$this->value");
     }
 
 }

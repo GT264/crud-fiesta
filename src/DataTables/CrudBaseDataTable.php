@@ -102,28 +102,17 @@ abstract class CrudBaseDataTable
         return $this->setFormDetails($this->creationFormDetails());
     }
 
-    protected function buildRowActionRoute(string $action): string
-    {
-        return route(
-            "{$this->route_prefix}.{$action}",
-            [$this->model_name_singular => '__CRUD_ID__']
-        );
-    }
-
     protected function makeCrudButton(
         string $icon,
         string $label,
         string $action,
-        string $method,
         ?string $event = null,
     ): array {
         $button = [
+            'action' => $action,
             'icon' => $icon,
             'label' => $label,
-            'route' => $this->buildRowActionRoute($action),
-            'binding' => $this->model->getKeyName(),
-            'placeholder' => '__CRUD_ID__',
-            'method' => $method,
+            'route_name' => "{$this->route_prefix}.{$action}",
         ];
 
         if ($event !== null) {
@@ -144,7 +133,6 @@ abstract class CrudBaseDataTable
                 'pi pi-eye',
                 __('crud-fiesta::crud.button.view'),
                 'show',
-                'get',
             );
         }
 
@@ -155,7 +143,6 @@ abstract class CrudBaseDataTable
                 'pi pi-pencil',
                 __('crud-fiesta::crud.button.edit'),
                 'edit',
-                'get',
                 'edit',
             );
         }
@@ -167,7 +154,6 @@ abstract class CrudBaseDataTable
                 'pi pi-trash',
                 __('crud-fiesta::crud.button.delete'),
                 'destroy',
-                'delete',
             );
         }
 

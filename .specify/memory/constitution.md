@@ -31,6 +31,7 @@ The Options API MUST NOT be used anywhere in the package.
   `data()`, `methods`, or `computed` options objects.
 - TypeScript types MUST be explicitly declared for all props, emits, and composable return values.
 - Composables (`use*`) MUST be the mechanism for sharing stateful logic across components.
+- Use Ziggy route() to manage routes in Vue components, to use the Laravel route naming conventions
 
 **Rationale**: Uniformity across the package simplifies maintenance, improves type safety via
 TypeScript integration, and aligns with Vue 3 ecosystem standards. The Options API is legacy

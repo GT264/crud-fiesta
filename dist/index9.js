@@ -1,88 +1,79 @@
-import { defineComponent as x, ref as B, computed as c, openBlock as u, createElementBlock as v, createBlock as N, unref as i, withCtx as a, createTextVNode as V, toDisplayString as z, createElementVNode as p, normalizeClass as T, createVNode as m, createCommentVNode as j } from "vue";
-import { usePage as A } from "@inertiajs/vue3";
-import b from "primevue/button";
-import D from "primevue/menu";
-import E from "primevue/confirmdialog";
-import { useConfirm as I } from "primevue/useconfirm";
-const M = { class: "flex gap-2 justify-center" }, S = {
-  key: 1,
-  class: "relative"
-}, H = /* @__PURE__ */ x({
+import { defineComponent as k, computed as x, ref as _, openBlock as u, createElementBlock as p, Fragment as B, renderList as D, createBlock as V, unref as r, withCtx as n, createTextVNode as h, toDisplayString as g, createElementVNode as s, normalizeClass as z, createVNode as c } from "vue";
+import { usePage as N } from "@inertiajs/vue3";
+import m from "primevue/button";
+import j from "primevue/dialog";
+const A = { class: "flex gap-2 justify-center" }, E = { class: "flex items-center gap-3" }, O = /* @__PURE__ */ k({
   __name: "CrudActions",
   props: {
     row: {},
     buttons: {}
   },
   emits: ["view", "edit", "delete"],
-  setup(t, { emit: g }) {
-    const n = t, l = g, y = A();
-    function r(e) {
-      var o;
-      return ((o = y.props.crudLang) == null ? void 0 : o[e]) ?? e;
+  setup(f, { emit: y }) {
+    const v = f, a = y, w = N();
+    function o(l) {
+      var t;
+      return ((t = w.props.crudLang) == null ? void 0 : t[l]) ?? l;
     }
-    const w = I(), d = B(), s = c(() => n.row.id ?? Object.values(n.row)[0]), C = c(() => n.buttons.some((e) => e.action === "delete") ? "danger" : "secondary"), h = c(
-      () => n.buttons.map((e) => ({
-        label: e.label,
-        icon: e.icon,
-        command: () => f(e.action)
-      }))
-    );
-    function k(e) {
-      d.value.toggle(e);
-    }
-    const f = (e) => {
-      e === "delete" ? w.require({
-        message: r("crud.delete_confirm.message"),
-        header: r("crud.delete_confirm.header"),
-        icon: "pi pi-exclamation-triangle",
-        accept: () => {
-          l("delete", s.value);
-        }
-      }) : e === "view" ? l("view", s.value) : e === "edit" && l("edit", s.value);
+    const d = x(() => v.row.id ?? Object.values(v.row)[0]), i = _(!1), b = (l) => {
+      l === "delete" ? i.value = !0 : l === "view" ? a("view", d.value) : l === "edit" && a("edit", d.value);
     };
-    return (e, o) => (u(), v("div", M, [
-      t.buttons.length === 1 ? (u(), N(i(b), {
-        key: 0,
-        severity: t.buttons[0].severity,
+    function C() {
+      i.value = !1, a("delete", d.value);
+    }
+    return (l, t) => (u(), p("div", A, [
+      (u(!0), p(B, null, D(f.buttons, (e) => (u(), V(r(m), {
+        key: e.action,
+        severity: e.action === "delete" ? "danger" : e.severity ?? "secondary",
         size: "small",
         outlined: "",
-        title: t.buttons[0].label,
-        onClick: o[0] || (o[0] = (q) => f(t.buttons[0].action))
+        title: e.label,
+        onClick: (L) => b(e.action)
       }, {
-        icon: a(() => [
-          p("i", {
-            class: T(t.buttons[0].icon)
+        icon: n(() => [
+          s("i", {
+            class: z(e.icon)
           }, null, 2)
         ]),
-        default: a(() => [
-          V(" " + z(t.buttons[0].label), 1)
+        default: n(() => [
+          h(" " + g(e.label), 1)
+        ]),
+        _: 2
+      }, 1032, ["severity", "title", "onClick"]))), 128)),
+      c(r(j), {
+        visible: i.value,
+        "onUpdate:visible": t[1] || (t[1] = (e) => i.value = e),
+        header: o("crud.delete_confirm.header"),
+        modal: !0,
+        style: { width: "25rem" }
+      }, {
+        footer: n(() => [
+          c(r(m), {
+            label: o("crud.button.cancel"),
+            severity: "secondary",
+            outlined: "",
+            onClick: t[0] || (t[0] = (e) => i.value = !1)
+          }, null, 8, ["label"]),
+          c(r(m), {
+            label: o("crud.button.delete"),
+            severity: "danger",
+            onClick: C
+          }, null, 8, ["label"])
+        ]),
+        default: n(() => [
+          s("div", E, [
+            t[2] || (t[2] = s("i", {
+              class: "pi pi-exclamation-triangle",
+              style: { "font-size": "1.5rem", color: "var(--p-yellow-500)" }
+            }, null, -1)),
+            s("span", null, g(o("crud.delete_confirm.message")), 1)
+          ])
         ]),
         _: 1
-      }, 8, ["severity", "title"])) : t.buttons.length > 1 ? (u(), v("div", S, [
-        m(i(b), {
-          label: r("crud.button.actions"),
-          "icon-pos": "right",
-          severity: C.value,
-          size: "small",
-          outlined: "",
-          onClick: k
-        }, {
-          icon: a(() => [...o[1] || (o[1] = [
-            p("i", { class: "pi pi-chevron-down" }, null, -1)
-          ])]),
-          _: 1
-        }, 8, ["label", "severity"]),
-        m(i(D), {
-          ref_key: "menu",
-          ref: d,
-          model: h.value,
-          popup: !0
-        }, null, 8, ["model"])
-      ])) : j("", !0),
-      m(i(E), { appendTo: "body" })
+      }, 8, ["visible", "header"])
     ]));
   }
 });
 export {
-  H as default
+  O as default
 };
