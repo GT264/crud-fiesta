@@ -1,9 +1,9 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { borderWidth: "0 0 1px 0", background: "{content.background}", borderColor: "{content.border.color}" }, t = { background: "transparent", hoverBackground: "transparent", activeBackground: "transparent", borderWidth: "0 0 1px 0", borderColor: "{content.border.color}", hoverBorderColor: "{content.border.color}", activeBorderColor: "{primary.color}", color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}", padding: "1rem 1.125rem", fontWeight: "600", margin: "0 0 -1px 0", gap: "0.5rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, e = { color: "{text.muted.color}", hoverColor: "{text.color}", activeColor: "{primary.color}" }, a = { height: "1px", bottom: "-1px", background: "{primary.color}" }, c = { root: o, tablist: r, item: t, itemIcon: e, activeBar: a };
+var o = { transitionDuration: "{transition.duration}" }, r = { background: "{content.border.color}" }, t = { borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" }, gap: "0.5rem" }, e = { color: "{text.muted.color}", activeColor: "{primary.color}", fontWeight: "500" }, a = { background: "{content.background}", activeBackground: "{content.background}", borderColor: "{content.border.color}", activeBorderColor: "{content.border.color}", color: "{text.muted.color}", activeColor: "{primary.color}", size: "2rem", fontSize: "1.143rem", fontWeight: "500", borderRadius: "50%", shadow: "0px 0.5px 0px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)" }, i = { root: o, separator: r, itemLink: t, itemLabel: e, itemNumber: a };
 export {
-  a as activeBar,
-  c as default,
-  t as item,
-  e as itemIcon,
+  i as default,
+  e as itemLabel,
+  t as itemLink,
+  a as itemNumber,
   o as root,
-  r as tablist
+  r as separator
 };

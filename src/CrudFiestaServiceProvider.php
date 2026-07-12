@@ -19,6 +19,7 @@ class CrudFiestaServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/lang', 'crud-fiesta');
 
         $this->shareCrudTranslations();
+        $this->shareFlashMessages();
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -37,6 +38,16 @@ class CrudFiestaServiceProvider extends ServiceProvider
             __DIR__ . '/../config/crud-fiesta.php',
             'crud-fiesta'
         );
+    }
+
+    protected function shareFlashMessages(): void
+    {
+        Inertia::share('flash', function () {
+            return [
+                'success' => session('success'),
+                'error'   => session('error'),
+            ];
+        });
     }
 
     /**

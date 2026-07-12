@@ -1,11 +1,8 @@
-var o = { background: "{form.field.background}", disabledBackground: "{form.field.disabled.background}", borderColor: "{form.field.border.color}", invalidBorderColor: "{form.field.invalid.border.color}", color: "{form.field.color}", disabledColor: "{form.field.disabled.color}", shadow: "{form.field.shadow}", borderRadius: "{form.field.border.radius}", transitionDuration: "{form.field.transition.duration}" }, r = { padding: "{list.padding}", gap: "{list.gap}", header: { padding: "{list.header.padding}" } }, d = { focusBackground: "{list.option.focus.background}", selectedBackground: "{list.option.selected.background}", selectedFocusBackground: "{list.option.selected.focus.background}", color: "{list.option.color}", focusColor: "{list.option.focus.color}", selectedColor: "{list.option.selected.color}", selectedFocusColor: "{list.option.selected.focus.color}", padding: "{list.option.padding}", borderRadius: "{list.option.border.radius}" }, i = { background: "{list.option.group.background}", color: "{list.option.group.color}", fontWeight: "{list.option.group.font.weight}", padding: "{list.option.group.padding}" }, t = { color: "{list.option.color}", gutterStart: "-0.375rem", gutterEnd: "0.375rem" }, e = { padding: "{list.option.padding}" }, l = { light: { option: { stripedBackground: "{surface.50}" } }, dark: { option: { stripedBackground: "{surface.900}" } } }, s = { root: o, list: r, option: d, optionGroup: i, checkmark: t, emptyMessage: e, colorScheme: l };
+var o = { transitionDuration: "{transition.duration}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, r = { background: "{primary.color}" }, t = { background: "{content.border.color}" }, a = { color: "{text.muted.color}" }, n = { root: o, value: r, range: t, text: a };
 export {
-  t as checkmark,
-  l as colorScheme,
-  s as default,
-  e as emptyMessage,
-  r as list,
-  d as option,
-  i as optionGroup,
-  o as root
+  n as default,
+  t as range,
+  o as root,
+  a as text,
+  r as value
 };

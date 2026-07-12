@@ -1,6 +1,5 @@
-var o = { color: "{form.field.float.label.color}", focusColor: "{form.field.float.label.focus.color}", invalidColor: "{form.field.float.label.invalid.color}", transitionDuration: "0.2s", positionX: "{form.field.padding.x}", top: "{form.field.padding.y}", fontSize: "0.75rem", fontWeight: "400" }, i = { paddingTop: "1.5rem", paddingBottom: "{form.field.padding.y}" }, l = { root: o, input: i };
+var o = { color: "{form.field.icon.color}" }, r = { icon: o };
 export {
-  l as default,
-  i as input,
-  o as root
+  r as default,
+  o as icon
 };

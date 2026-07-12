@@ -1,9 +1,6 @@
-var o = { background: "{overlay.modal.background}", borderColor: "{overlay.modal.border.color}", color: "{overlay.modal.color}", shadow: "{overlay.modal.shadow}" }, a = { padding: "{overlay.modal.padding}" }, d = { fontSize: "1.5rem", fontWeight: "600" }, r = { padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}" }, e = { padding: "{overlay.modal.padding}" }, l = { root: o, header: a, title: d, content: r, footer: e };
+var r = { background: "rgba(255, 255, 255, 0.1)", borderColor: "rgba(255, 255, 255, 0.2)", padding: "0.5rem", borderRadius: "{border.radius.xl}" }, o = { borderRadius: "{content.border.radius}", padding: "0.5rem", size: "3rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, d = { root: r, item: o };
 export {
-  r as content,
-  l as default,
-  e as footer,
-  a as header,
-  o as root,
-  d as title
+  d as default,
+  o as item,
+  r as root
 };

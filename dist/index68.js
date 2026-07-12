@@ -1,7 +1,6 @@
-var r = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: "1.25rem" }, o = { background: "{primary.color}" }, a = { color: "{primary.contrast.color}", fontSize: "0.75rem", fontWeight: "600" }, e = { root: r, value: o, label: a };
+var o = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", color: "{overlay.popover.color}", borderRadius: "{overlay.popover.border.radius}", shadow: "{overlay.popover.shadow}", gutter: "10px", arrowOffset: "1.25rem" }, r = { padding: "{overlay.popover.padding}" }, e = { root: o, content: r };
 export {
+  r as content,
   e as default,
-  a as label,
-  r as root,
-  o as value
+  o as root
 };

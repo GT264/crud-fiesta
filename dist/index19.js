@@ -1,9 +1,9 @@
-var r = { transitionDuration: "{transition.duration}" }, o = { gap: "0.25rem" }, a = { padding: "1rem", gap: "0.5rem" }, i = { width: "2rem", height: "0.5rem", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, c = { light: { indicator: { background: "{surface.200}", hoverBackground: "{surface.300}", activeBackground: "{primary.color}" } }, dark: { indicator: { background: "{surface.700}", hoverBackground: "{surface.600}", activeBackground: "{primary.color}" } } }, t = { root: r, content: o, indicatorList: a, indicator: i, colorScheme: c };
+var o = { background: "{content.background}", borderRadius: "{border.radius.xl}", color: "{content.color}", shadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)" }, t = { padding: "1.25rem", gap: "0.5rem" }, r = { gap: "0.5rem" }, a = { fontSize: "1.25rem", fontWeight: "500" }, e = { color: "{text.muted.color}" }, d = { root: o, body: t, caption: r, title: a, subtitle: e };
 export {
-  c as colorScheme,
-  o as content,
-  t as default,
-  i as indicator,
-  a as indicatorList,
-  r as root
+  t as body,
+  r as caption,
+  d as default,
+  o as root,
+  e as subtitle,
+  a as title
 };

@@ -1,6 +1,8 @@
-var r = { background: "rgba(255, 255, 255, 0.1)", borderColor: "rgba(255, 255, 255, 0.2)", padding: "0.5rem", borderRadius: "{border.radius.xl}" }, o = { borderRadius: "{content.border.radius}", padding: "0.5rem", size: "3rem", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, d = { root: r, item: o };
+var o = { borderColor: "{content.border.color}" }, r = { background: "{content.background}", color: "{text.color}" }, n = { margin: "1rem 0", padding: "0 1rem", content: { padding: "0 0.5rem" } }, t = { margin: "0 1rem", padding: "0.5rem 0", content: { padding: "0.5rem 0" } }, e = { root: o, content: r, horizontal: n, vertical: t };
 export {
-  d as default,
-  o as item,
-  r as root
+  r as content,
+  e as default,
+  n as horizontal,
+  o as root,
+  t as vertical
 };

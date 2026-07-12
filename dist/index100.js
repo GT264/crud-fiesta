@@ -1,4 +1,5 @@
-import f from "./index6.js";
+var o = { mask: { background: "{content.background}", color: "{text.muted.color}" }, icon: { size: "2rem" } }, e = { loader: o };
 export {
-  f as default
+  e as default,
+  o as loader
 };

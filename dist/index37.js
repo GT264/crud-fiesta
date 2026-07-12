@@ -1,11 +1,8 @@
-var r = { background: "{content.background}", borderColor: "{content.border.color}", color: "{content.color}", borderRadius: "{content.border.radius}", transitionDuration: "{transition.duration}" }, o = { background: "transparent", color: "{text.color}", padding: "1.125rem", borderColor: "unset", borderWidth: "0", borderRadius: "0", gap: "0.5rem" }, e = { highlightBorderColor: "{primary.color}", padding: "0 1.125rem 1.125rem 1.125rem", gap: "1rem" }, a = { padding: "1rem", gap: "1rem", borderColor: "{content.border.color}", info: { gap: "0.5rem" } }, t = { gap: "0.5rem" }, n = { height: "0.25rem" }, d = { gap: "0.5rem" }, i = { root: r, header: o, content: e, file: a, fileList: t, progressbar: n, basic: d };
+var o = { background: "{content.background}", borderColor: "{content.border.color}", borderRadius: "{content.border.radius}", color: "{content.color}", padding: "0 1.125rem 1.125rem 1.125rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", hoverBackground: "{content.hover.background}", color: "{content.color}", hoverColor: "{content.hover.color}", borderRadius: "{content.border.radius}", borderWidth: "1px", borderColor: "transparent", padding: "0.5rem 0.75rem", gap: "0.5rem", fontWeight: "600", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, t = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}" }, n = { padding: "0" }, e = { root: o, legend: r, toggleIcon: t, content: n };
 export {
-  d as basic,
-  e as content,
-  i as default,
-  a as file,
-  t as fileList,
-  o as header,
-  n as progressbar,
-  r as root
+  n as content,
+  e as default,
+  r as legend,
+  o as root,
+  t as toggleIcon
 };

@@ -1,5 +1,6 @@
 <template>
   <div class="crud-index-page">
+    <Toast />
     <div class="flex items-center justify-between mb-4">
       <h1 class="text-2xl font-bold">{{ title }}</h1>
       <Button
@@ -45,10 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { route } from 'ziggy-js'
 import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 import CrudDataTable from '../Components/Crud/CrudDataTable.vue'
 import CrudActions from '../Components/Crud/CrudActions.vue'
 import CrudForm from '../Components/Crud/CrudForm.vue'
@@ -97,7 +100,31 @@ const props = withDefaults(defineProps<Props>(), {
   title: 'CRUD Index',
 })
 
+const toast = useToast()
+
 const loading = ref(false)
+
+// ── Flash message → Toast ───────────────────────────────────────────────
+
+watch(
+  () => (page.props.flash as Record<string, any> | undefined)?.success as string | undefined,
+  (message) => {
+    if (message) {
+      toast.add({ severity: 'success', summary: 'Success', detail: message, life: 5000 })
+    }
+  },
+  { immediate: true },
+)
+
+watch(
+  () => (page.props.flash as Record<string, any> | undefined)?.error as string | undefined,
+  (message) => {
+    if (message) {
+      toast.add({ severity: 'error', summary: 'Error', detail: message, life: 5000 })
+    }
+  },
+  { immediate: true },
+)
 
 // ── CrudForm dialog state ──────────────────────────────────────────────
 

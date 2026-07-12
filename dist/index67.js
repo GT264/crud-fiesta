@@ -1,6 +1,6 @@
-var o = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", color: "{overlay.popover.color}", borderRadius: "{overlay.popover.border.radius}", shadow: "{overlay.popover.shadow}", gutter: "10px", arrowOffset: "1.25rem" }, r = { padding: "{overlay.popover.padding}" }, e = { root: o, content: r };
+var o = { gap: "1.125rem" }, r = { gap: "0.5rem" }, a = { root: o, controls: r };
 export {
-  r as content,
-  e as default,
+  r as controls,
+  a as default,
   o as root
 };

@@ -1,9 +1,9 @@
-var o = { background: "{content.border.color}", borderRadius: "{content.border.radius}", height: ".75rem" }, r = { color: "{form.field.icon.color}" }, e = { background: "{overlay.popover.background}", borderColor: "{overlay.popover.border.color}", borderRadius: "{overlay.popover.border.radius}", color: "{overlay.popover.color}", padding: "{overlay.popover.padding}", shadow: "{overlay.popover.shadow}" }, a = { gap: "0.5rem" }, d = { light: { strength: { weakBackground: "{red.500}", mediumBackground: "{amber.500}", strongBackground: "{green.500}" } }, dark: { strength: { weakBackground: "{red.400}", mediumBackground: "{amber.400}", strongBackground: "{green.400}" } } }, n = { meter: o, icon: r, overlay: e, content: a, colorScheme: d };
+var o = { gap: "0.5rem", transitionDuration: "{transition.duration}" }, r = { background: "{content.background}", borderColor: "{content.border.color}", borderWidth: "1px", color: "{content.color}", padding: "0.25rem 0.25rem", borderRadius: "{content.border.radius}", first: { borderWidth: "1px", topBorderRadius: "{content.border.radius}" }, last: { borderWidth: "1px", bottomBorderRadius: "{content.border.radius}" } }, n = { focusBackground: "{navigation.item.focus.background}", color: "{navigation.item.color}", focusColor: "{navigation.item.focus.color}", gap: "0.5rem", padding: "{navigation.item.padding}", borderRadius: "{content.border.radius}", icon: { color: "{navigation.item.icon.color}", focusColor: "{navigation.item.icon.focus.color}" } }, i = { indent: "1rem" }, t = { color: "{navigation.submenu.icon.color}", focusColor: "{navigation.submenu.icon.focus.color}" }, a = { root: o, panel: r, item: n, submenu: i, submenuIcon: t };
 export {
-  d as colorScheme,
-  a as content,
-  n as default,
-  r as icon,
-  o as meter,
-  e as overlay
+  a as default,
+  n as item,
+  r as panel,
+  o as root,
+  i as submenu,
+  t as submenuIcon
 };

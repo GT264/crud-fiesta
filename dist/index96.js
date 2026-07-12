@@ -1,15 +1,6 @@
-var o = { background: "{content.background}", color: "{content.color}", padding: "1rem", gap: "2px", indent: "1rem", transitionDuration: "{transition.duration}" }, r = { padding: "0.25rem 0.5rem", borderRadius: "{content.border.radius}", hoverBackground: "{content.hover.background}", selectedBackground: "{highlight.background}", color: "{text.color}", hoverColor: "{text.hover.color}", selectedColor: "{highlight.color}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "-1px", shadow: "{focus.ring.shadow}" }, gap: "0.25rem" }, e = { color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}", selectedColor: "{highlight.color}" }, t = { borderRadius: "50%", size: "1.75rem", hoverBackground: "{content.hover.background}", selectedHoverBackground: "{content.background}", color: "{text.muted.color}", hoverColor: "{text.hover.muted.color}", selectedHoverColor: "{primary.color}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, n = { size: "2rem" }, c = { margin: "0 0 0.5rem 0" }, d = `
-    .p-tree-mask.p-overlay-mask {
-        --px-mask-background: light-dark(rgba(255,255,255,0.5),rgba(0,0,0,0.3));
-    }
-`, s = { root: o, node: r, nodeIcon: e, nodeToggleButton: t, loadingIcon: n, filter: c, css: d };
+var r = { maxWidth: "12.5rem", gutter: "0.25rem", shadow: "{overlay.popover.shadow}", padding: "0.5rem 0.75rem", borderRadius: "{overlay.popover.border.radius}" }, o = { light: { root: { background: "{surface.700}", color: "{surface.0}" } }, dark: { root: { background: "{surface.700}", color: "{surface.0}" } } }, e = { root: r, colorScheme: o };
 export {
-  d as css,
-  s as default,
-  c as filter,
-  n as loadingIcon,
-  r as node,
-  e as nodeIcon,
-  t as nodeToggleButton,
-  o as root
+  o as colorScheme,
+  e as default,
+  r as root
 };
