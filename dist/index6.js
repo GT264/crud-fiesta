@@ -1,13 +1,13 @@
-import { defineComponent as P, ref as r, watch as y, computed as U, openBlock as q, createElementBlock as O, createVNode as d, unref as S, createElementVNode as x, toDisplayString as W, withCtx as z } from "vue";
-import { usePage as G, router as s } from "@inertiajs/vue3";
-import { route as F } from "ziggy-js";
-import H from "primevue/button";
-import J from "primevue/toast";
-import { useToast as K } from "primevue/usetoast";
-import M from "./index7.js";
-import Q from "./index9.js";
-import X from "./index8.js";
-const Y = { class: "crud-index-page" }, Z = { class: "flex items-center justify-between mb-4" }, ee = { class: "text-2xl font-bold" }, ce = /* @__PURE__ */ P({
+import { defineComponent as N, ref as r, computed as P, openBlock as U, createElementBlock as q, createVNode as d, unref as y, createElementVNode as S, toDisplayString as O, withCtx as W } from "vue";
+import { usePage as z, router as i } from "@inertiajs/vue3";
+import { route as x } from "ziggy-js";
+import G from "primevue/button";
+import H from "primevue/toast";
+import { useToast as J } from "primevue/usetoast";
+import K from "./index7.js";
+import M from "./index9.js";
+import Q from "./index8.js";
+const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-between mb-4" }, Z = { class: "text-2xl font-bold" }, se = /* @__PURE__ */ N({
   __name: "Index",
   props: {
     title: { default: "CRUD Index" },
@@ -16,102 +16,87 @@ const Y = { class: "crud-index-page" }, Z = { class: "flex items-center justify-
     route_prefix: {},
     crud_buttons: {}
   },
-  setup(i) {
-    const p = G();
-    function v(e) {
+  setup(s) {
+    const g = z();
+    function p(e) {
       var t;
-      return ((t = p.props.crudLang) == null ? void 0 : t[e]) ?? e;
+      return ((t = g.props.crudLang) == null ? void 0 : t[e]) ?? e;
     }
-    const o = i, h = K(), l = r(!1);
-    y(
-      () => {
-        var e;
-        return (e = p.props.flash) == null ? void 0 : e.success;
-      },
-      (e) => {
-        e && h.add({ severity: "success", summary: "Success", detail: e, life: 5e3 });
-      },
-      { immediate: !0 }
-    ), y(
-      () => {
-        var e;
-        return (e = p.props.flash) == null ? void 0 : e.error;
-      },
-      (e) => {
-        e && h.add({ severity: "error", summary: "Error", detail: e, life: 5e3 });
-      },
-      { immediate: !0 }
-    );
-    const u = r(!1), _ = r(""), g = r({}), f = r(null), m = r(!1), n = r(!1), c = r(null), $ = {
+    const o = s, b = J(), l = r(!1);
+    i.on("finish", () => {
+      const e = g.props.flash;
+      e != null && e.success && b.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 }), e != null && e.error && b.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 });
+    });
+    const u = r(!1), v = r(""), _ = r({}), f = r(null), m = r(!1), n = r(!1), c = r(null), F = {
       show: "view",
       edit: "edit",
       destroy: "delete"
     };
-    function C(e) {
-      return e.event ? e.event : $[e.action] || e.action;
+    function $(e) {
+      return e.event ? e.event : F[e.action] || e.action;
     }
-    const j = U(
+    const C = P(
       () => o.crud_buttons.map((e) => ({
-        action: C(e),
+        action: $(e),
         icon: e.icon,
         label: e.label
       }))
     );
-    function T(e) {
-      return F(e);
+    function j(e) {
+      return x(e);
     }
-    function B(e, t) {
-      return F(e, { id: t });
+    function T(e, t) {
+      return x(e, { id: t });
     }
-    async function E() {
+    async function B() {
       const e = o.crud_buttons.find((t) => t.action === "create");
       n.value = !0;
       try {
-        const t = e ? T(e.route_name) : `/${o.route_prefix}/create`, b = await (await fetch(t, {
+        const t = e ? j(e.route_name) : `/${o.route_prefix}/create`, h = await (await fetch(t, {
           headers: { Accept: "application/json" }
         })).json();
-        g.value = b, _.value = v("crud.button.create"), f.value = null, m.value = !1, c.value = null, u.value = !0;
+        _.value = h, v.value = p("crud.button.create"), f.value = null, m.value = !1, c.value = null, u.value = !0;
       } catch (t) {
         console.error("Failed to load create form:", t);
       } finally {
         n.value = !1;
       }
     }
-    async function I(e) {
+    async function E(e) {
       const t = o.crud_buttons.find((a) => a.action === "edit");
       n.value = !0;
       try {
-        const a = t ? B(t.route_name, e) : `/${o.route_prefix}/${e}/edit`, w = await (await fetch(a, {
+        const a = t ? T(t.route_name, e) : `/${o.route_prefix}/${e}/edit`, w = await (await fetch(a, {
           headers: { Accept: "application/json" }
         })).json();
-        g.value = w.form_details, _.value = v("crud.button.edit"), f.value = w.item, m.value = !0, c.value = e, u.value = !0;
+        _.value = w.form_details, v.value = p("crud.button.edit"), f.value = w.item, m.value = !0, c.value = e, u.value = !0;
       } catch (a) {
         console.error("Failed to load edit form:", a);
       } finally {
         n.value = !1;
       }
     }
-    function A(e) {
-      n.value = !0, m.value && c.value !== null ? s.put(`/${o.route_prefix}/${c.value}`, e, {
+    function I(e) {
+      n.value = !0, m.value && c.value !== null ? i.put(`/${o.route_prefix}/${c.value}`, e, {
         onFinish: () => {
           n.value = !1, u.value = !1;
         }
-      }) : s.post(`/${o.route_prefix}`, e, {
+      }) : i.post(`/${o.route_prefix}`, e, {
         onFinish: () => {
           n.value = !1, u.value = !1;
         }
       });
     }
-    function D() {
+    function A() {
       u.value = !1, f.value = null, c.value = null;
     }
+    function D(e) {
+    }
     function V(e) {
+      i.delete(`/${o.route_prefix}/${e}`);
     }
     function R(e) {
-      s.delete(`/${o.route_prefix}/${e}`);
-    }
-    function k(e) {
-      s.get(
+      i.get(
         window.location.pathname,
         { page: e.page + 1, per_page: e.rows },
         {
@@ -123,8 +108,8 @@ const Y = { class: "crud-index-page" }, Z = { class: "flex items-center justify-
         }
       );
     }
-    function L(e) {
-      s.get(
+    function k(e) {
+      i.get(
         window.location.pathname,
         {
           page: o.column_data.current_page,
@@ -141,8 +126,8 @@ const Y = { class: "crud-index-page" }, Z = { class: "flex items-center justify-
         }
       );
     }
-    function N(e) {
-      s.get(
+    function L(e) {
+      i.get(
         window.location.pathname,
         { search: e.query },
         {
@@ -155,51 +140,51 @@ const Y = { class: "crud-index-page" }, Z = { class: "flex items-center justify-
         }
       );
     }
-    return (e, t) => (q(), O("div", Y, [
-      d(S(J)),
-      x("div", Z, [
-        x("h1", ee, W(i.title), 1),
-        d(S(H), {
-          label: v("crud.button.create"),
+    return (e, t) => (U(), q("div", X, [
+      d(y(H)),
+      S("div", Y, [
+        S("h1", Z, O(s.title), 1),
+        d(y(G), {
+          label: p("crud.button.create"),
           icon: "pi pi-plus",
-          onClick: E
+          onClick: B
         }, null, 8, ["label"])
       ]),
-      d(M, {
-        items: i.column_data.data,
-        columns: i.columns_details,
-        "total-records": i.column_data.total,
-        "per-page": i.column_data.per_page,
+      d(K, {
+        items: s.column_data.data,
+        columns: s.columns_details,
+        "total-records": s.column_data.total,
+        "per-page": s.column_data.per_page,
         loading: l.value,
-        onPaginate: k,
-        onSort: L,
-        onSearch: N
+        onPaginate: R,
+        onSort: k,
+        onSearch: L
       }, {
-        actions: z(({ row: a }) => [
-          d(Q, {
+        actions: W(({ row: a }) => [
+          d(M, {
             row: a,
-            buttons: j.value,
-            onView: V,
-            onEdit: I,
-            onDelete: R
+            buttons: C.value,
+            onView: D,
+            onEdit: E,
+            onDelete: V
           }, null, 8, ["row", "buttons"])
         ]),
         _: 1
       }, 8, ["items", "columns", "total-records", "per-page", "loading"]),
-      d(X, {
+      d(Q, {
         visible: u.value,
-        title: _.value,
-        fields: g.value,
+        title: v.value,
+        fields: _.value,
         data: f.value,
         loading: n.value,
         "is-edit": m.value,
         "onUpdate:visible": t[0] || (t[0] = (a) => u.value = a),
-        onSubmit: A,
-        onClose: D
+        onSubmit: I,
+        onClose: A
       }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"])
     ]));
   }
 });
 export {
-  ce as default
+  se as default
 };

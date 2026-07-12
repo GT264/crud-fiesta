@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { route } from 'ziggy-js'
 import Button from 'primevue/button'
@@ -106,25 +106,15 @@ const loading = ref(false)
 
 // ── Flash message → Toast ───────────────────────────────────────────────
 
-watch(
-  () => (page.props.flash as Record<string, any> | undefined)?.success as string | undefined,
-  (message) => {
-    if (message) {
-      toast.add({ severity: 'success', summary: 'Success', detail: message, life: 5000 })
-    }
-  },
-  { immediate: true },
-)
-
-watch(
-  () => (page.props.flash as Record<string, any> | undefined)?.error as string | undefined,
-  (message) => {
-    if (message) {
-      toast.add({ severity: 'error', summary: 'Error', detail: message, life: 5000 })
-    }
-  },
-  { immediate: true },
-)
+router.on('finish', () => {
+  const flash = page.props.flash as Record<string, any> | undefined
+  if (flash?.success) {
+    toast.add({ severity: 'success', summary: 'Success', detail: flash.success, life: 5000 })
+  }
+  if (flash?.error) {
+    toast.add({ severity: 'error', summary: 'Error', detail: flash.error, life: 5000 })
+  }
+})
 
 // ── CrudForm dialog state ──────────────────────────────────────────────
 
