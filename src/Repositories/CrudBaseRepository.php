@@ -118,12 +118,25 @@ abstract class CrudBaseRepository
      * @param array $columns
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc'): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = []): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
 
         if ($sortField !== null) {
             $query->orderBy($sortField, $sortOrder);
+        }
+
+        foreach ($relations as $foreignKey => $relationConfig) {
+            $relationName = $relationConfig['relation'];
+            $displayField = $relationConfig['display_field'];
+
+            $query->with([
+                $relationName => function ($q) use ($foreignKey, $displayField) {
+                    // Carica solo la chiave primaria e il campo da mostrare
+                    $relatedModel = $q->getModel();
+                    $q->select([$relatedModel->getKeyName(), $displayField]);
+                }
+            ]);
         }
 
         return $query->paginate($perPage, $columns);

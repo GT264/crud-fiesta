@@ -41,4 +41,11 @@ class {{ model_name }}DataTable extends CrudBaseDataTable
             ...$common,
         ];
     }
+
+    protected function relationDisplayMap(): array
+    {
+        return [
+            // 'foreign_key' => ['relation' => 'relationName', 'display_field' => 'field_to_display'],
+        ];
+    }
 }

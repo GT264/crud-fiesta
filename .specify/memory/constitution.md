@@ -1,14 +1,14 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 1.0.0 → 1.0.1 (PATCH — clarification to Principle IV: add @inertiajs/vue3 to required externals)
-  Modified principles:
-    - IV. Compiled Assets in Version Control: Added explicit requirement that @inertiajs/vue3
-      MUST be declared as external in Vite rollupOptions alongside Vue, PrimeVue, and primeicons.
-  Added sections: n/a
+  Version change: 1.0.1 → 1.0.2 (MINOR — added mandatory SDD design artifacts to Development Workflow)
+  Modified principles: n/a
+  Added sections:
+    - Development Workflow: Added step 0 "Design" mandating spec.md, plan.md, and tasks.md
+      in specs/[###-feature]/ for every new feature iteration.
   Removed sections: n/a
   Templates requiring updates:
-    - .specify/templates/plan-template.md: ✅ updated — Constitution Check item IV now lists @inertiajs/vue3
+    - .specify/templates/plan-template.md: ✅ no changes needed
     - .specify/templates/spec-template.md: ✅ no changes needed
     - .specify/templates/tasks-template.md: ✅ no changes needed
     - .specify/templates/checklist-template.md: ✅ no changes needed
@@ -151,6 +151,14 @@ and modifications MUST respect:
 
 Contributions and modifications MUST follow this workflow:
 
+0. **Design** (per ogni nuova feature o modifica significativa):
+   - `/speckit-specify` genera `specs/[###-feature]/spec.md` con user stories e requisiti funzionali.
+   - `/speckit-plan` genera `specs/[###-feature]/plan.md` con il piano di implementazione.
+   - `/speckit-tasks` genera `specs/[###-feature]/tasks.md` con la task breakdown.
+   - Questi tre artefatti DEVONO essere creati e mantenuti aggiornati nella directory
+     `specs/[###-feature]/` per tutta la durata della feature. Fungono da documentazione
+     di design e tracciabilità delle decisioni.
+
 1. **Branch**: Create a feature branch from `main` following the naming convention
    `[###-feature-name]` where `###` is the sequential feature number.
 2. **Code Style**:
@@ -199,6 +207,9 @@ The constitution follows Semantic Versioning (MAJOR.MINOR.PATCH):
 
 ### Compliance Review
 
+- Ogni nuova feature o modifica significativa DEVE produrre gli artefatti di design
+  (`spec.md`, `plan.md`, `tasks.md`) nella directory `specs/[###-feature]/` prima
+  dell'inizio dell'implementazione.
 - Every feature implementation plan (generated via `/speckit-plan`) MUST pass the
   Constitution Check gate before proceeding to implementation.
 - Pull requests MUST include a brief compliance statement confirming adherence to
@@ -206,4 +217,4 @@ The constitution follows Semantic Versioning (MAJOR.MINOR.PATCH):
 - Complexity or deviations from principles MUST be explicitly justified in the
   implementation plan's Complexity Tracking table.
 
-**Version**: 1.0.1 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-11
+**Version**: 1.0.2 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-14

@@ -68,12 +68,15 @@ abstract class CrudBaseController extends Controller
             $sortDirection = (int) $sortOrder === -1 ? 'desc' : 'asc';
         }
 
+        $relations = $this->crud_data_table->getRelationDisplayMap();
+
         return Inertia::render($this->view_name, [
             'column_data' => $this->crud_base_repository->paginate(
                 $this->crud_data_table->per_page,
-                [...$this->crud_data_table::default_columns, $this->model->getKeyName()],
+                array_unique(array_merge($this->crud_data_table::default_columns, [$this->model->getKeyName()])),
                 $sortField,
                 $sortDirection,
+                $relations,
             ),
             'columns_details' => array_values($this->crud_data_table->details_columns),
             'route_prefix' => $this->route_prefix,

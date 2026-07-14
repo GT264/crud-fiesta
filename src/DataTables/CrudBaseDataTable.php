@@ -45,14 +45,22 @@ abstract class CrudBaseDataTable
 
     protected function initializeColumnsDetails() : void
     {
+        $relationMap = $this->relationDisplayMap();
+
         foreach (
             static::default_columns as
             $column
         ) {
-            $this->details_columns[$column] = [
+            $details = [
                 'field' => $column,
                 'header' => __("$this->lang.fields.$column"),
             ];
+
+            if (isset($relationMap[$column])) {
+                $details['relation'] = $relationMap[$column];
+            }
+
+            $this->details_columns[$column] = $details;
         }
     }
 
@@ -60,6 +68,17 @@ abstract class CrudBaseDataTable
     abstract protected function editFormDetails() : array;
 
     abstract protected function commonFormDetails() : array;
+
+    /**
+     * Mappa delle relazioni da visualizzare nelle colonne della tabella index.
+     * Formato: [
+     *   'nome_colonna' => ['relation' => 'nomeRelazione', 'display_field' => 'campoDaMostrare'],
+     * ]
+     * Esempio: ['post_id' => ['relation' => 'post', 'display_field' => 'title']]
+     *
+     * @return array
+     */
+    abstract protected function relationDisplayMap() : array;
 
     protected function setHeader($field) : void 
     {
@@ -163,6 +182,16 @@ abstract class CrudBaseDataTable
     public function getOptionalButtons() : array
     {
         return [];
+    }
+
+    /**
+     * Restituisce la mappa delle relazioni per l'uso nel Repository e frontend.
+     *
+     * @return array
+     */
+    public function getRelationDisplayMap() : array
+    {
+        return $this->relationDisplayMap();
     }
 
 }

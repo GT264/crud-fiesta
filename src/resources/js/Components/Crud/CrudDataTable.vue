@@ -41,7 +41,11 @@
       :field="col.field"
       :header="col.header"
       :sortable="true"
-    />
+    >
+      <template v-if="col.relation" #body="{ data: row }">
+        {{ resolveRelationValue(row, col) }}
+      </template>
+    </Column>
 
     <Column
       :header="crudT('crud.button.actions')"
@@ -65,6 +69,10 @@ import InputText from 'primevue/inputtext'
 interface TableColumn {
   field: string
   header: string
+  relation?: {
+    relation: string
+    display_field: string
+  }
 }
 
 interface Props {
@@ -106,6 +114,20 @@ const onSort = (event: any) => {
 
 const onFilter = (event: any) => {
   emit('filter', { globalFilter: event.globalFilter })
+}
+
+function resolveRelationValue(row: Record<string, any>, col: TableColumn): any {
+  if (!col.relation) return row[col.field]
+
+  const { relation: relName, display_field: displayField } = col.relation
+  const related = row[relName]
+
+  if (related && typeof related === 'object' && displayField in related) {
+    return related[displayField]
+  }
+
+  // Fallback: mostra il valore raw della colonna
+  return row[col.field]
 }
 
 const onSearchInput = () => {
