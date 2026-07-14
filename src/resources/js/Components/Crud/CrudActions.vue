@@ -1,19 +1,25 @@
 <template>
-  <div class="flex gap-2 justify-center">
+  <div class="flex justify-center">
     <Button
-      v-for="btn in buttons"
-      :key="btn.action"
-      :severity="btn.action === 'delete' ? 'danger' : (btn.severity ?? 'secondary')"
+      :label="crudT('crud.button.actions')"
+      icon="pi pi-ellipsis-v"
+      severity="secondary"
       size="small"
       outlined
-      :title="btn.label"
-      @click="handleAction(btn.action)"
+      @click="toggleMenu"
+    />
+    <Menu
+      ref="menuRef"
+      :model="menuItems"
+      :popup="true"
     >
-      <template #icon>
-        <i :class="btn.icon" />
+      <template #item="{ item }">
+        <div class="flex items-center gap-2 w-full">
+          <i :class="item.icon" />
+          <span class="action-label-rect">{{ item.label }}</span>
+        </div>
       </template>
-      {{ btn.label }}
-    </Button>
+    </Menu>
 
     <Dialog
       v-model:visible="deleteDialogVisible"
@@ -38,12 +44,20 @@ import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
+import Menu from 'primevue/menu'
 
 interface CrudButton {
   action: string
   icon: string
   label: string
   severity?: string
+}
+
+interface MenuItem {
+  label: string
+  icon: string
+  action: string
+  command: () => void
 }
 
 interface Props {
@@ -67,8 +81,13 @@ function crudT(key: string): string {
 
 const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
 const deleteDialogVisible = ref(false)
+const menuRef = ref<InstanceType<typeof Menu> | null>(null)
 
-const handleAction = (action: string) => {
+function toggleMenu(event: Event) {
+  menuRef.value?.toggle(event)
+}
+
+function handleAction(action: string) {
   if (action === 'delete') {
     deleteDialogVisible.value = true
   } else if (action === 'view') {
@@ -82,4 +101,24 @@ function confirmDelete() {
   deleteDialogVisible.value = false
   emit('delete', rowId.value)
 }
+
+const menuItems = computed<MenuItem[]>(() =>
+  props.buttons.map((btn) => ({
+    label: btn.label,
+    icon: btn.icon,
+    action: btn.action,
+    command: () => handleAction(btn.action),
+  })),
+)
 </script>
+
+<style scoped>
+.action-label-rect {
+  display: inline-block;
+  border: 1px solid var(--p-surface-400);
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: var(--p-surface-50);
+  font-size: 0.875rem;
+}
+</style>

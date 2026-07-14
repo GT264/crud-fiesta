@@ -48,7 +48,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
     function T(e, t) {
       return x(e, { id: t });
     }
-    async function B() {
+    async function A() {
       const e = o.crud_buttons.find((t) => t.action === "create");
       n.value = !0;
       try {
@@ -62,7 +62,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
         n.value = !1;
       }
     }
-    async function E(e) {
+    async function B(e) {
       const t = o.crud_buttons.find((a) => a.action === "edit");
       n.value = !0;
       try {
@@ -76,7 +76,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
         n.value = !1;
       }
     }
-    function I(e) {
+    function E(e) {
       n.value = !0, m.value && c.value !== null ? i.put(`/${o.route_prefix}/${c.value}`, e, {
         onFinish: () => {
           n.value = !1, u.value = !1;
@@ -87,7 +87,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
         }
       });
     }
-    function A() {
+    function I() {
       u.value = !1, f.value = null, c.value = null;
     }
     function D(e) {
@@ -147,7 +147,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
         d(y(G), {
           label: p("crud.button.create"),
           icon: "pi pi-plus",
-          onClick: B
+          onClick: A
         }, null, 8, ["label"])
       ]),
       d(K, {
@@ -165,7 +165,7 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
             row: a,
             buttons: C.value,
             onView: D,
-            onEdit: E,
+            onEdit: B,
             onDelete: V
           }, null, 8, ["row", "buttons"])
         ]),
@@ -179,8 +179,8 @@ const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-
         loading: n.value,
         "is-edit": m.value,
         "onUpdate:visible": t[0] || (t[0] = (a) => u.value = a),
-        onSubmit: I,
-        onClose: A
+        onSubmit: E,
+        onClose: I
       }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"])
     ]));
   }
