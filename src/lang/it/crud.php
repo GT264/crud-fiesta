@@ -25,6 +25,11 @@ return [
     'datatable' => [
         'search_placeholder' => 'Cerca...',
         'no_data' => 'Nessun dato disponibile',
+        'filters' => [
+            'select_placeholder' => 'Seleziona...',
+            'date_from' => 'Da',
+            'date_to' => 'A',
+        ],
     ],
     'delete_confirm' => [
         'header' => 'Conferma',

@@ -1,47 +1,52 @@
-import { defineComponent as u, openBlock as i, createBlock as f, Teleport as m, unref as e, createElementBlock as p, createElementVNode as o, normalizeClass as g, createVNode as b, renderSlot as k, createCommentVNode as v } from "vue";
-import { useVModel as y } from "@vueuse/core";
-import { cn as C } from "./index39.js";
+import { defineComponent as p, ref as y, openBlock as o, createBlock as g, Teleport as _, createElementVNode as s, createElementBlock as l, Fragment as b, renderList as v, normalizeClass as x, unref as c, toDisplayString as d, createCommentVNode as a, createVNode as h } from "vue";
+import { cn as k } from "./index40.js";
 import { X as w } from "lucide-vue-next";
-const x = {
+const C = { class: "fixed top-4 right-4 z-[100] flex flex-col gap-2" }, B = { class: "flex-1" }, N = {
   key: 0,
-  class: "fixed inset-0 z-50 flex items-center justify-center"
-}, _ = /* @__PURE__ */ u({
-  __name: "Dialog",
-  props: {
-    open: { type: Boolean },
-    modal: { type: Boolean, default: !0 },
-    class: {}
-  },
-  emits: ["update:open", "close"],
-  setup(t, { emit: c }) {
-    const n = t, s = c, l = y(n, "open", s);
-    function r() {
-      l.value = !1, s("close");
+  class: "font-semibold text-sm"
+}, T = {
+  key: 1,
+  class: "text-sm opacity-80"
+}, V = ["onClick"], I = /* @__PURE__ */ p({
+  __name: "Toast",
+  setup(z, { expose: u }) {
+    const i = y([]);
+    let m = 0;
+    function f(r) {
+      const t = String(++m), e = { ...r, id: t };
+      i.value.push(e), r.life && setTimeout(() => n(t), r.life);
     }
-    return (d, a) => (i(), f(m, { to: "body" }, [
-      e(l) ? (i(), p("div", x, [
-        o("div", {
-          class: "fixed inset-0 bg-black/50",
-          onClick: a[0] || (a[0] = (B) => t.modal ? void 0 : r())
-        }),
-        o("div", {
-          class: g(e(C)(
-            "relative z-50 w-full max-w-lg gap-4 border bg-background p-6 shadow-lg rounded-lg md:w-full",
-            n.class
+    function n(r) {
+      i.value = i.value.filter((t) => t.id !== r);
+    }
+    return u({ add: f, remove: n }), (r, t) => (o(), g(_, { to: "body" }, [
+      s("div", C, [
+        (o(!0), l(b, null, v(i.value, (e) => (o(), l("div", {
+          key: e.id,
+          class: x(c(k)(
+            "flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg transition-all",
+            e.severity === "success" && "border-green-200 bg-green-50 text-green-800",
+            e.severity === "error" && "border-red-200 bg-red-50 text-red-800",
+            e.severity === "warning" && "border-yellow-200 bg-yellow-50 text-yellow-800",
+            e.severity === "info" && "border-blue-200 bg-blue-50 text-blue-800",
+            !e.severity && "border-gray-200 bg-white text-gray-800"
           ))
         }, [
-          o("button", {
-            class: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-            onClick: r
-          }, [
-            b(e(w), { class: "h-4 w-4" })
+          s("div", B, [
+            e.summary ? (o(), l("div", N, d(e.summary), 1)) : a("", !0),
+            e.detail ? (o(), l("div", T, d(e.detail), 1)) : a("", !0)
           ]),
-          k(d.$slots, "default")
-        ], 2)
-      ])) : v("", !0)
+          s("button", {
+            class: "opacity-50 hover:opacity-100",
+            onClick: (E) => n(e.id)
+          }, [
+            h(c(w), { class: "h-4 w-4" })
+          ], 8, V)
+        ], 2))), 128))
+      ])
     ]));
   }
 });
 export {
-  _ as default
+  I as default
 };

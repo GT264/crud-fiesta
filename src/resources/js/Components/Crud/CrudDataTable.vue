@@ -47,6 +47,71 @@
               {{ crudT('crud.button.actions') }}
             </th>
           </tr>
+          <tr v-if="hasFilters" class="border-b bg-muted/20">
+            <th v-for="col in columns" :key="'filter-' + col.field" class="px-4 py-1.5 align-middle">
+              <!-- Select filter -->
+              <select
+                v-if="getFilterConfig(col.field)?.type === 'select'"
+                v-model="filterValues[col.field]"
+                class="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                @change="onFilterChange(col.field)"
+              >
+                <option value="">{{ crudT('crud.datatable.filters.select_placeholder') }}</option>
+                <option
+                  v-for="opt in getFilterConfig(col.field)?.options"
+                  :key="opt.value"
+                  :value="opt.value"
+                >
+                  {{ opt.label }}
+                </option>
+              </select>
+
+              <!-- Multiselect filter -->
+              <select
+                v-else-if="getFilterConfig(col.field)?.type === 'multiselect'"
+                v-model="filterValues[col.field]"
+                multiple
+                class="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                @change="onFilterChange(col.field)"
+              >
+                <option
+                  v-for="opt in getFilterConfig(col.field)?.options"
+                  :key="opt.value"
+                  :value="opt.value"
+                >
+                  {{ opt.label }}
+                </option>
+              </select>
+
+              <!-- Date filter -->
+              <input
+                v-else-if="getFilterConfig(col.field)?.type === 'date'"
+                v-model="filterValues[col.field]"
+                type="date"
+                class="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                @input="onFilterInputDelayed(col.field)"
+              />
+
+              <!-- Date range filter -->
+              <div v-else-if="getFilterConfig(col.field)?.type === 'date_range'" class="flex items-center gap-1">
+                <input
+                  v-model="filterValues[col.field + '_start']"
+                  type="date"
+                  :placeholder="crudT('crud.datatable.filters.date_from')"
+                  class="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  @input="onFilterInputDelayed(col.field)"
+                />
+                <input
+                  v-model="filterValues[col.field + '_end']"
+                  type="date"
+                  :placeholder="crudT('crud.datatable.filters.date_to')"
+                  class="flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  @input="onFilterInputDelayed(col.field)"
+                />
+              </div>
+            </th>
+            <th class="px-4 py-1.5 align-middle w-32"></th>
+          </tr>
         </thead>
         <tbody class="[&_tr:last-child]:border-0">
           <tr v-if="loading" class="border-b transition-colors">
@@ -86,15 +151,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, Loader2 } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
+
+interface ColumnFilterOption {
+  label: string
+  value: string | number
+}
+
+interface ColumnFilterConfig {
+  field: string
+  type: 'select' | 'multiselect' | 'date' | 'date_range'
+  options?: ColumnFilterOption[]
+}
 
 interface TableColumn {
   field: string
   header: string
   relation?: { relation: string; display_field: string }
+  filter_config?: ColumnFilterConfig
 }
 
 interface Props {
@@ -103,6 +180,7 @@ interface Props {
   totalRecords: number
   perPage?: number
   loading?: boolean
+  columnFilters?: Record<string, ColumnFilterConfig>
 }
 
 const props = withDefaults(defineProps<Props>(), { perPage: 25, loading: false })
@@ -124,6 +202,53 @@ const sortField = ref<string | null>(null)
 const sortOrder = ref<number>(1)
 const searchQuery = ref('')
 let searchTimeout: ReturnType<typeof setTimeout> | undefined
+
+const filterValues = ref<Record<string, any>>({})
+const filterTimers: Record<string, ReturnType<typeof setTimeout>> = {}
+
+const hasFilters = computed(() => {
+  return props.columns.some(col => col.filter_config != null)
+})
+
+function getFilterConfig(field: string): ColumnFilterConfig | undefined {
+  const col = props.columns.find(c => c.field === field)
+  return col?.filter_config
+}
+
+function buildFilterPayload(): Record<string, { type: string; value: any }> {
+  const payload: Record<string, { type: string; value: any }> = {}
+  for (const col of props.columns) {
+    if (!col.filter_config) continue
+    const field = col.field
+    const config = col.filter_config
+    if (config.type === 'date_range') {
+      const start = filterValues.value[field + '_start']
+      const end = filterValues.value[field + '_end']
+      if (start || end) {
+        payload[field] = { type: 'date_range', value: { start: start || '', end: end || '' } }
+      }
+    } else {
+      const val = filterValues.value[field]
+      if (val !== undefined && val !== null && val !== '' && (!Array.isArray(val) || val.length > 0)) {
+        payload[field] = { type: config.type, value: val }
+      }
+    }
+  }
+  return payload
+}
+
+function emitFilters() {
+  emit('filter', { globalFilter: buildFilterPayload() })
+}
+
+function onFilterChange(_field: string) {
+  emitFilters()
+}
+
+function onFilterInputDelayed(field: string) {
+  clearTimeout(filterTimers[field])
+  filterTimers[field] = setTimeout(() => emitFilters(), 300)
+}
 
 function goToPage(p: number) {
   currentPage.value = p

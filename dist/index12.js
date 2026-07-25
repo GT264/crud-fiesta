@@ -2,8 +2,8 @@ import { defineComponent as $, computed as p, ref as k, openBlock as v, createEl
 import { usePage as j } from "@inertiajs/vue3";
 import { EllipsisVertical as A, AlertTriangle as B, Trash2 as I, Pencil as N, Eye as g } from "lucide-vue-next";
 import f from "./index15.js";
-import M from "./index16.js";
-import P from "./index25.js";
+import M from "./index17.js";
+import P from "./index26.js";
 const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-2 w-full" }, O = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, W = /* @__PURE__ */ $({
   __name: "CrudActions",
   props: {

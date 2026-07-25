@@ -30,6 +30,8 @@ abstract class CrudBaseDataTable
 
     public int $per_page = 25;
 
+    private ?array $cachedColumnFilters = null;
+
     protected bool $enable_view = true;
     protected bool $enable_edit = true;
     protected bool $enable_delete = true;
@@ -46,6 +48,7 @@ abstract class CrudBaseDataTable
     protected function initializeColumnsDetails() : void
     {
         $relationMap = $this->relationDisplayMap();
+        $columnFilters = $this->getColumnFilters();
 
         foreach (
             static::default_columns as
@@ -58,6 +61,13 @@ abstract class CrudBaseDataTable
 
             if (isset($relationMap[$column])) {
                 $details['relation'] = $relationMap[$column];
+            }
+
+            if (isset($columnFilters[$column])) {
+                $details['filter_config'] = array_merge(
+                    ['field' => $column],
+                    $columnFilters[$column]
+                );
             }
 
             $this->details_columns[$column] = $details;
@@ -80,8 +90,64 @@ abstract class CrudBaseDataTable
      */
     abstract protected function relationDisplayMap() : array;
 
-    protected function setHeader($field) : void 
+    /**
+     * Filtri per colonna nella tabella index.
+     * Formato: [
+     *   'column_name' => [
+     *     'type' => 'select',              // select|multiselect|date|date_range
+     *     'options' => [                   // optional: only for select/multiselect
+     *       ['label' => 'Label A', 'value' => 'a'],
+     *       ['label' => 'Label B', 'value' => 'b'],
+     *     ],
+     *   ],
+     * ]
+     *
+     * @return array
+     */
+    protected function columnFilters(): array
     {
+        return [];
+    }
+
+    /**
+     * Restituisce la configurazione dei filtri con le option risolte per le colonne relazionali.
+     *
+     * @return array
+     */
+    public function getColumnFilters(): array
+    {
+        if ($this->cachedColumnFilters !== null) {
+            return $this->cachedColumnFilters;
+        }
+
+        $filters = $this->columnFilters();
+        $relationMap = $this->relationDisplayMap();
+
+        foreach ($filters as $column => &$config) {
+            // For relation columns with select/multiselect and no explicit options,
+            // fetch options from the related model
+            if (
+                in_array($config['type'], ['select', 'multiselect'])
+                && empty($config['options'])
+                && isset($relationMap[$column])
+            ) {
+                $relationConfig = $relationMap[$column];
+                $relatedModel = $this->model->{$relationConfig['relation']}()->getRelated();
+                $displayField = $relationConfig['display_field'];
+                $keyName = $relatedModel->getKeyName();
+
+                $config['options'] = $relatedModel::all([$keyName, $displayField])
+                    ->map(fn ($row) => [
+                        'label' => (string) $row->{$displayField},
+                        'value' => $row->{$keyName},
+                    ])
+                    ->values()
+                    ->all();
+            }
+        }
+        unset($config);
+
+        return $this->cachedColumn
         $this->form_details[$field]['label'] = __("$this->lang.fields.$field");
     }
 

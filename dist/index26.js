@@ -1,52 +1,58 @@
-import { defineComponent as p, ref as y, openBlock as o, createBlock as g, Teleport as _, createElementVNode as s, createElementBlock as l, Fragment as b, renderList as v, normalizeClass as x, unref as c, toDisplayString as d, createCommentVNode as a, createVNode as h } from "vue";
-import { cn as k } from "./index39.js";
-import { X as w } from "lucide-vue-next";
-const C = { class: "fixed top-4 right-4 z-[100] flex flex-col gap-2" }, B = { class: "flex-1" }, N = {
-  key: 0,
-  class: "font-semibold text-sm"
-}, T = {
-  key: 1,
-  class: "text-sm opacity-80"
-}, V = ["onClick"], I = /* @__PURE__ */ p({
-  __name: "Toast",
-  setup(z, { expose: u }) {
-    const i = y([]);
-    let m = 0;
-    function f(r) {
-      const t = String(++m), e = { ...r, id: t };
-      i.value.push(e), r.life && setTimeout(() => n(t), r.life);
+import { defineComponent as b, ref as v, openBlock as o, createElementBlock as t, createElementVNode as c, renderSlot as d, createBlock as g, Teleport as k, createCommentVNode as r, normalizeClass as i, unref as x, Fragment as y, renderList as h, toDisplayString as C } from "vue";
+import { cn as _ } from "./index40.js";
+const w = { class: "relative inline-block" }, z = ["disabled", "onClick"], B = { class: "inline-block border border-border rounded px-2 py-0.5 text-xs bg-muted" }, N = /* @__PURE__ */ b({
+  __name: "DropdownMenu",
+  props: {
+    items: { default: () => [] },
+    class: {}
+  },
+  setup(l) {
+    const u = l, s = v(!1);
+    function p(e) {
+      e.stopPropagation(), s.value = !s.value;
     }
-    function n(r) {
-      i.value = i.value.filter((t) => t.id !== r);
+    function a() {
+      s.value = !1;
     }
-    return u({ add: f, remove: n }), (r, t) => (o(), g(_, { to: "body" }, [
-      s("div", C, [
-        (o(!0), l(b, null, v(i.value, (e) => (o(), l("div", {
-          key: e.id,
-          class: x(c(k)(
-            "flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg transition-all",
-            e.severity === "success" && "border-green-200 bg-green-50 text-green-800",
-            e.severity === "error" && "border-red-200 bg-red-50 text-red-800",
-            e.severity === "warning" && "border-yellow-200 bg-yellow-50 text-yellow-800",
-            e.severity === "info" && "border-blue-200 bg-blue-50 text-blue-800",
-            !e.severity && "border-gray-200 bg-white text-gray-800"
-          ))
+    function m(e) {
+      e.command && e.command(), a();
+    }
+    return (e, M) => (o(), t("div", w, [
+      c("div", { onClick: p }, [
+        d(e.$slots, "trigger")
+      ]),
+      (o(), g(k, { to: "body" }, [
+        s.value ? (o(), t("div", {
+          key: 0,
+          class: "fixed inset-0 z-40",
+          onClick: a
+        })) : r("", !0)
+      ])),
+      s.value ? (o(), t("div", {
+        key: 0,
+        class: i(x(_)(
+          "absolute right-0 z-50 mt-2 w-48 rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+          u.class
+        ))
+      }, [
+        (o(!0), t(y, null, h(l.items, (n, f) => (o(), t("button", {
+          key: f,
+          disabled: n.disabled,
+          class: "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50",
+          onClick: ($) => m(n)
         }, [
-          s("div", B, [
-            e.summary ? (o(), l("div", N, d(e.summary), 1)) : a("", !0),
-            e.detail ? (o(), l("div", T, d(e.detail), 1)) : a("", !0)
-          ]),
-          s("button", {
-            class: "opacity-50 hover:opacity-100",
-            onClick: (E) => n(e.id)
-          }, [
-            h(c(w), { class: "h-4 w-4" })
-          ], 8, V)
-        ], 2))), 128))
-      ])
+          d(e.$slots, "item", { item: n }, () => [
+            n.icon ? (o(), t("span", {
+              key: 0,
+              class: i(n.icon)
+            }, null, 2)) : r("", !0),
+            c("span", B, C(n.label), 1)
+          ])
+        ], 8, z))), 128))
+      ], 2)) : r("", !0)
     ]));
   }
 });
 export {
-  I as default
+  N as default
 };

@@ -118,7 +118,7 @@ abstract class CrudBaseRepository
      * @param array $columns
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null, ?array $filters = null): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
 
@@ -143,6 +143,39 @@ abstract class CrudBaseRepository
                     }
                 }
             });
+        }
+
+        if ($filters !== null && !empty($filters)) {
+            foreach ($filters as $field => $filterConfig) {
+                $type = $filterConfig['type'] ?? 'select';
+                $value = $filterConfig['value'] ?? null;
+
+                if ($value === null || $value === '' || (is_array($value) && empty($value))) {
+                    continue;
+                }
+
+                // Relation column: use whereHas
+                if (isset($relations[$field])) {
+                    $relationName = $relations[$field]['relation'];
+                    $displayField = $relations[$field]['display_field'];
+
+                    $query->whereHas($relationName, function ($r) use ($type, $displayField, $value) {
+                        $keyName = $r->getModel()->getKeyName();
+                        match ($type) {
+                            'multiselect' => $r->whereIn($keyName, (array) $value),
+                            'date_range' => $r->whereBetween($displayField, [$value['start'], $value['end']]),
+                            default => $r->where($keyName, $value),
+                        };
+                    });
+                } else {
+                    // Regular column
+                    match ($type) {
+                        'multiselect' => $query->whereIn($field, (array) $value),
+                        'date_range' => $query->whereBetween($field, [$value['start'], $value['end']]),
+                        default => $query->where($field, $value),
+                    };
+                }
+            }
         }
 
         foreach ($relations as $foreignKey => $relationConfig) {

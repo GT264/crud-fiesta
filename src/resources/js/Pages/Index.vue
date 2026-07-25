@@ -8,7 +8,7 @@
         {{ crudT('crud.button.create') }}
       </Button>
     </div>
-    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :loading="loading" @paginate="onPaginate" @sort="onSort" @search="onSearch">
+    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :loading="loading" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter">
       <template #actions="{ row }">
         <CrudActions :row="row" :buttons="mappedButtons" @view="onView" @edit="onEdit" @delete="onDelete" />
       </template>
@@ -108,5 +108,8 @@ function onSort(event: { sortField: string; sortOrder: number }) {
 }
 function onSearch(event: { query: string }) {
   router.get(window.location.pathname, { search: event.query }, { preserveState: true, preserveScroll: true, only: ['column_data'], replace: true, onStart: () => loading.value = true, onFinish: () => loading.value = false })
+}
+function onFilter(event: { globalFilter: Record<string, { type: string; value: any }> }) {
+  router.get(window.location.pathname, { filters: event.globalFilter }, { preserveState: true, preserveScroll: true, only: ['column_data'], replace: true, onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
 </script>

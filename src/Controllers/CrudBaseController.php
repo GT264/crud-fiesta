@@ -62,6 +62,7 @@ abstract class CrudBaseController extends Controller
         $sortField = $request->query('sort_field');
         $sortOrder = $request->query('sort_order');
         $search = $request->query('search');
+        $filters = $request->query('filters', []);
 
         // Map sort order: 1 = ascending, -1 = descending
         $sortDirection = 'asc';
@@ -79,8 +80,10 @@ abstract class CrudBaseController extends Controller
                 $sortDirection,
                 $relations,
                 $search,
+                $filters,
             ),
             'columns_details' => array_values($this->crud_data_table->details_columns),
+            'column_filters' => $this->crud_data_table->getColumnFilters(),
             'route_prefix' => $this->route_prefix,
             'optional_buttons' => $this->crud_data_table->getOptionalButtons(),
             'crud_buttons' => $this->crud_data_table->getCrudButtons(),
