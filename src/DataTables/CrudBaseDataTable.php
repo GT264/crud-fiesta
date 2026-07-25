@@ -93,7 +93,7 @@ abstract class CrudBaseDataTable
             $formType
         ) {
             FormType::IMAGE, FormType::FILE => __('crud-fiesta::crud.form.load', ['field' => __("$this->lang.fields.$field")]),
-            FormType::DROPDOWN, FormType::MULTI_SELECT => __('crud-fiesta::crud.form.select', ['field' => __("$this->lang.fields.$field")]),
+            FormType::SELECT, FormType::MULTI_SELECT => __('crud-fiesta::crud.form.select', ['field' => __("$this->lang.fields.$field")]),
             default => __('crud-fiesta::crud.form.insert', ['field' => __("$this->lang.fields.$field")])
         };
     }
@@ -149,7 +149,7 @@ abstract class CrudBaseDataTable
             ($this->enable_view && Permission::VIEW->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
-                'pi pi-eye',
+                'Eye',
                 __('crud-fiesta::crud.button.view'),
                 'show',
             );
@@ -159,7 +159,7 @@ abstract class CrudBaseDataTable
             ($this->enable_edit && Permission::UPDATE->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
-                'pi pi-pencil',
+                'Pencil',
                 __('crud-fiesta::crud.button.edit'),
                 'edit',
                 'edit',
@@ -170,7 +170,7 @@ abstract class CrudBaseDataTable
             ($this->enable_delete && Permission::DELETE->getPermissionTo(Auth::user(), $this->resource)) || Auth::user()->hasRole(Role::SUPER_ADMIN)
         ) {
             $crud_buttons[] = $this->makeCrudButton(
-                'pi pi-trash',
+                'Trash2',
                 __('crud-fiesta::crud.button.delete'),
                 'destroy',
             );

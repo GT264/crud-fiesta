@@ -1,40 +1,40 @@
 <template>
   <div class="flex justify-center">
-    <Button
-      :label="crudT('crud.button.actions')"
-      icon="pi pi-ellipsis-v"
-      severity="secondary"
-      size="small"
-      outlined
-      @click="toggleMenu"
-    />
-    <Menu
-      ref="menuRef"
-      :model="menuItems"
-      :popup="true"
-    >
+    <DropdownMenu :items="menuItems">
+      <template #trigger>
+        <Button
+          :label="crudT('crud.button.actions')"
+          variant="secondary"
+          size="sm"
+        >
+          <EllipsisVertical class="h-4 w-4 mr-1" />
+          {{ crudT('crud.button.actions') }}
+        </Button>
+      </template>
       <template #item="{ item }">
         <div class="flex items-center gap-2 w-full">
-          <i :class="item.icon" />
+          <component :is="getIcon(item.action)" class="h-4 w-4" />
           <span class="action-label-rect">{{ item.label }}</span>
         </div>
       </template>
-    </Menu>
+    </DropdownMenu>
 
-    <Dialog
-      v-model:visible="deleteDialogVisible"
-      :header="crudT('crud.delete_confirm.header')"
-      :modal="true"
-      :style="{ width: '25rem' }"
-    >
-      <div class="flex items-center gap-3">
-        <i class="pi pi-exclamation-triangle" style="font-size: 1.5rem; color: var(--p-yellow-500)" />
-        <span>{{ crudT('crud.delete_confirm.message') }}</span>
+    <Dialog :open="deleteDialogVisible" @update:open="deleteDialogVisible = $event" @close="deleteDialogVisible = false">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-lg font-semibold">{{ crudT('crud.delete_confirm.header') }}</h2>
+        <div class="flex items-center gap-3">
+          <AlertTriangle class="h-6 w-6 text-yellow-500" />
+          <span>{{ crudT('crud.delete_confirm.message') }}</span>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <Button variant="secondary" @click="deleteDialogVisible = false">
+            {{ crudT('crud.button.cancel') }}
+          </Button>
+          <Button variant="destructive" @click="confirmDelete">
+            {{ crudT('crud.button.delete') }}
+          </Button>
+        </div>
       </div>
-      <template #footer>
-        <Button :label="crudT('crud.button.cancel')" severity="secondary" outlined @click="deleteDialogVisible = false" />
-        <Button :label="crudT('crud.button.delete')" severity="danger" @click="confirmDelete" />
-      </template>
     </Dialog>
   </div>
 </template>
@@ -42,9 +42,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import Menu from 'primevue/menu'
+import { Eye, Pencil, Trash2, EllipsisVertical, AlertTriangle } from 'lucide-vue-next'
+import Button from '../ui/Button.vue'
+import Dialog from '../ui/Dialog.vue'
+import DropdownMenu from '../ui/DropdownMenu.vue'
 
 interface CrudButton {
   action: string
@@ -81,10 +82,14 @@ function crudT(key: string): string {
 
 const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
 const deleteDialogVisible = ref(false)
-const menuRef = ref<InstanceType<typeof Menu> | null>(null)
 
-function toggleMenu(event: Event) {
-  menuRef.value?.toggle(event)
+function getIcon(action: string) {
+  const iconMap: Record<string, any> = {
+    view: Eye,
+    edit: Pencil,
+    delete: Trash2,
+  }
+  return iconMap[action] || Eye
 }
 
 function handleAction(action: string) {
@@ -115,10 +120,10 @@ const menuItems = computed<MenuItem[]>(() =>
 <style scoped>
 .action-label-rect {
   display: inline-block;
-  border: 1px solid var(--p-surface-400);
+  border: 1px solid var(--border, #e2e8f0);
   border-radius: 4px;
   padding: 2px 8px;
-  background: var(--p-surface-50);
+  background: var(--muted, #f8fafc);
   font-size: 0.875rem;
 }
 </style>

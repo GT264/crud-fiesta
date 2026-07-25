@@ -1,8 +1,34 @@
-var o = { transitionDuration: "{transition.duration}" }, r = { width: "1.5rem", height: "1.5rem", borderRadius: "{form.field.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, e = { shadow: "{overlay.popover.shadow}", borderRadius: "{overlay.popover.borderRadius}" }, a = { light: { panel: { background: "{surface.800}", borderColor: "{surface.900}" }, handle: { color: "{surface.0}" } }, dark: { panel: { background: "{surface.900}", borderColor: "{surface.700}" }, handle: { color: "{surface.0}" } } }, s = { root: o, preview: r, panel: e, colorScheme: a };
+import { defineComponent as a, resolveDirective as n, withDirectives as u, openBlock as m, createElementBlock as c, normalizeClass as p, unref as r, isRef as f, vModelText as v } from "vue";
+import { useVModel as b } from "@vueuse/core";
+import { cn as h } from "./index40.js";
+const k = ["id", "placeholder", "required"], y = /* @__PURE__ */ a({
+  __name: "MaskedInput",
+  props: {
+    id: {},
+    modelValue: {},
+    placeholder: {},
+    required: { type: Boolean },
+    mask: {},
+    class: {}
+  },
+  emits: ["update:modelValue"],
+  setup(e, { emit: i }) {
+    const l = e, o = b(l, "modelValue", i);
+    return (V, t) => {
+      const s = n("maska");
+      return u((m(), c("input", {
+        id: e.id,
+        "onUpdate:modelValue": t[0] || (t[0] = (d) => f(o) ? o.value = d : null),
+        placeholder: e.placeholder,
+        required: e.required,
+        class: p(r(h)("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50", l.class))
+      }, null, 10, k)), [
+        [v, r(o)],
+        [s, e.mask]
+      ]);
+    };
+  }
+});
 export {
-  a as colorScheme,
-  s as default,
-  e as panel,
-  r as preview,
-  o as root
+  y as default
 };

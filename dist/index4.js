@@ -1,4 +1,4 @@
-import r from "./index6.js";
+import r from "./index5.js";
 const d = {
   "Crud/Index": r
 };

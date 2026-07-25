@@ -1,190 +1,168 @@
-import { defineComponent as N, ref as r, computed as P, openBlock as U, createElementBlock as q, createVNode as d, unref as y, createElementVNode as S, toDisplayString as O, withCtx as W } from "vue";
-import { usePage as z, router as i } from "@inertiajs/vue3";
-import { route as x } from "ziggy-js";
-import G from "primevue/button";
-import H from "primevue/toast";
-import { useToast as J } from "primevue/usetoast";
-import K from "./index7.js";
-import M from "./index9.js";
-import Q from "./index8.js";
-const X = { class: "crud-index-page" }, Y = { class: "flex items-center justify-between mb-4" }, Z = { class: "text-2xl font-bold" }, se = /* @__PURE__ */ N({
-  __name: "Index",
+import { defineComponent as D, ref as g, openBlock as a, createElementBlock as r, createElementVNode as s, createVNode as u, unref as c, withDirectives as F, vModelText as L, withCtx as b, toDisplayString as i, Fragment as w, renderList as C, createTextVNode as P, createBlock as R, createCommentVNode as T, renderSlot as M } from "vue";
+import { usePage as j } from "@inertiajs/vue3";
+import { Search as A, ChevronLeft as E, ChevronRight as I, ArrowUp as O, ArrowDown as U, Loader2 as q } from "lucide-vue-next";
+import x from "./index15.js";
+const Q = { class: "space-y-4" }, G = { class: "flex items-center justify-between" }, H = { class: "relative w-64" }, J = ["placeholder"], K = { class: "flex items-center gap-2" }, W = { class: "text-sm text-muted-foreground" }, X = { class: "rounded-md border" }, Y = { class: "w-full caption-bottom text-sm" }, Z = { class: "[&_tr]:border-b" }, ee = { class: "border-b transition-colors hover:bg-muted/50" }, te = ["onClick"], se = { class: "flex items-center gap-1" }, oe = { key: 0 }, le = { class: "h-10 px-4 text-left align-middle font-medium text-muted-foreground w-32" }, ne = { class: "[&_tr:last-child]:border-0" }, ae = {
+  key: 0,
+  class: "border-b transition-colors"
+}, re = ["colspan"], ie = {
+  key: 1,
+  class: "border-b transition-colors"
+}, de = ["colspan"], ue = { class: "text-muted-foreground" }, ce = { class: "p-4 align-middle text-center" }, me = { class: "flex items-center justify-end gap-2" }, fe = { class: "text-sm text-muted-foreground" }, xe = /* @__PURE__ */ D({
+  __name: "CrudDataTable",
   props: {
-    title: { default: "CRUD Index" },
-    column_data: {},
-    columns_details: {},
-    route_prefix: {},
-    crud_buttons: {}
+    items: {},
+    columns: {},
+    totalRecords: {},
+    perPage: { default: 25 },
+    loading: { type: Boolean, default: !1 }
   },
-  setup(s) {
-    const g = z();
-    function p(e) {
-      var t;
-      return ((t = g.props.crudLang) == null ? void 0 : t[e]) ?? e;
+  emits: ["paginate", "sort", "filter", "search"],
+  setup(t, { emit: $ }) {
+    const N = t, p = $, V = j();
+    function m(l) {
+      var e;
+      return ((e = V.props.crudLang) == null ? void 0 : e[l]) ?? l;
     }
-    const o = s, b = J(), l = r(!1);
-    i.on("finish", () => {
-      const e = g.props.flash;
-      e != null && e.success && b.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 }), e != null && e.error && b.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 });
-    });
-    const u = r(!1), v = r(""), _ = r({}), f = r(null), m = r(!1), n = r(!1), c = r(null), F = {
-      show: "view",
-      edit: "edit",
-      destroy: "delete"
-    };
-    function $(e) {
-      return e.event ? e.event : F[e.action] || e.action;
+    const n = g(1), y = g(null), f = g(1), k = g("");
+    let _;
+    function v(l) {
+      n.value = l, p("paginate", { page: l - 1, rows: N.perPage });
     }
-    const C = P(
-      () => o.crud_buttons.map((e) => ({
-        action: $(e),
-        icon: e.icon,
-        label: e.label
-      }))
-    );
-    function j(e) {
-      return x(e);
+    function S(l) {
+      y.value = l, f.value = y.value === l && f.value === 1 ? -1 : 1, p("sort", { sortField: l, sortOrder: f.value });
     }
-    function T(e, t) {
-      return x(e, { id: t });
+    function z() {
+      clearTimeout(_), _ = setTimeout(() => p("search", { query: k.value }), 300);
     }
-    async function A() {
-      const e = o.crud_buttons.find((t) => t.action === "create");
-      n.value = !0;
-      try {
-        const t = e ? j(e.route_name) : `/${o.route_prefix}/create`, h = await (await fetch(t, {
-          headers: { Accept: "application/json" }
-        })).json();
-        _.value = h, v.value = p("crud.button.create"), f.value = null, m.value = !1, c.value = null, u.value = !0;
-      } catch (t) {
-        console.error("Failed to load create form:", t);
-      } finally {
-        n.value = !1;
-      }
+    function B(l, e) {
+      if (!e.relation) return l[e.field];
+      const { relation: o, display_field: d } = e.relation, h = l[o];
+      return h && typeof h == "object" && d in h ? h[d] : l[e.field];
     }
-    async function B(e) {
-      const t = o.crud_buttons.find((a) => a.action === "edit");
-      n.value = !0;
-      try {
-        const a = t ? T(t.route_name, e) : `/${o.route_prefix}/${e}/edit`, w = await (await fetch(a, {
-          headers: { Accept: "application/json" }
-        })).json();
-        _.value = w.form_details, v.value = p("crud.button.edit"), f.value = w.item, m.value = !0, c.value = e, u.value = !0;
-      } catch (a) {
-        console.error("Failed to load edit form:", a);
-      } finally {
-        n.value = !1;
-      }
-    }
-    function E(e) {
-      n.value = !0, m.value && c.value !== null ? i.put(`/${o.route_prefix}/${c.value}`, e, {
-        onFinish: () => {
-          n.value = !1, u.value = !1;
-        }
-      }) : i.post(`/${o.route_prefix}`, e, {
-        onFinish: () => {
-          n.value = !1, u.value = !1;
-        }
-      });
-    }
-    function I() {
-      u.value = !1, f.value = null, c.value = null;
-    }
-    function D(e) {
-    }
-    function V(e) {
-      i.delete(`/${o.route_prefix}/${e}`);
-    }
-    function R(e) {
-      i.get(
-        window.location.pathname,
-        { page: e.page + 1, per_page: e.rows },
-        {
-          preserveState: !0,
-          preserveScroll: !0,
-          only: ["column_data"],
-          onStart: () => l.value = !0,
-          onFinish: () => l.value = !1
-        }
-      );
-    }
-    function k(e) {
-      i.get(
-        window.location.pathname,
-        {
-          page: o.column_data.current_page,
-          per_page: o.column_data.per_page,
-          sort_field: e.sortField,
-          sort_order: e.sortOrder
-        },
-        {
-          preserveState: !0,
-          preserveScroll: !0,
-          only: ["column_data"],
-          onStart: () => l.value = !0,
-          onFinish: () => l.value = !1
-        }
-      );
-    }
-    function L(e) {
-      i.get(
-        window.location.pathname,
-        { search: e.query },
-        {
-          preserveState: !0,
-          preserveScroll: !0,
-          only: ["column_data"],
-          replace: !0,
-          onStart: () => l.value = !0,
-          onFinish: () => l.value = !1
-        }
-      );
-    }
-    return (e, t) => (U(), q("div", X, [
-      d(y(H)),
-      S("div", Y, [
-        S("h1", Z, O(s.title), 1),
-        d(y(G), {
-          label: p("crud.button.create"),
-          icon: "pi pi-plus",
-          onClick: A
-        }, null, 8, ["label"])
-      ]),
-      d(K, {
-        items: s.column_data.data,
-        columns: s.columns_details,
-        "total-records": s.column_data.total,
-        "per-page": s.column_data.per_page,
-        loading: l.value,
-        onPaginate: R,
-        onSort: k,
-        onSearch: L
-      }, {
-        actions: W(({ row: a }) => [
-          d(M, {
-            row: a,
-            buttons: C.value,
-            onView: D,
-            onEdit: B,
-            onDelete: V
-          }, null, 8, ["row", "buttons"])
+    return (l, e) => (a(), r("div", Q, [
+      s("div", G, [
+        s("div", H, [
+          u(c(A), { class: "absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" }),
+          F(s("input", {
+            "onUpdate:modelValue": e[0] || (e[0] = (o) => k.value = o),
+            placeholder: m("crud.datatable.search_placeholder"),
+            class: "flex h-9 w-full rounded-md border border-input bg-transparent pl-8 pr-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            onInput: z
+          }, null, 40, J), [
+            [L, k.value]
+          ])
         ]),
-        _: 1
-      }, 8, ["items", "columns", "total-records", "per-page", "loading"]),
-      d(Q, {
-        visible: u.value,
-        title: v.value,
-        fields: _.value,
-        data: f.value,
-        loading: n.value,
-        "is-edit": m.value,
-        "onUpdate:visible": t[0] || (t[0] = (a) => u.value = a),
-        onSubmit: E,
-        onClose: I
-      }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"])
+        s("div", K, [
+          u(x, {
+            variant: "outline",
+            size: "sm",
+            disabled: n.value <= 1,
+            onClick: e[1] || (e[1] = (o) => v(n.value - 1))
+          }, {
+            default: b(() => [
+              u(c(E), { class: "h-4 w-4" })
+            ]),
+            _: 1
+          }, 8, ["disabled"]),
+          s("span", W, i(t.totalRecords > 0 ? (n.value - 1) * t.perPage + 1 : 0) + "-" + i(Math.min(n.value * t.perPage, t.totalRecords)) + " " + i(m("crud.datatable.of") || "of") + " " + i(t.totalRecords), 1),
+          u(x, {
+            variant: "outline",
+            size: "sm",
+            disabled: n.value * t.perPage >= t.totalRecords,
+            onClick: e[2] || (e[2] = (o) => v(n.value + 1))
+          }, {
+            default: b(() => [
+              u(c(I), { class: "h-4 w-4" })
+            ]),
+            _: 1
+          }, 8, ["disabled"])
+        ])
+      ]),
+      s("div", X, [
+        s("table", Y, [
+          s("thead", Z, [
+            s("tr", ee, [
+              (a(!0), r(w, null, C(t.columns, (o) => (a(), r("th", {
+                key: o.field,
+                class: "h-10 px-4 text-left align-middle font-medium text-muted-foreground cursor-pointer select-none",
+                onClick: (d) => S(o.field)
+              }, [
+                s("div", se, [
+                  P(i(o.header) + " ", 1),
+                  y.value === o.field ? (a(), r("span", oe, [
+                    f.value === 1 ? (a(), R(c(O), {
+                      key: 0,
+                      class: "h-3 w-3"
+                    })) : (a(), R(c(U), {
+                      key: 1,
+                      class: "h-3 w-3"
+                    }))
+                  ])) : T("", !0)
+                ])
+              ], 8, te))), 128)),
+              s("th", le, i(m("crud.button.actions")), 1)
+            ])
+          ]),
+          s("tbody", ne, [
+            t.loading ? (a(), r("tr", ae, [
+              s("td", {
+                colspan: t.columns.length + 1,
+                class: "p-4 align-middle text-center"
+              }, [
+                u(c(q), { class: "inline-block h-5 w-5 animate-spin text-muted-foreground" })
+              ], 8, re)
+            ])) : t.items.length === 0 ? (a(), r("tr", ie, [
+              s("td", {
+                colspan: t.columns.length + 1,
+                class: "p-4 align-middle text-center"
+              }, [
+                s("p", ue, i(m("crud.datatable.no_data")), 1)
+              ], 8, de)
+            ])) : T("", !0),
+            (a(!0), r(w, null, C(t.items, (o) => (a(), r("tr", {
+              key: o.id,
+              class: "border-b transition-colors hover:bg-muted/50"
+            }, [
+              (a(!0), r(w, null, C(t.columns, (d) => (a(), r("td", {
+                key: d.field,
+                class: "p-4 align-middle"
+              }, i(d.relation ? B(o, d) : o[d.field]), 1))), 128)),
+              s("td", ce, [
+                M(l.$slots, "actions", { row: o })
+              ])
+            ]))), 128))
+          ])
+        ])
+      ]),
+      s("div", me, [
+        u(x, {
+          variant: "outline",
+          size: "sm",
+          disabled: n.value <= 1,
+          onClick: e[3] || (e[3] = (o) => v(n.value - 1))
+        }, {
+          default: b(() => [...e[5] || (e[5] = [
+            P(" Previous ", -1)
+          ])]),
+          _: 1
+        }, 8, ["disabled"]),
+        s("span", fe, " Page " + i(n.value) + " of " + i(Math.max(1, Math.ceil(t.totalRecords / t.perPage))), 1),
+        u(x, {
+          variant: "outline",
+          size: "sm",
+          disabled: n.value * t.perPage >= t.totalRecords,
+          onClick: e[4] || (e[4] = (o) => v(n.value + 1))
+        }, {
+          default: b(() => [...e[6] || (e[6] = [
+            P(" Next ", -1)
+          ])]),
+          _: 1
+        }, 8, ["disabled"])
+      ])
     ]));
   }
 });
 export {
-  se as default
+  xe as default
 };

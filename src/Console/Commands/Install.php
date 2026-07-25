@@ -30,8 +30,9 @@ class Install extends Command
         $this->newLine();
         $this->info('📋 Aggiungi nel tuo app.ts:');
         $this->line('');
-        $this->line("   import { PrimeVuePlugin, CrudPlugin } from '@crud-fiesta'");
-        $this->line("   app.use(PrimeVuePlugin)");
+        $this->line("   import { ShadcnPlugin, CrudPlugin } from '@crud-fiesta'");
+        $this->line("   import './assets/shadcn.css'");
+        $this->line("   app.use(ShadcnPlugin)");
         $this->line("   app.use(CrudPlugin)");
         $this->newLine();
         $this->info('✅ CrudFiesta pronto!');
@@ -45,10 +46,14 @@ class Install extends Command
     protected function installNpmPackages(): void
     {
         $packages = [
-            'primevue',
-            '@primevue/themes',
-            'primeicons',
-            'quill',
+            'lucide-vue-next',
+            '@vueuse/core',
+            'maska',
+            '@tiptap/vue-3',
+            '@tiptap/starter-kit',
+            'clsx',
+            'tailwind-merge',
+            'class-variance-authority',
         ];
 
         if (! file_exists(base_path('package.json'))) {

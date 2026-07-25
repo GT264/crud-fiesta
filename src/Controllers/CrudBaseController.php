@@ -62,7 +62,7 @@ abstract class CrudBaseController extends Controller
         $sortField = $request->query('sort_field');
         $sortOrder = $request->query('sort_order');
 
-        // Map PrimeVue sort order: 1 = ascending, -1 = descending
+        // Map sort order: 1 = ascending, -1 = descending
         $sortDirection = 'asc';
         if ($sortOrder !== null) {
             $sortDirection = (int) $sortOrder === -1 ? 'desc' : 'asc';

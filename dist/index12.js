@@ -1,13 +1,106 @@
-var o = { background: "{form.field.background}", disabledBackground: "{form.field.disabled.background}", filledBackground: "{form.field.filled.background}", filledHoverBackground: "{form.field.filled.hover.background}", filledFocusBackground: "{form.field.filled.focus.background}", borderColor: "{form.field.border.color}", hoverBorderColor: "{form.field.hover.border.color}", focusBorderColor: "{form.field.focus.border.color}", invalidBorderColor: "{form.field.invalid.border.color}", color: "{form.field.color}", disabledColor: "{form.field.disabled.color}", placeholderColor: "{form.field.placeholder.color}", invalidPlaceholderColor: "{form.field.invalid.placeholder.color}", shadow: "{form.field.shadow}", paddingX: "{form.field.padding.x}", paddingY: "{form.field.padding.y}", borderRadius: "{form.field.border.radius}", focusRing: { width: "{form.field.focus.ring.width}", style: "{form.field.focus.ring.style}", color: "{form.field.focus.ring.color}", offset: "{form.field.focus.ring.offset}", shadow: "{form.field.focus.ring.shadow}" }, transitionDuration: "{form.field.transition.duration}" }, r = { background: "{overlay.select.background}", borderColor: "{overlay.select.border.color}", borderRadius: "{overlay.select.border.radius}", color: "{overlay.select.color}", shadow: "{overlay.select.shadow}" }, d = { padding: "{list.padding}", gap: "{list.gap}" }, e = { focusBackground: "{list.option.focus.background}", selectedBackground: "{list.option.selected.background}", selectedFocusBackground: "{list.option.selected.focus.background}", color: "{list.option.color}", focusColor: "{list.option.focus.color}", selectedColor: "{list.option.selected.color}", selectedFocusColor: "{list.option.selected.focus.color}", padding: "{list.option.padding}", borderRadius: "{list.option.border.radius}" }, l = { background: "{list.option.group.background}", color: "{list.option.group.color}", fontWeight: "{list.option.group.font.weight}", padding: "{list.option.group.padding}" }, i = { width: "2.5rem", sm: { width: "2rem" }, lg: { width: "3rem" }, borderColor: "{form.field.border.color}", hoverBorderColor: "{form.field.border.color}", activeBorderColor: "{form.field.border.color}", borderRadius: "{form.field.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, c = { borderRadius: "{border.radius.sm}" }, s = { padding: "{list.option.padding}" }, a = { light: { chip: { focusBackground: "{surface.200}", focusColor: "{surface.800}" }, dropdown: { background: "{surface.100}", hoverBackground: "{surface.200}", activeBackground: "{surface.300}", color: "{surface.600}", hoverColor: "{surface.700}", activeColor: "{surface.800}" } }, dark: { chip: { focusBackground: "{surface.700}", focusColor: "{surface.0}" }, dropdown: { background: "{surface.800}", hoverBackground: "{surface.700}", activeBackground: "{surface.600}", color: "{surface.300}", hoverColor: "{surface.200}", activeColor: "{surface.100}" } } }, f = { root: o, overlay: r, list: d, option: e, optionGroup: l, dropdown: i, chip: c, emptyMessage: s, colorScheme: a };
+import { defineComponent as $, computed as p, ref as k, openBlock as v, createElementBlock as D, createVNode as o, withCtx as a, createElementVNode as n, createBlock as E, resolveDynamicComponent as T, toDisplayString as c, unref as _, createTextVNode as m } from "vue";
+import { usePage as j } from "@inertiajs/vue3";
+import { EllipsisVertical as A, AlertTriangle as B, Trash2 as I, Pencil as N, Eye as g } from "lucide-vue-next";
+import f from "./index15.js";
+import M from "./index16.js";
+import P from "./index26.js";
+const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-2 w-full" }, O = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, W = /* @__PURE__ */ $({
+  __name: "CrudActions",
+  props: {
+    row: {},
+    buttons: {}
+  },
+  emits: ["view", "edit", "delete"],
+  setup(w, { emit: b }) {
+    const r = w, d = b, x = j();
+    function s(e) {
+      var t;
+      return ((t = x.props.crudLang) == null ? void 0 : t[e]) ?? e;
+    }
+    const u = p(() => r.row.id ?? Object.values(r.row)[0]), l = k(!1);
+    function h(e) {
+      return {
+        view: g,
+        edit: N,
+        delete: I
+      }[e] || g;
+    }
+    function y(e) {
+      e === "delete" ? l.value = !0 : e === "view" ? d("view", u.value) : e === "edit" && d("edit", u.value);
+    }
+    function C() {
+      l.value = !1, d("delete", u.value);
+    }
+    const V = p(
+      () => r.buttons.map((e) => ({
+        label: e.label,
+        icon: e.icon,
+        action: e.action,
+        command: () => y(e.action)
+      }))
+    );
+    return (e, t) => (v(), D("div", z, [
+      o(P, { items: V.value }, {
+        trigger: a(() => [
+          o(f, {
+            label: s("crud.button.actions"),
+            variant: "secondary",
+            size: "sm"
+          }, {
+            default: a(() => [
+              o(_(A), { class: "h-4 w-4 mr-1" }),
+              m(" " + c(s("crud.button.actions")), 1)
+            ]),
+            _: 1
+          }, 8, ["label"])
+        ]),
+        item: a(({ item: i }) => [
+          n("div", L, [
+            (v(), E(T(h(i.action)), { class: "h-4 w-4" })),
+            n("span", O, c(i.label), 1)
+          ])
+        ]),
+        _: 1
+      }, 8, ["items"]),
+      o(M, {
+        open: l.value,
+        "onUpdate:open": t[1] || (t[1] = (i) => l.value = i),
+        onClose: t[2] || (t[2] = (i) => l.value = !1)
+      }, {
+        default: a(() => [
+          n("div", S, [
+            n("h2", U, c(s("crud.delete_confirm.header")), 1),
+            n("div", q, [
+              o(_(B), { class: "h-6 w-6 text-yellow-500" }),
+              n("span", null, c(s("crud.delete_confirm.message")), 1)
+            ]),
+            n("div", F, [
+              o(f, {
+                variant: "secondary",
+                onClick: t[0] || (t[0] = (i) => l.value = !1)
+              }, {
+                default: a(() => [
+                  m(c(s("crud.button.cancel")), 1)
+                ]),
+                _: 1
+              }),
+              o(f, {
+                variant: "destructive",
+                onClick: C
+              }, {
+                default: a(() => [
+                  m(c(s("crud.button.delete")), 1)
+                ]),
+                _: 1
+              })
+            ])
+          ])
+        ]),
+        _: 1
+      }, 8, ["open"])
+    ]));
+  }
+});
 export {
-  c as chip,
-  a as colorScheme,
-  f as default,
-  i as dropdown,
-  s as emptyMessage,
-  d as list,
-  e as option,
-  l as optionGroup,
-  r as overlay,
-  o as root
+  W as default
 };

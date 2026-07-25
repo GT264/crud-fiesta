@@ -11,9 +11,9 @@ export default defineConfig({
             fileName: () => 'index.js',
         },
         rollupOptions: {
-            // Vue e PrimeVue sono nel consumer: non bundliamo per evitare
-            // istanze doppie (il PrimeVue plugin va registrato una volta sola)
-            external: ['vue', /^vue\//, /^primevue/, /^primeicons/, '@inertiajs/vue3', 'ziggy-js'],
+            // Vue e shadcn-vue sono nel consumer: non bundliamo per evitare
+            // istanze doppie
+            external: ['vue', /^vue\//, '@inertiajs/vue3', 'ziggy-js', 'lucide-vue-next', '@vueuse/core', 'maska', '@tiptap/vue-3', '@tiptap/starter-kit', 'clsx', 'tailwind-merge', 'class-variance-authority'],
             output: {
                 // Preserva la struttura delle cartelle in dist/
                 preserveModules: true,

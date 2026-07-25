@@ -1,7 +1,4 @@
-import o from "./index103.js";
-/* empty css         */
-import t from "./index105.js";
-const f = /* @__PURE__ */ t(o, [["__scopeId", "data-v-b70fca99"]]);
+import f from "./index5.js";
 export {
   f as default
 };

@@ -30,7 +30,7 @@ Un utente visualizza una tabella dati CRUD generata dal package. Nella colonna "
 
 ### User Story 2 - Icone e label in rettangolo (Priority: P1)
 
-Ogni voce del menu dropdown deve avere un layout consistente: icona PrimeIcons allineata a sinistra e label testuale racchiusa in un rettangolo visivo (bordi o sfondo che incorniciano il testo).
+Ogni voce del menu dropdown deve avere un layout consistente: icona Lucide allineata a sinistra e label testuale racchiusa in un rettangolo visivo (bordi o sfondo che incorniciano il testo).
 
 **Why this priority**: È parte integrante del requisito visivo specificato dall'utente.
 
@@ -38,8 +38,8 @@ Ogni voce del menu dropdown deve avere un layout consistente: icona PrimeIcons a
 
 **Acceptance Scenarios**:
 
-1. **Given** il menu dropdown aperto, **When** l'utente osserva una voce (es. "Visualizza"), **Then** l'icona `pi pi-eye` appare a sinistra e il testo "Visualizza" è racchiuso in un rettangolo con bordo o sfondo distinto.
-2. **Given** il menu dropdown aperto, **When** l'utente osserva la voce "Elimina", **Then** l'icona `pi pi-trash` appare a sinistra e il testo "Elimina" è racchiuso in un rettangolo.
+1. **Given** il menu dropdown aperto, **When** l'utente osserva una voce (es. "Visualizza"), **Then** l'icona Lucide `Eye` appare a sinistra e il testo "Visualizza" è racchiuso in un rettangolo con bordo o sfondo distinto.
+2. **Given** il menu dropdown aperto, **When** l'utente osserva la voce "Elimina", **Then** l'icona Lucide `Trash2` appare a sinistra e il testo "Elimina" è racchiuso in un rettangolo.
 
 ---
 
@@ -55,11 +55,11 @@ Ogni voce del menu dropdown deve avere un layout consistente: icona PrimeIcons a
 
 - **FR-001**: La colonna "Actions" della `CrudDataTable` deve mostrare un dropdown (trigger + menu popup) invece di pulsanti inline.
 - **FR-002**: Il trigger del dropdown deve avere label "Actions" (tradotta via `crudT('crud.button.actions')`).
-- **FR-003**: Ogni voce del menu deve rendere l'icona PrimeIcon (da `btn.icon`) a sinistra e la label (`btn.label`) racchiusa in un rettangolo visivo.
+- **FR-003**: Ogni voce del menu deve rendere l'icona Lucide (risolta dal nome icona in `btn.icon`) a sinistra e la label (`btn.label`) racchiusa in un rettangolo visivo.
 - **FR-004**: Le azioni `view`, `edit`, `delete` devono emettere gli stessi eventi (`view`, `edit`, `delete`) di prima, garantendo retrocompatibilità con `Index.vue`.
 - **FR-005**: L'azione `delete` deve continuare ad aprire la `Dialog` di conferma prima di emettere l'evento.
 - **FR-006**: Il componente `CrudActions.vue` deve continuare a usare `<script setup lang="ts">` e Composition API.
-- **FR-007**: Il componente deve usare PrimeVue `Menu` (o `TieredMenu`/`PopupMenu`) per il dropdown.
+- **FR-007**: Il componente deve usare shadcn-vue `DropdownMenu` per il dropdown.
 
 ### Key Entities
 
@@ -76,7 +76,7 @@ Nessuna nuova entità dati. La modifica è puramente UI nel componente `CrudActi
 
 ## Assumptions
 
-- PrimeVue `Menu` (popup mode) è disponibile nella versione ^4.0 già in uso nel progetto.
-- Le icone PrimeIcons (`pi pi-*`) sono già caricate globalmente.
+- shadcn-vue `DropdownMenu` è implementato come componente custom nel package (`src/resources/js/Components/ui/DropdownMenu.vue`).
+- Le icone Lucide sono importate da `@lucide/vue` e disponibili come componenti Vue.
 - Il componente `CrudActions.vue` riceve sempre un array `buttons` con almeno un elemento nel caso standard.
 - La traduzione `crud.button.actions` esiste già nei file di lingua (`src/lang/en/crud.php`, `src/lang/it/crud.php`).

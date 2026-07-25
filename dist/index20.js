@@ -1,9 +1,46 @@
-var r = { transitionDuration: "{transition.duration}" }, o = { gap: "0.25rem" }, a = { padding: "1rem", gap: "0.5rem" }, i = { width: "2rem", height: "0.5rem", borderRadius: "{content.border.radius}", focusRing: { width: "{focus.ring.width}", style: "{focus.ring.style}", color: "{focus.ring.color}", offset: "{focus.ring.offset}", shadow: "{focus.ring.shadow}" } }, c = { light: { indicator: { background: "{surface.200}", hoverBackground: "{surface.300}", activeBackground: "{primary.color}" } }, dark: { indicator: { background: "{surface.700}", hoverBackground: "{surface.600}", activeBackground: "{primary.color}" } } }, t = { root: r, content: o, indicatorList: a, indicator: i, colorScheme: c };
+import { defineComponent as u, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as n, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as b, renderList as v, vModelSelect as h } from "vue";
+import { useVModel as y } from "@vueuse/core";
+import { cn as V } from "./index40.js";
+const g = ["id", "required", "disabled", "multiple"], x = {
+  key: 0,
+  value: "",
+  disabled: ""
+}, B = ["value"], D = /* @__PURE__ */ u({
+  __name: "Select",
+  props: {
+    id: {},
+    modelValue: {},
+    options: { default: () => [] },
+    placeholder: {},
+    required: { type: Boolean },
+    disabled: { type: Boolean },
+    multiple: { type: Boolean, default: !1 },
+    class: {}
+  },
+  emits: ["update:modelValue"],
+  setup(e, { emit: r }) {
+    const d = e, i = y(d, "modelValue", r);
+    return (q, a) => m((t(), o("select", {
+      id: e.id,
+      "onUpdate:modelValue": a[0] || (a[0] = (l) => p(i) ? i.value = l : null),
+      required: e.required,
+      disabled: e.disabled,
+      multiple: e.multiple,
+      class: c(n(V)(
+        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        d.class
+      ))
+    }, [
+      e.placeholder ? (t(), o("option", x, s(e.placeholder), 1)) : f("", !0),
+      (t(!0), o(b, null, v(e.options, (l) => (t(), o("option", {
+        key: l.value,
+        value: l.value
+      }, s(l.label), 9, B))), 128))
+    ], 10, g)), [
+      [h, n(i)]
+    ]);
+  }
+});
 export {
-  c as colorScheme,
-  o as content,
-  t as default,
-  i as indicator,
-  a as indicatorList,
-  r as root
+  D as default
 };

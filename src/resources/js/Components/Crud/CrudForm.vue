@@ -1,200 +1,52 @@
 <template>
-  <Dialog
-    v-model:visible="isOpen"
-    :header="title"
-    :modal="true"
-    :closable="true"
-    class="w-full md:w-1/2"
-    @hide="onClose"
-  >
-    <form id="crud-form" @submit.prevent="onSubmit" class="space-y-4">
-      <div v-for="(field, key) in fields" :key="key" class="field">
-        <label :for="key" class="block mb-2 font-semibold">
-          {{ field.label }}
-          <span v-if="field.required" class="text-red-500">*</span>
-        </label>
-
-        <!-- InputText -->
-        <InputText
-          v-if="field.type === 'InputText'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- Email -->
-        <InputText
-          v-else-if="field.type === 'email'"
-          :id="key"
-          v-model="formData[key]"
-          type="email"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- InputTextarea -->
-        <Textarea
-          v-else-if="field.type === 'InputTextarea'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-          rows="4"
-        />
-
-        <!-- InputNumber -->
-        <InputNumber
-          v-else-if="field.type === 'InputNumber'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- Calendar / DatePicker -->
-        <DatePicker
-          v-else-if="field.type === 'Calendar'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- Checkbox -->
-        <Checkbox
-          v-else-if="field.type === 'Checkbox'"
-          :id="key"
-          v-model="formData[key]"
-          :binary="true"
-          :required="field.required"
-        />
-
-        <!-- Password -->
-        <Password
-          v-else-if="field.type === 'Password'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-          toggle-mask
-        />
-
-        <!-- Rating -->
-        <Rating
-          v-else-if="field.type === 'Rating'"
-          v-model="formData[key]"
-          :required="field.required"
-        />
-
-        <!-- InputMask -->
-        <InputMask
-          v-else-if="field.type === 'InputMask'"
-          :id="key"
-          v-model="formData[key]"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- Editor (rich text) -->
-        <Editor
-          v-else-if="field.type === 'Editor'"
-          v-model="formData[key]"
-          editor-style="height: 200px"
-          :required="field.required"
-        />
-
-        <!-- Dropdown (placeholder for later) -->
-        <Dropdown
-          v-else-if="field.type === 'Dropdown'"
-          :id="key"
-          v-model="formData[key]"
-          :options="field.options || []"
-          option-label="label"
-          option-value="value"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- MultiSelect (placeholder for later) -->
-        <MultiSelect
-          v-else-if="field.type === 'MultiSelect'"
-          :id="key"
-          v-model="formData[key]"
-          :options="field.options || []"
-          option-label="label"
-          option-value="value"
-          :placeholder="field.placeholder"
-          class="w-full"
-          :required="field.required"
-        />
-
-        <!-- File -->
-        <FileUpload
-          v-else-if="field.type === 'File'"
-          :id="key"
-          v-model="formData[key]"
-          :auto="false"
-          :multiple="false"
-          :required="field.required"
-        />
-
-        <!-- Image -->
-        <FileUpload
-          v-else-if="field.type === 'Image'"
-          :id="key"
-          v-model="formData[key]"
-          :auto="false"
-          accept="image/*"
-          :multiple="false"
-          :required="field.required"
-        />
+  <Dialog :open="isOpen" :modal="true" class="w-full md:w-1/2" @update:open="isOpen = $event" @close="onClose">
+    <div class="flex flex-col gap-4">
+      <h2 class="text-lg font-semibold">{{ title }}</h2>
+      <form id="crud-form" class="space-y-4" @submit.prevent="onSubmit">
+        <div v-for="(field, key) in fields" :key="key" class="field">
+          <label :for="key" class="block mb-2 font-semibold text-sm">
+            {{ field.label }}
+            <span v-if="field.required" class="text-red-500">*</span>
+          </label>
+          <Input v-if="field.type === 'text'" :id="key" v-model="formData[key]" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Input v-else-if="field.type === 'email'" :id="key" v-model="formData[key]" type="email" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Textarea v-else-if="field.type === 'textarea'" :id="key" v-model="formData[key]" :placeholder="field.placeholder" class="w-full" :required="field.required" rows="4" />
+          <Input v-else-if="field.type === 'number'" :id="key" v-model.number="formData[key]" type="number" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Calendar v-else-if="field.type === 'date'" :id="key" v-model="formData[key]" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Checkbox v-else-if="field.type === 'checkbox'" :id="key" v-model="formData[key]" :required="field.required" />
+          <Input v-else-if="field.type === 'password'" :id="key" v-model="formData[key]" type="password" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Select v-else-if="field.type === 'select'" :id="key" v-model="formData[key]" :options="field.options || []" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <Select v-else-if="field.type === 'multi_select'" :id="key" v-model="formData[key]" :options="field.options || []" :placeholder="field.placeholder" class="w-full" :required="field.required" multiple />
+          <MaskedInput v-else-if="field.type === 'mask'" :id="key" v-model="formData[key]" :placeholder="field.placeholder" class="w-full" :required="field.required" />
+          <RichTextInput v-else-if="field.type === 'rich_text'" v-model="formData[key]" :required="field.required" />
+          <FileInput v-else-if="field.type === 'file'" :key="'file-' + key" :required="field.required" accept="*/*" />
+          <FileInput v-else-if="field.type === 'image'" :key="'image-' + key" :required="field.required" accept="image/*" />
+        </div>
+      </form>
+      <div class="flex justify-end gap-2 mt-4">
+        <Button variant="secondary" @click="onClose">Annulla</Button>
+        <Button variant="default" :disabled="loading" type="submit" form="crud-form">
+          <Loader2 v-if="loading" class="h-4 w-4 mr-1 animate-spin" />
+          Salva
+        </Button>
       </div>
-    </form>
-
-    <template #footer>
-      <Button
-        label="Annulla"
-        icon="pi pi-times"
-        class="p-button-text"
-        @click="onClose"
-      />
-      <Button
-        label="Salva"
-        icon="pi pi-check"
-        :loading="loading"
-        type="submit"
-        form="crud-form"
-      />
-    </template>
+    </div>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, defineAsyncComponent } from 'vue'
-import Dialog from 'primevue/dialog'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
-import InputNumber from 'primevue/inputnumber'
-import DatePicker from 'primevue/datepicker'
-import Checkbox from 'primevue/checkbox'
-import Dropdown from 'primevue/dropdown'
-import MultiSelect from 'primevue/multiselect'
-import Password from 'primevue/password'
-import Rating from 'primevue/rating'
-import InputMask from 'primevue/inputmask'
-import FileUpload from 'primevue/fileupload'
-import Button from 'primevue/button'
-
-const Editor = defineAsyncComponent(() => import('primevue/editor'))
+import { ref, computed, watch } from 'vue'
+import { Loader2 } from 'lucide-vue-next'
+import Dialog from '../ui/Dialog.vue'
+import Button from '../ui/Button.vue'
+import Input from '../ui/Input.vue'
+import Textarea from '../ui/Textarea.vue'
+import Checkbox from '../ui/Checkbox.vue'
+import Select from '../ui/Select.vue'
+import Calendar from '../ui/Calendar.vue'
+import RichTextInput from './inputs/RichTextInput.vue'
+import FileInput from './inputs/FileInput.vue'
+import MaskedInput from './inputs/MaskedInput.vue'
 
 interface FieldConfig {
   label: string
@@ -213,10 +65,7 @@ interface Props {
   isEdit?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  loading: false,
-  isEdit: false,
-})
+const props = withDefaults(defineProps<Props>(), { loading: false, isEdit: false })
 
 const emit = defineEmits<{
   'update:visible': [value: boolean]
@@ -231,25 +80,10 @@ const isOpen = computed({
 
 const formData = ref<Record<string, any>>({})
 
-watch(
-  () => props.visible,
-  (newVal) => {
-    if (newVal && props.data) {
-      formData.value = { ...props.data }
-    } else if (newVal) {
-      formData.value = {}
-    }
-  },
-  { immediate: true },
-)
+watch(() => props.visible, (newVal) => {
+  formData.value = (newVal && props.data) ? { ...props.data } : {}
+}, { immediate: true })
 
-const onSubmit = () => {
-  emit('submit', formData.value)
-}
-
-const onClose = () => {
-  formData.value = {}
-  emit('close')
-  emit('update:visible', false)
-}
+const onSubmit = () => emit('submit', formData.value)
+const onClose = () => { formData.value = {}; emit('close'); emit('update:visible', false) }
 </script>

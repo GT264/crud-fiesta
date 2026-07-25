@@ -1,7 +1,7 @@
-import t from "./index6.js";
-import m from "./index7.js";
-import n from "./index8.js";
-import s from "./index9.js";
+import t from "./index5.js";
+import m from "./index6.js";
+import n from "./index7.js";
+import s from "./index8.js";
 const e = {
   CrudIndex: t,
   CrudDataTable: m,
