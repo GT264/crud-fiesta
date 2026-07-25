@@ -1,6 +1,6 @@
 import { defineComponent as l, openBlock as i, createElementBlock as r, normalizeClass as d, unref as o, renderSlot as u } from "vue";
-import { buttonVariants as c } from "./index39.js";
-import { cn as f } from "./index40.js";
+import { buttonVariants as c } from "./index40.js";
+import { cn as f } from "./index39.js";
 const m = ["type", "disabled"], y = /* @__PURE__ */ l({
   __name: "Button",
   props: {

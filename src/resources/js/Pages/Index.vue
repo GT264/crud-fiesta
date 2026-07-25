@@ -41,11 +41,18 @@ const props = withDefaults(defineProps<Props>(), { title: 'CRUD Index' })
 const Toast = ToastComponent
 const toastRef = ref<InstanceType<typeof ToastComponent> | null>(null)
 const loading = ref(false)
+const shownFlashes = new Set<string>()
 
 router.on('finish', () => {
   const flash = page.props.flash as Record<string, any> | undefined
-  if (flash?.success) toastRef.value?.add({ severity: 'success', summary: 'Success', detail: flash.success, life: 5000 })
-  if (flash?.error) toastRef.value?.add({ severity: 'error', summary: 'Error', detail: flash.error, life: 5000 })
+  if (flash?.success && !shownFlashes.has('success:' + flash.success)) {
+    shownFlashes.add('success:' + flash.success)
+    toastRef.value?.add({ severity: 'success', summary: 'Success', detail: flash.success, life: 5000 })
+  }
+  if (flash?.error && !shownFlashes.has('error:' + flash.error)) {
+    shownFlashes.add('error:' + flash.error)
+    toastRef.value?.add({ severity: 'error', summary: 'Error', detail: flash.error, life: 5000 })
+  }
 })
 
 const formVisible = ref(false); const formTitle = ref(''); const formFields = ref<Record<string, any>>({})

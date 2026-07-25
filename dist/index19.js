@@ -1,6 +1,6 @@
 import { defineComponent as t, withDirectives as n, openBlock as a, createElementBlock as u, normalizeClass as c, unref as d, isRef as m, vModelCheckbox as p } from "vue";
 import { useVModel as b } from "@vueuse/core";
-import { cn as f } from "./index40.js";
+import { cn as f } from "./index39.js";
 const h = ["id", "required", "disabled"], B = /* @__PURE__ */ t({
   __name: "Checkbox",
   props: {

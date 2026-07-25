@@ -118,12 +118,31 @@ abstract class CrudBaseRepository
      * @param array $columns
      * @return LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = []): LengthAwarePaginator
+    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
 
         if ($sortField !== null) {
             $query->orderBy($sortField, $sortOrder);
+        }
+
+        if ($search !== null && $search !== '') {
+            $searchableColumns = $columns !== ['*'] ? $columns : [];
+            $query->where(function ($q) use ($search, $searchableColumns, $relations) {
+                if (!empty($searchableColumns)) {
+                    foreach ($searchableColumns as $col) {
+                        if (isset($relations[$col])) {
+                            $relationName = $relations[$col]['relation'];
+                            $displayField = $relations[$col]['display_field'];
+                            $q->orWhereHas($relationName, function ($r) use ($search, $displayField) {
+                                $r->where($displayField, 'LIKE', '%' . $search . '%');
+                            });
+                        } else {
+                            $q->orWhere($col, 'LIKE', '%' . $search . '%');
+                        }
+                    }
+                }
+            });
         }
 
         foreach ($relations as $foreignKey => $relationConfig) {
