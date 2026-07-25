@@ -1,0 +1,21 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-utils",
+  "type": "registry:lib",
+  "title": "CF Utils",
+  "description": "Utility function cn() for Tailwind CSS class merging — required by all crud-fiesta components.",
+  "author": "GT264 <ferretti.m91@gmail.com>",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/resources/js/lib/utils.ts",
+      "type": "registry:lib"
+    }
+  ],
+  "categories": ["crud-fiesta", "utility"],
+  "docs": "Make sure clsx and tailwind-merge are installed: npm install clsx tailwind-merge"
+}

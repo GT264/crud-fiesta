@@ -1,0 +1,31 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-form",
+  "type": "registry:component",
+  "title": "CF Form",
+  "description": "Modal form dialog with 14+ field types including text, email, textarea, number, date, checkbox, select, multi-select, password, rich text, file, image, and masked input.",
+  "author": "GT264 <ferretti.m91@gmail.com>",
+  "dependencies": [
+    "lucide-vue-next"
+  ],
+  "registryDependencies": [
+    "button",
+    "input",
+    "textarea",
+    "checkbox",
+    "select",
+    "calendar",
+    "dialog",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-rich-text-input.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-file-input.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-masked-input.json"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/CrudForm.vue",
+      "type": "registry:component"
+    }
+  ],
+  "categories": ["crud-fiesta", "forms"],
+  "docs": "This form supports 14 field types: text, email, textarea, number, date, checkbox, select, multi_select, password, rich_text, file, image, mask. For rich_text (tiptap), file/image (VueUse), and mask (Maska) types, the corresponding crud-fiesta input wrappers will be installed as dependencies."
+}

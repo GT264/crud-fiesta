@@ -1,0 +1,22 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-file-input",
+  "type": "registry:component",
+  "title": "CF File Input",
+  "description": "File/image upload input wrapper using VueUse useFileDialog — for use inside CfForm with type 'file' or 'image'.",
+  "author": "GT264 <ferretti.m91@gmail.com>",
+  "dependencies": [
+    "@vueuse/core"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/inputs/FileInput.vue",
+      "type": "registry:component"
+    }
+  ],
+  "categories": ["crud-fiesta", "inputs"],
+  "docs": "Requires @vueuse/core. Install: npm install @vueuse/core"
+}

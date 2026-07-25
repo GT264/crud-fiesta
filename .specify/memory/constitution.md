@@ -1,11 +1,11 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 1.0.1 → 1.0.2 (MINOR — added mandatory SDD design artifacts to Development Workflow)
+  Version change: 1.0.2 → 1.1.0 (MINOR — added Principle VI "Registry" and updated Technology Stack for shadcn-vue)
   Modified principles: n/a
   Added sections:
-    - Development Workflow: Added step 0 "Design" mandating spec.md, plan.md, and tasks.md
-      in specs/[###-feature]/ for every new feature iteration.
+    - Principle VI "Registry" mandating registry.json updates for every shadcn-vue component
+    - Updated Technology Stack: removed PrimeVue/Aura/primeicons, added shadcn-vue/lucide-vue-next
   Removed sections: n/a
   Templates requiring updates:
     - .specify/templates/plan-template.md: ✅ no changes needed
@@ -86,10 +86,10 @@ and treated as part of the package distribution.
   Vue SFC render outputs.
 - External dependencies MUST be declared as `external` in the Vite `rollupOptions`
   to prevent bundling duplicates at the consumer's end. The following packages MUST
-  be externalized: `vue`, `/^vue\//`, `/^primevue/`, `/^primeicons/`,
-  and `@inertiajs/vue3`. This prevents the package and the consuming project from
-  bundling two separate Inertia instances, which causes runtime breakage (e.g.,
-  `page.props` being `undefined` in components that call `usePage()`).
+  be externalized: `vue`, `/^vue\//`, and `@inertiajs/vue3`. This prevents the
+  package and the consuming project from bundling two separate Inertia instances,
+  which causes runtime breakage (e.g., `page.props` being `undefined` in components
+  that call `usePage()`).
 - Library entry point MUST be `src/resources/js/index.ts`, producing ES module output
   in `dist/index.js`.
 - Preserve modules MUST be enabled (`preserveModules: true`) to maintain the directory
@@ -122,6 +122,35 @@ designed as a reusable Laravel library.
 and extend the package without reverse-engineering internals. The stub-based generation
 pattern ensures consistency across CRUD resources.
 
+### VI. Registry
+
+Every shadcn-vue component in the package MUST be declared in the `registry.json`
+and have a corresponding `registry/r/*.json` item file.
+
+- The root `registry.json` file MUST list all registry item URLs.
+- Each Vue component in `src/resources/js/Components/` MUST have a corresponding
+  `registry/r/<item-name>.json` file defining its dependencies, registry
+  dependencies, files, and metadata following the shadcn-vue v3 registry schema.
+- When adding a new shadcn-vue UI component to `src/resources/js/Components/ui/`,
+  its registry item MUST be created or updated in `registry/r/`.
+- When adding a new composite component to `src/resources/js/Components/Crud/`,
+  its registry item MUST be created in `registry/r/` with correct
+  `registryDependencies` referencing both shadcn-vue base components (by name)
+  and other crud-fiesta components (by full raw GitHub URL).
+- npm dependencies (`dependencies` field) MUST list all external packages
+  required by the component at runtime.
+- The `registry.json` array MUST list items in dependency order (leaf
+  dependencies first, composite items last).
+- Registry files MUST be valid JSON conforming to the
+  `https://shadcn-vue.com/schema/registry-item.json` schema.
+
+**Rationale**: The shadcn-vue registry mechanism is the canonical distribution
+channel for crud-fiesta's Vue components. It allows consumers to install
+components via `npx shadcn-vue add <url>` with automatic dependency resolution.
+Keeping registry items in sync with source code ensures the package is
+consumable both as a Composer dependency (PHP layer) and via shadcn-vue CLI
+(Vue layer), without requiring the consumer to manually wire up dependencies.
+
 ## Technology Stack
 
 The package operates within the following technology matrix, which all contributions
@@ -134,18 +163,18 @@ and modifications MUST respect:
 | Auth/RBAC    | spatie/laravel-permission   | ^7.0        |
 | Middleware   | inertiajs/inertia-laravel   | ^3.0        |
 | Frontend     | Vue                         | ^3.4        |
-| UI Library   | PrimeVue                    | ^4.0        |
-| Theme        | Aura (PrimeVue preset)      | —           |
-| Icons        | primeicons                  | ^7.0        |
+| UI Library   | shadcn-vue                  | ^3.0        |
+| Icons        | lucide-vue-next             | ^0.460      |
+| CSS          | Tailwind CSS                | ^4.0        |
 | Type Check   | TypeScript                  | ^5.0        |
 | Bundler      | Vite                        | ^6.0        |
 
-- The Aura theme is the designated PrimeVue preset; UI components MUST use Aura-styled
-  tokens and classes.
-- PrimeIcons MUST be the icon library; custom icon sets MUST NOT be introduced without
-  explicit justification.
-- Inertia.js v2 is the bridge between Laravel controllers and Vue pages; all page
-  components served by CRUD controllers MUST be Inertia pages.
+- shadcn-vue is the designated UI component system; UI components MUST use
+  shadcn-vue patterns and Tailwind CSS tokens.
+- lucide-vue-next MUST be the icon library; custom icon sets MUST NOT be
+  introduced without explicit justification.
+- Inertia.js v3 is the bridge between Laravel controllers and Vue pages; all
+  page components served by CRUD controllers MUST be Inertia pages.
 
 ## Development Workflow
 
@@ -177,6 +206,7 @@ Contributions and modifications MUST follow this workflow:
    - No `emptyOutDir: true` in Vite configuration.
    - PSR-12 compliance in PHP files.
    - Dependency injection used over facades.
+   - Registry files in sync with Vue components (Principle VI).
 
 ## Governance
 
@@ -213,8 +243,8 @@ The constitution follows Semantic Versioning (MAJOR.MINOR.PATCH):
 - Every feature implementation plan (generated via `/speckit-plan`) MUST pass the
   Constitution Check gate before proceeding to implementation.
 - Pull requests MUST include a brief compliance statement confirming adherence to
-  all five Core Principles.
+  all six Core Principles.
 - Complexity or deviations from principles MUST be explicitly justified in the
   implementation plan's Complexity Tracking table.
 
-**Version**: 1.0.2 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-14
+**Version**: 1.1.0 | **Ratified**: 2026-07-07 | **Last Amended**: 2026-07-25

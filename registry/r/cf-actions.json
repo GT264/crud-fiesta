@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-actions",
+  "type": "registry:component",
+  "title": "CF Actions",
+  "description": "Row actions dropdown component with view, edit, delete buttons and confirmation dialog — for use in CfDataTable actions slot.",
+  "author": "GT264 <ferretti.m91@gmail.com>",
+  "dependencies": [
+    "lucide-vue-next",
+    "@inertiajs/vue3"
+  ],
+  "registryDependencies": [
+    "button",
+    "dialog",
+    "dropdown-menu"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/CrudActions.vue",
+      "type": "registry:component"
+    }
+  ],
+  "categories": ["crud-fiesta", "data-display"],
+  "docs": "This component uses @inertiajs/vue3's usePage() for translations. Make sure Inertia is configured and crudLang translations are shared via Inertia middleware."
+}
