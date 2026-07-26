@@ -2,7 +2,7 @@ import { defineComponent as z, computed as y, ref as r, openBlock as G, createEl
 import { usePage as K, router as l } from "@inertiajs/vue3";
 import { route as k } from "ziggy-js";
 import { Plus as Q } from "lucide-vue-next";
-import X from "./index15.js";
+import X from "./index16.js";
 import Y from "./index26.js";
 import Z from "./index6.js";
 import ee from "./index8.js";

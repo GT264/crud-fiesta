@@ -1,33 +1,46 @@
-import { defineComponent as t, withDirectives as n, openBlock as a, createElementBlock as u, normalizeClass as c, unref as d, isRef as m, vModelCheckbox as p } from "vue";
-import { useVModel as b } from "@vueuse/core";
-import { cn as f } from "./index39.js";
-const h = ["id", "required", "disabled"], B = /* @__PURE__ */ t({
-  __name: "Checkbox",
+import { defineComponent as u, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as n, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as b, renderList as v, vModelSelect as h } from "vue";
+import { useVModel as y } from "@vueuse/core";
+import { cn as V } from "./index39.js";
+const g = ["id", "required", "disabled", "multiple"], x = {
+  key: 0,
+  value: "",
+  disabled: ""
+}, B = ["value"], D = /* @__PURE__ */ u({
+  __name: "Select",
   props: {
     id: {},
-    modelValue: { type: Boolean },
+    modelValue: {},
+    options: { default: () => [] },
+    placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
+    multiple: { type: Boolean, default: !1 },
     class: {}
   },
   emits: ["update:modelValue"],
   setup(e, { emit: r }) {
-    const i = e, o = b(i, "modelValue", r);
-    return (v, l) => n((a(), u("input", {
+    const d = e, i = y(d, "modelValue", r);
+    return (q, a) => m((t(), o("select", {
       id: e.id,
-      "onUpdate:modelValue": l[0] || (l[0] = (s) => m(o) ? o.value = s : null),
-      type: "checkbox",
+      "onUpdate:modelValue": a[0] || (a[0] = (l) => p(i) ? i.value = l : null),
       required: e.required,
       disabled: e.disabled,
-      class: c(d(f)(
-        "peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-        i.class
+      multiple: e.multiple,
+      class: c(n(V)(
+        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        d.class
       ))
-    }, null, 10, h)), [
-      [p, d(o)]
+    }, [
+      e.placeholder ? (t(), o("option", x, s(e.placeholder), 1)) : f("", !0),
+      (t(!0), o(b, null, v(e.options, (l) => (t(), o("option", {
+        key: l.value,
+        value: l.value
+      }, s(l.label), 9, B))), 128))
+    ], 10, g)), [
+      [h, n(i)]
     ]);
   }
 });
 export {
-  B as default
+  D as default
 };

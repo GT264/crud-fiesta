@@ -32,6 +32,8 @@ return [
         ],
         'previous' => 'Precedente',
         'next' => 'Successivo',
+        'of' => 'di',
+        'page' => 'Pagina',
     ],
     'delete_confirm' => [
         'header' => 'Conferma',

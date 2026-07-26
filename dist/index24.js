@@ -1,46 +1,34 @@
-import { defineComponent as C, computed as a, openBlock as n, createElementBlock as k, createVNode as x, unref as s, withCtx as i, createTextVNode as u, toDisplayString as V, createBlock as _, createCommentVNode as y } from "vue";
-import { useFileDialog as B } from "@vueuse/core";
-import r from "./index15.js";
-const b = { class: "flex items-center gap-2" }, z = /* @__PURE__ */ C({
-  __name: "FileInput",
+import { defineComponent as a, resolveDirective as n, withDirectives as u, openBlock as m, createElementBlock as c, normalizeClass as p, unref as r, isRef as f, vModelText as v } from "vue";
+import { useVModel as b } from "@vueuse/core";
+import { cn as h } from "./index39.js";
+const k = ["id", "placeholder", "required"], y = /* @__PURE__ */ a({
+  __name: "MaskedInput",
   props: {
+    id: {},
     modelValue: {},
-    accept: { default: "*/*" },
-    required: { type: Boolean }
+    placeholder: {},
+    required: { type: Boolean },
+    mask: {},
+    class: {}
   },
   emits: ["update:modelValue"],
-  setup(m, { emit: p }) {
-    const l = m, c = p, { files: t, open: d, reset: f } = B({ accept: l.accept, multiple: !1 }), o = a(() => t.value && t.value.length > 0 ? t.value[0] : null), v = a(() => o.value ? o.value.name : l.accept.startsWith("image/") ? "Choose image..." : "Choose file...");
-    return (F, e) => (n(), k("div", b, [
-      x(r, {
-        variant: "outline",
-        size: "sm",
-        type: "button",
-        onClick: e[0] || (e[0] = (g) => s(d)())
-      }, {
-        default: i(() => [
-          u(V(v.value), 1)
-        ]),
-        _: 1
-      }),
-      o.value ? (n(), _(r, {
-        key: 0,
-        variant: "ghost",
-        size: "sm",
-        type: "button",
-        class: "text-destructive",
-        onClick: e[1] || (e[1] = (g) => {
-          s(f)(), c("update:modelValue", null);
-        })
-      }, {
-        default: i(() => [...e[2] || (e[2] = [
-          u("Remove", -1)
-        ])]),
-        _: 1
-      })) : y("", !0)
-    ]));
+  setup(e, { emit: i }) {
+    const l = e, o = b(l, "modelValue", i);
+    return (V, t) => {
+      const s = n("maska");
+      return u((m(), c("input", {
+        id: e.id,
+        "onUpdate:modelValue": t[0] || (t[0] = (d) => f(o) ? o.value = d : null),
+        placeholder: e.placeholder,
+        required: e.required,
+        class: p(r(h)("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50", l.class))
+      }, null, 10, k)), [
+        [v, r(o)],
+        [s, e.mask]
+      ]);
+    };
   }
 });
 export {
-  z as default
+  y as default
 };

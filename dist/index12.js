@@ -1,9 +1,9 @@
 import { defineComponent as N, computed as p, ref as V, openBlock as v, createElementBlock as $, createVNode as o, withCtx as a, createElementVNode as n, createBlock as D, resolveDynamicComponent as E, toDisplayString as c, unref as _, createTextVNode as m } from "vue";
 import { usePage as T } from "@inertiajs/vue3";
 import { EllipsisVertical as j, AlertTriangle as A, Trash2 as B, Pencil as I, Eye as g } from "lucide-vue-next";
-import f from "./index15.js";
-import M from "./index16.js";
-import P from "./index17.js";
+import f from "./index16.js";
+import M from "./index15.js";
+import P from "./index25.js";
 const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-2 w-full" }, O = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, W = /* @__PURE__ */ N({
   __name: "CrudActions",
   props: {

@@ -16,7 +16,7 @@
         </Button>
         <span class="text-sm text-muted-foreground">
           {{ totalRecords > 0 ? (currentPage - 1) * perPage + 1 : 0 }}-{{ Math.min(currentPage * perPage, totalRecords) }}
-          {{ crudT('crud.datatable.of') || 'of' }}
+          {{ crudT('crud.datatable.of') }}
           {{ totalRecords }}
         </span>
         <Button variant="outline" size="sm" :disabled="currentPage * perPage >= totalRecords" @click="goToPage(currentPage + 1)">
@@ -141,7 +141,7 @@
         {{ crudT('crud.datatable.previous') }}
       </Button>
       <span class="text-sm text-muted-foreground">
-        Page {{ currentPage }} of {{ Math.max(1, Math.ceil(totalRecords / perPage)) }}
+        {{ crudT('crud.datatable.page') }} {{ currentPage }} {{ crudT('crud.datatable.of') }} {{ Math.max(1, Math.ceil(totalRecords / perPage)) }}
       </span>
       <Button variant="outline" size="sm" :disabled="currentPage * perPage >= totalRecords" @click="goToPage(currentPage + 1)">
         {{ crudT('crud.datatable.next') }}
