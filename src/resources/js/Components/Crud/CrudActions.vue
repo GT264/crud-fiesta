@@ -64,9 +64,10 @@ interface MenuItem {
 interface Props {
   row: Record<string, any>
   buttons: CrudButton[]
+  keyName?: string
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), { keyName: 'id' })
 
 const emit = defineEmits<{
   view: [id: any]
@@ -80,7 +81,7 @@ function crudT(key: string): string {
   return (page.props.crudLang as Record<string, string>)?.[key] ?? key
 }
 
-const rowId = computed(() => props.row.id ?? Object.values(props.row)[0])
+const rowId = computed(() => props.row[props.keyName] ?? Object.values(props.row)[0])
 const deleteDialogVisible = ref(false)
 
 function getIcon(action: string) {

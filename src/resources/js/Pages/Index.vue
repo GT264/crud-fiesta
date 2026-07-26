@@ -8,9 +8,9 @@
         {{ crudT('crud.button.create') }}
       </Button>
     </div>
-    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :loading="loading" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter">
+    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :loading="loading" :key-name="key_name" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter">
       <template #actions="{ row }">
-        <CrudActions :row="row" :buttons="mappedButtons" @view="onView" @edit="onEdit" @delete="onDelete" />
+        <CrudActions :row="row" :buttons="mappedButtons" :key-name="key_name" @view="onView" @edit="onEdit" @delete="onDelete" />
       </template>
     </CrudDataTable>
     <CrudForm :visible="formVisible" :title="formTitle" :fields="formFields" :data="formData" :loading="formLoading" :is-edit="formIsEdit" @update:visible="formVisible = $event" @submit="onFormSubmit" @close="onFormClose" />
@@ -32,7 +32,7 @@ interface ColumnDetail { field: string; header: string }
 interface BackendCrudButton { action: string; icon: string; label: string; route_name: string; event?: string }
 interface FrontendCrudButton { action: string; icon: string; label: string }
 interface PaginatorData { data: Record<string, any>[]; total: number; per_page: number; current_page: number }
-interface Props { title?: string; column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; crud_buttons: BackendCrudButton[] }
+interface Props { title?: string; column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; key_name: string; crud_buttons: BackendCrudButton[] }
 
 const page = usePage()
 function crudT(key: string): string { return (page.props.crudLang as Record<string, string>)?.[key] ?? key }

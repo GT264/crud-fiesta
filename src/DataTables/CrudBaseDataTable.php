@@ -145,9 +145,12 @@ abstract class CrudBaseDataTable
                     ->all();
             }
         }
-        unset($config);
+        $this->cachedColumnFilters = $filters;
+        return $this->cachedColumnFilters;
+    }
 
-        return $this->cachedColumn
+    protected function setHeader($field) : void
+    {
         $this->form_details[$field]['label'] = __("$this->lang.fields.$field");
     }
 

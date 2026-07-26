@@ -124,7 +124,7 @@
               <p class="text-muted-foreground">{{ crudT('crud.datatable.no_data') }}</p>
             </td>
           </tr>
-          <tr v-for="row in items" :key="row.id" class="border-b transition-colors hover:bg-muted/50">
+          <tr v-for="row in items" :key="row[props.keyName]" class="border-b transition-colors hover:bg-muted/50">
             <td v-for="col in columns" :key="col.field" class="p-4 align-middle">
               {{ col.relation ? resolveRelationValue(row, col) : row[col.field] }}
             </td>
@@ -138,20 +138,20 @@
 
     <div class="flex items-center justify-end gap-2">
       <Button variant="outline" size="sm" :disabled="currentPage <= 1" @click="goToPage(currentPage - 1)">
-        Previous
+        {{ crudT('crud.datatable.previous') }}
       </Button>
       <span class="text-sm text-muted-foreground">
         Page {{ currentPage }} of {{ Math.max(1, Math.ceil(totalRecords / perPage)) }}
       </span>
       <Button variant="outline" size="sm" :disabled="currentPage * perPage >= totalRecords" @click="goToPage(currentPage + 1)">
-        Next
+        {{ crudT('crud.datatable.next') }}
       </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, Loader2 } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
@@ -180,10 +180,10 @@ interface Props {
   totalRecords: number
   perPage?: number
   loading?: boolean
-  columnFilters?: Record<string, ColumnFilterConfig>
+  keyName?: string
 }
 
-const props = withDefaults(defineProps<Props>(), { perPage: 25, loading: false })
+const props = withDefaults(defineProps<Props>(), { perPage: 25, loading: false, keyName: 'id' })
 
 const emit = defineEmits<{
   paginate: [event: { page: number; rows: number }]
@@ -256,8 +256,9 @@ function goToPage(p: number) {
 }
 
 function onSort(field: string) {
+  const prevField = sortField.value
   sortField.value = field
-  sortOrder.value = sortField.value === field && sortOrder.value === 1 ? -1 : 1
+  sortOrder.value = (prevField === field && sortOrder.value === 1) ? -1 : 1
   emit('sort', { sortField: field, sortOrder: sortOrder.value })
 }
 
@@ -265,6 +266,11 @@ function onSearchInput() {
   clearTimeout(searchTimeout)
   searchTimeout = setTimeout(() => emit('search', { query: searchQuery.value }), 300)
 }
+
+onUnmounted(() => {
+  clearTimeout(searchTimeout)
+  Object.values(filterTimers).forEach(clearTimeout)
+})
 
 function resolveRelationValue(row: Record<string, any>, col: TableColumn): any {
   if (!col.relation) return row[col.field]

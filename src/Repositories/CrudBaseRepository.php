@@ -47,7 +47,7 @@ abstract class CrudBaseRepository
      * @param array $columns
      * @return Model|null
      */
-    public function find(int $id, array $columns = ['*']): ?Model
+    public function find(int|string $id, array $columns = ['*']): ?Model
     {
         return $this->model->find($id, $columns);
     }
@@ -60,7 +60,7 @@ abstract class CrudBaseRepository
      * @return Model
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findOrFail(int $id, array $columns = ['*']): Model
+    public function findOrFail(int|string $id, array $columns = ['*']): Model
     {
         return $this->model->findOrFail($id, $columns);
     }
@@ -83,7 +83,7 @@ abstract class CrudBaseRepository
      * @param array $data
      * @return bool
      */
-    public function update(int $id, array $data): bool
+    public function update(int|string $id, array $data): bool
     {
         $record = $this->find($id);
         
@@ -100,7 +100,7 @@ abstract class CrudBaseRepository
      * @param int $id
      * @return bool
      */
-    public function delete(int $id): bool
+    public function delete(int|string $id): bool
     {
         $record = $this->find($id);
         
