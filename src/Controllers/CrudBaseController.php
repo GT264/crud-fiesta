@@ -86,9 +86,11 @@ abstract class CrudBaseController extends Controller
             'column_filters' => $this->crud_data_table->getColumnFilters(),
             'route_prefix' => $this->route_prefix,
             'key_name' => $this->model->getKeyName(),
+            'model_lang' => $this->lang,
             'optional_buttons' => $this->crud_data_table->getOptionalButtons(),
             'crud_buttons' => $this->crud_data_table->getCrudButtons(),
             'actions_label' => __('crud-fiesta::crud.button.actions'),
+            'lang' => $this->lang,
         ]);
     }
 

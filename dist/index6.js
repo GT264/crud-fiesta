@@ -129,7 +129,7 @@ const ae = { class: "space-y-4" }, re = { class: "flex items-center justify-betw
                 onClick: (u) => H(e.field)
               }, [
                 s("div", be, [
-                  D(d(e.header) + " ", 1),
+                  D(d(m(e.header)) + " ", 1),
                   $.value === e.field ? (n(), i("span", xe, [
                     C.value === 1 ? (n(), L(g(oe), {
                       key: 0,

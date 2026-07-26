@@ -1,19 +1,20 @@
-import { defineComponent as B, computed as C, ref as y, watch as N, openBlock as r, createBlock as d, withCtx as c, createElementVNode as m, toDisplayString as _, withModifiers as S, createElementBlock as V, Fragment as E, renderList as D, createTextVNode as q, createCommentVNode as v, createVNode as b, unref as F } from "vue";
-import { Loader2 as L } from "lucide-vue-next";
-import M from "./index16.js";
-import U from "./index15.js";
-import p from "./index17.js";
-import j from "./index18.js";
-import A from "./index19.js";
-import w from "./index20.js";
-import O from "./index21.js";
-import T from "./index22.js";
-import x from "./index23.js";
-import z from "./index24.js";
-const G = { class: "flex flex-col gap-4" }, H = { class: "text-lg font-semibold" }, I = ["for"], J = {
+import { defineComponent as E, computed as N, ref as L, watch as S, openBlock as r, createBlock as u, withCtx as q, createElementVNode as s, toDisplayString as c, withModifiers as y, createElementBlock as v, Fragment as D, renderList as F, createTextVNode as h, createCommentVNode as _, createVNode as U, unref as M } from "vue";
+import { usePage as T } from "@inertiajs/vue3";
+import { Loader2 as j } from "lucide-vue-next";
+import O from "./index16.js";
+import w from "./index15.js";
+import V from "./index18.js";
+import P from "./index19.js";
+import z from "./index20.js";
+import g from "./index21.js";
+import A from "./index22.js";
+import G from "./index23.js";
+import x from "./index24.js";
+import H from "./index25.js";
+const I = { class: "flex flex-col gap-4" }, J = { class: "text-lg font-semibold" }, K = ["for"], Q = {
   key: 0,
   class: "text-red-500"
-}, K = { class: "flex justify-end gap-2 mt-4" }, re = /* @__PURE__ */ B({
+}, R = { class: "flex justify-end gap-2 mt-4" }, ie = /* @__PURE__ */ E({
   __name: "CrudForm",
   props: {
     visible: { type: Boolean },
@@ -24,167 +25,172 @@ const G = { class: "flex flex-col gap-4" }, H = { class: "text-lg font-semibold"
     isEdit: { type: Boolean, default: !1 }
   },
   emits: ["update:visible", "submit", "close"],
-  setup(t, { emit: g }) {
-    const i = t, s = g, h = C({
-      get: () => i.visible,
-      set: (n) => s("update:visible", n)
-    }), a = y({});
-    N(() => i.visible, (n) => {
-      a.value = n && i.data ? { ...i.data } : {};
+  setup(i, { emit: $ }) {
+    const m = i, p = $, B = T();
+    function d(t) {
+      var n;
+      return t ? ((n = B.props.crudLang) == null ? void 0 : n[t]) ?? t : "";
+    }
+    const f = N({
+      get: () => m.visible,
+      set: (t) => p("update:visible", t)
+    }), a = L({});
+    S(() => m.visible, (t) => {
+      a.value = t && m.data ? { ...m.data } : {};
     }, { immediate: !0 });
-    const $ = () => s("submit", a.value), f = () => {
-      a.value = {}, s("close"), s("update:visible", !1);
+    const C = () => p("submit", a.value), b = () => {
+      a.value = {}, p("close"), p("update:visible", !1);
     };
-    return (n, u) => (r(), d(M, {
-      open: h.value,
+    return (t, n) => (r(), u(O, {
+      open: f.value,
       modal: !0,
       class: "w-full md:w-1/2",
-      "onUpdate:open": u[0] || (u[0] = (e) => h.value = e),
-      onClose: f
+      "onUpdate:open": n[0] || (n[0] = (e) => f.value = e),
+      onClose: b
     }, {
-      default: c(() => [
-        m("div", G, [
-          m("h2", H, _(t.title), 1),
-          m("form", {
+      default: q(() => [
+        s("div", I, [
+          s("h2", J, c(i.title), 1),
+          s("form", {
             id: "crud-form",
             class: "space-y-4",
-            onSubmit: S($, ["prevent"])
+            onSubmit: y(C, ["prevent"])
           }, [
-            (r(!0), V(E, null, D(t.fields, (e, l) => (r(), V("div", {
+            (r(!0), v(D, null, F(i.fields, (e, l) => (r(), v("div", {
               key: l,
               class: "field"
             }, [
-              m("label", {
+              s("label", {
                 for: l,
                 class: "block mb-2 font-semibold text-sm"
               }, [
-                q(_(e.label) + " ", 1),
-                e.required ? (r(), V("span", J, "*")) : v("", !0)
-              ], 8, I),
-              e.type === "text" ? (r(), d(p, {
+                h(c(d(e.label)) + " ", 1),
+                e.required ? (r(), v("span", Q, "*")) : _("", !0)
+              ], 8, K),
+              e.type === "text" ? (r(), u(V, {
                 key: 0,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "email" ? (r(), d(p, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "email" ? (r(), u(V, {
                 key: 1,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 type: "email",
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "textarea" ? (r(), d(j, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "textarea" ? (r(), u(P, {
                 key: 2,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required,
                 rows: "4"
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "number" ? (r(), d(p, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "number" ? (r(), u(V, {
                 key: 3,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 modelModifiers: { number: !0 },
                 type: "number",
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "date" ? (r(), d(O, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "date" ? (r(), u(A, {
                 key: 4,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "checkbox" ? (r(), d(A, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "checkbox" ? (r(), u(z, {
                 key: 5,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "password" ? (r(), d(p, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "password" ? (r(), u(V, {
                 key: 6,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 type: "password",
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "select" ? (r(), d(w, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "select" ? (r(), u(g, {
                 key: 7,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 options: e.options || [],
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "multi_select" ? (r(), d(w, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "multi_select" ? (r(), u(g, {
                 key: 8,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 options: e.options || [],
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required,
                 multiple: ""
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "mask" ? (r(), d(z, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "mask" ? (r(), u(H, {
                 key: 9,
                 id: l,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: e.placeholder,
+                placeholder: d(e.placeholder),
                 class: "w-full",
                 required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "rich_text" ? (r(), d(T, {
+              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "rich_text" ? (r(), u(G, {
                 key: 10,
                 modelValue: a.value[l],
                 "onUpdate:modelValue": (o) => a.value[l] = o,
                 required: e.required
-              }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "file" ? (r(), d(x, {
+              }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "file" ? (r(), u(x, {
                 key: "file-" + l,
                 required: e.required,
                 accept: "*/*"
-              }, null, 8, ["required"])) : e.type === "image" ? (r(), d(x, {
+              }, null, 8, ["required"])) : e.type === "image" ? (r(), u(x, {
                 key: "image-" + l,
                 required: e.required,
                 accept: "image/*"
-              }, null, 8, ["required"])) : v("", !0)
+              }, null, 8, ["required"])) : _("", !0)
             ]))), 128))
           ], 32),
-          m("div", K, [
-            b(U, {
+          s("div", R, [
+            U(w, {
               variant: "secondary",
-              onClick: f
+              onClick: b
             }, {
-              default: c(() => [...u[1] || (u[1] = [
-                q("Annulla", -1)
-              ])]),
+              default: q(() => [
+                h(c(d("crud.button.cancel")), 1)
+              ]),
               _: 1
             }),
-            b(U, {
+            U(w, {
               variant: "default",
-              disabled: t.loading,
+              disabled: i.loading,
               type: "submit",
               form: "crud-form"
             }, {
-              default: c(() => [
-                t.loading ? (r(), d(F(L), {
+              default: q(() => [
+                i.loading ? (r(), u(M(j), {
                   key: 0,
                   class: "h-4 w-4 mr-1 animate-spin"
-                })) : v("", !0),
-                u[2] || (u[2] = q(" Salva ", -1))
+                })) : _("", !0),
+                h(" " + c(m.isEdit ? d("crud.button.edit") : d("crud.button.create")), 1)
               ]),
               _: 1
             }, 8, ["disabled"])
@@ -196,5 +202,5 @@ const G = { class: "flex flex-col gap-4" }, H = { class: "text-lg font-semibold"
   }
 });
 export {
-  re as default
+  ie as default
 };

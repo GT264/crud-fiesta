@@ -16,6 +16,6 @@ trait SetLanguage
         $this->model_name_singular = Str::snake(class_basename($this->model));
         $this->model_name_plural = Pluralizer::plural($this->model_name_singular);
 
-        $this->lang = "models/{$this->model_name_singular}";
+        $this->lang = "models.{$this->model_name_singular}";
     }
 }

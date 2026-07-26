@@ -51,13 +51,18 @@ class CrudFiestaServiceProvider extends ServiceProvider
     }
 
     /**
-     * Flattens the package's crud.php translations and shares them
-     * as Inertia shared data so Vue components can use them without
-     * laravel-vue-i18n.
+     * Loads the consuming app's model translations from
+     * lang/{locale}/models/*.php and merges them with the
+     * package's crud.php translations into a single crudLang
+     * Inertia shared prop, so that crudT() can resolve all
+     * translation keys (both "crud.*" and "models.*").
      */
     protected function shareCrudTranslations(): void
     {
         Inertia::share('crudLang', function () {
+            $all = [];
+
+            // 1. Load package crud.php translations
             $locale = app()->getLocale();
             $path = __DIR__ . "/lang/{$locale}/crud.php";
 
@@ -65,20 +70,40 @@ class CrudFiestaServiceProvider extends ServiceProvider
                 $path = __DIR__ . '/lang/en/crud.php';
             }
 
-            $translations = require $path;
+            $crudTranslations = require $path;
 
-            if (!is_array($translations)) {
-                return [];
+            if (is_array($crudTranslations)) {
+                $dotted = Arr::dot($crudTranslations);
+                foreach ($dotted as $key => $value) {
+                    $all["crud.{$key}"] = $value;
+                }
             }
 
-            $dotted = Arr::dot($translations);
-            $prefixed = [];
+            // 2. Load model translations from lang/{locale}/models/*.php
+            $modelsPath = lang_path("{$locale}/models");
 
-            foreach ($dotted as $key => $value) {
-                $prefixed["crud.{$key}"] = $value;
+            if (!is_dir($modelsPath)) {
+                $fallback = config('app.fallback_locale', 'en');
+                $modelsPath = lang_path("{$fallback}/models");
             }
 
-            return $prefixed;
+            if (is_dir($modelsPath)) {
+                foreach (glob("{$modelsPath}/*.php") as $file) {
+                    $modelKey = basename($file, '.php');
+                    $translations = require $file;
+
+                    if (!is_array($translations)) {
+                        continue;
+                    }
+
+                    $dotted = Arr::dot($translations);
+                    foreach ($dotted as $key => $value) {
+                        $all["models.{$modelKey}.{$key}"] = $value;
+                    }
+                }
+            }
+
+            return $all;
         });
     }
 }

@@ -36,7 +36,7 @@
               @click="onSort(col.field)"
             >
               <div class="flex items-center gap-1">
-                {{ col.header }}
+                {{ crudT(col.header) }}
                 <span v-if="sortField === col.field">
                   <ArrowUp v-if="sortOrder === 1" class="h-3 w-3" />
                   <ArrowDown v-else class="h-3 w-3" />

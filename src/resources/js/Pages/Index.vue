@@ -32,11 +32,23 @@ interface ColumnDetail { field: string; header: string }
 interface BackendCrudButton { action: string; icon: string; label: string; route_name: string; event?: string }
 interface FrontendCrudButton { action: string; icon: string; label: string }
 interface PaginatorData { data: Record<string, any>[]; total: number; per_page: number; current_page: number }
-interface Props { title?: string; column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; key_name: string; crud_buttons: BackendCrudButton[] }
+interface Props { column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; key_name: string; model_lang: string; crud_buttons: BackendCrudButton[] }
 
 const page = usePage()
 function crudT(key: string): string { return (page.props.crudLang as Record<string, string>)?.[key] ?? key }
-const props = withDefaults(defineProps<Props>(), { title: 'CRUD Index' })
+const props = withDefaults(defineProps<Props>(), {})
+
+const modelPlural = computed(() => {
+  const fromModel = crudT(props.model_lang + '.plural')
+  if (fromModel !== props.model_lang + '.plural') return fromModel
+  // Fallback: extract model name from key, e.g. "models.post" → "post"
+  const parts = (props.model_lang || '').split('.')
+  return parts[parts.length - 1] || 'Items'
+})
+
+const title = computed(() => {
+  return crudT('crud.title.index').replace(':model_name', modelPlural.value)
+})
 
 const Toast = ToastComponent
 const toastRef = ref<InstanceType<typeof ToastComponent> | null>(null)

@@ -30,9 +30,14 @@ return [
             'date_from' => 'From',
             'date_to' => 'To',
         ],
+        'previous' => 'Previous',
+        'next' => 'Next',
     ],
     'delete_confirm' => [
         'header' => 'Confirm',
         'message' => 'Are you sure you want to delete this item?',
+    ],
+    'title' => [
+        'index' => 'List :model_name',
     ],
 ];

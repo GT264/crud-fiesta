@@ -30,9 +30,14 @@ return [
             'date_from' => 'Da',
             'date_to' => 'A',
         ],
+        'previous' => 'Precedente',
+        'next' => 'Successivo',
     ],
     'delete_confirm' => [
         'header' => 'Conferma',
         'message' => 'Sei sicuro di voler eliminare questo elemento?',
+    ],
+    'title' => [
+        'index' => 'Elenco :model_name',
     ],
 ];

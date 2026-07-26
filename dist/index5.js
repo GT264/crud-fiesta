@@ -1,51 +1,56 @@
-import { defineComponent as O, ref as r, computed as W, openBlock as z, createElementBlock as G, createVNode as c, unref as b, createElementVNode as S, toDisplayString as x, withCtx as F, createTextVNode as H } from "vue";
-import { usePage as J, router as u } from "@inertiajs/vue3";
-import { route as $ } from "ziggy-js";
-import { Plus as K } from "lucide-vue-next";
-import M from "./index15.js";
-import Q from "./index26.js";
-import X from "./index6.js";
-import Y from "./index8.js";
-import Z from "./index7.js";
-const ee = { class: "crud-index-page" }, te = { class: "flex items-center justify-between mb-4" }, oe = { class: "text-2xl font-bold" }, fe = /* @__PURE__ */ O({
+import { defineComponent as z, computed as y, ref as r, openBlock as G, createElementBlock as H, createVNode as c, unref as S, createElementVNode as x, toDisplayString as F, withCtx as $, createTextVNode as J } from "vue";
+import { usePage as K, router as l } from "@inertiajs/vue3";
+import { route as k } from "ziggy-js";
+import { Plus as Q } from "lucide-vue-next";
+import X from "./index15.js";
+import Y from "./index26.js";
+import Z from "./index6.js";
+import ee from "./index8.js";
+import te from "./index7.js";
+const oe = { class: "crud-index-page" }, ae = { class: "flex items-center justify-between mb-4" }, ne = { class: "text-2xl font-bold" }, pe = /* @__PURE__ */ z({
   __name: "Index",
   props: {
-    title: { default: "CRUD Index" },
     column_data: {},
     columns_details: {},
     route_prefix: {},
     key_name: {},
+    model_lang: {},
     crud_buttons: {}
   },
-  setup(l) {
-    const y = J();
-    function v(e) {
+  setup(u) {
+    const w = K();
+    function d(e) {
       var t;
-      return ((t = y.props.crudLang) == null ? void 0 : t[e]) ?? e;
+      return ((t = w.props.crudLang) == null ? void 0 : t[e]) ?? e;
     }
-    const a = l, k = Q, _ = r(null), n = r(!1), d = /* @__PURE__ */ new Set();
-    u.on("finish", () => {
+    const a = u, C = y(() => {
+      const e = d(a.model_lang + ".plural");
+      if (e !== a.model_lang + ".plural") return e;
+      const t = (a.model_lang || "").split(".");
+      return t[t.length - 1] || "Items";
+    }), j = y(() => d("crud.title.index").replace(":model_name", C.value)), T = Y, _ = r(null), n = r(!1), m = /* @__PURE__ */ new Set();
+    l.on("finish", () => {
       var t, o;
-      const e = y.props.flash;
-      e != null && e.success && !d.has("success:" + e.success) && (d.add("success:" + e.success), (t = _.value) == null || t.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 })), e != null && e.error && !d.has("error:" + e.error) && (d.add("error:" + e.error), (o = _.value) == null || o.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 }));
+      const e = w.props.flash;
+      e != null && e.success && !m.has("success:" + e.success) && (m.add("success:" + e.success), (t = _.value) == null || t.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 })), e != null && e.error && !m.has("error:" + e.error) && (m.add("error:" + e.error), (o = _.value) == null || o.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 }));
     });
-    const i = r(!1), g = r(""), h = r({}), f = r(null), m = r(!1), s = r(!1), p = r(null), C = { show: "view", edit: "edit", destroy: "delete" };
-    function j(e) {
-      return e.event || C[e.action] || e.action;
+    const i = r(!1), g = r(""), h = r({}), f = r(null), p = r(!1), s = r(!1), v = r(null), A = { show: "view", edit: "edit", destroy: "delete" };
+    function E(e) {
+      return e.event || A[e.action] || e.action;
     }
-    const T = W(() => a.crud_buttons.map((e) => ({ action: j(e), icon: e.icon, label: e.label })));
-    function A(e) {
-      return $(e);
+    const I = y(() => a.crud_buttons.map((e) => ({ action: E(e), icon: e.icon, label: e.label })));
+    function V(e) {
+      return k(e);
     }
-    function E(e, t) {
-      return $(e, { id: t });
+    function B(e, t) {
+      return k(e, { id: t });
     }
-    async function I() {
+    async function P() {
       const e = a.crud_buttons.find((t) => t.action === "create");
       s.value = !0;
       try {
-        const t = e ? A(e.route_name) : `/${a.route_prefix}/create`, o = await (await fetch(t, { headers: { Accept: "application/json" } })).json();
-        h.value = o, g.value = v("crud.button.create"), f.value = null, m.value = !1, p.value = null, i.value = !0;
+        const t = e ? V(e.route_name) : `/${a.route_prefix}/create`, o = await (await fetch(t, { headers: { Accept: "application/json" } })).json();
+        h.value = o, g.value = d("crud.button.create"), f.value = null, p.value = !1, v.value = null, i.value = !0;
       } catch (t) {
         console.error("Failed to load create form:", t);
       } finally {
@@ -56,97 +61,97 @@ const ee = { class: "crud-index-page" }, te = { class: "flex items-center justif
       const t = a.crud_buttons.find((o) => o.action === "edit");
       s.value = !0;
       try {
-        const o = t ? E(t.route_name, e) : `/${a.route_prefix}/${e}/edit`, w = await (await fetch(o, { headers: { Accept: "application/json" } })).json();
-        h.value = w.form_details, g.value = v("crud.button.edit"), f.value = w.item, m.value = !0, p.value = e, i.value = !0;
+        const o = t ? B(t.route_name, e) : `/${a.route_prefix}/${e}/edit`, b = await (await fetch(o, { headers: { Accept: "application/json" } })).json();
+        h.value = b.form_details, g.value = d("crud.button.edit"), f.value = b.item, p.value = !0, v.value = e, i.value = !0;
       } catch (o) {
         console.error("Failed to load edit form:", o);
       } finally {
         s.value = !1;
       }
     }
-    function V(e) {
+    function D(e) {
       s.value = !0;
       const t = () => {
         s.value = !1, i.value = !1;
       };
-      m.value ? u.put(`/${a.route_prefix}/${p.value}`, e, { onFinish: t }) : u.post(`/${a.route_prefix}`, e, { onFinish: t });
+      p.value ? l.put(`/${a.route_prefix}/${v.value}`, e, { onFinish: t }) : l.post(`/${a.route_prefix}`, e, { onFinish: t });
     }
-    function B() {
-      i.value = !1, f.value = null, p.value = null;
-    }
-    function D(e) {
-    }
-    function N(e) {
-      u.delete(`/${a.route_prefix}/${e}`);
-    }
-    function P(e) {
-      u.get(window.location.pathname, { page: e.page + 1, per_page: e.rows }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+    function N() {
+      i.value = !1, f.value = null, v.value = null;
     }
     function L(e) {
-      u.get(window.location.pathname, { page: a.column_data.current_page, per_page: a.column_data.per_page, sort_field: e.sortField, sort_order: e.sortOrder }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => n.value = !0, onFinish: () => n.value = !1 });
-    }
-    function U(e) {
-      u.get(window.location.pathname, { search: e.query }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => n.value = !0, onFinish: () => n.value = !1 });
     }
     function q(e) {
-      u.get(window.location.pathname, { filters: e.globalFilter }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+      l.delete(`/${a.route_prefix}/${e}`);
     }
-    return (e, t) => (z(), G("div", ee, [
-      c(b(k), {
+    function M(e) {
+      l.get(window.location.pathname, { page: e.page + 1, per_page: e.rows }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+    }
+    function O(e) {
+      l.get(window.location.pathname, { page: a.column_data.current_page, per_page: a.column_data.per_page, sort_field: e.sortField, sort_order: e.sortOrder }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+    }
+    function U(e) {
+      l.get(window.location.pathname, { search: e.query }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+    }
+    function W(e) {
+      l.get(window.location.pathname, { filters: e.globalFilter }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => n.value = !0, onFinish: () => n.value = !1 });
+    }
+    return (e, t) => (G(), H("div", oe, [
+      c(S(T), {
         ref_key: "toastRef",
         ref: _
       }, null, 512),
-      S("div", te, [
-        S("h1", oe, x(l.title), 1),
-        c(M, {
+      x("div", ae, [
+        x("h1", ne, F(j.value), 1),
+        c(X, {
           variant: "default",
-          onClick: I
+          onClick: P
         }, {
-          default: F(() => [
-            c(b(K), { class: "h-4 w-4 mr-1" }),
-            H(" " + x(v("crud.button.create")), 1)
+          default: $(() => [
+            c(S(Q), { class: "h-4 w-4 mr-1" }),
+            J(" " + F(d("crud.button.create")), 1)
           ]),
           _: 1
         })
       ]),
-      c(X, {
-        items: l.column_data.data,
-        columns: l.columns_details,
-        "total-records": l.column_data.total,
-        "per-page": l.column_data.per_page,
+      c(Z, {
+        items: u.column_data.data,
+        columns: u.columns_details,
+        "total-records": u.column_data.total,
+        "per-page": u.column_data.per_page,
         loading: n.value,
-        "key-name": l.key_name,
-        onPaginate: P,
-        onSort: L,
+        "key-name": u.key_name,
+        onPaginate: M,
+        onSort: O,
         onSearch: U,
-        onFilter: q
+        onFilter: W
       }, {
-        actions: F(({ row: o }) => [
-          c(Y, {
+        actions: $(({ row: o }) => [
+          c(ee, {
             row: o,
-            buttons: T.value,
-            "key-name": l.key_name,
-            onView: D,
+            buttons: I.value,
+            "key-name": u.key_name,
+            onView: L,
             onEdit: R,
-            onDelete: N
+            onDelete: q
           }, null, 8, ["row", "buttons", "key-name"])
         ]),
         _: 1
       }, 8, ["items", "columns", "total-records", "per-page", "loading", "key-name"]),
-      c(Z, {
+      c(te, {
         visible: i.value,
         title: g.value,
         fields: h.value,
         data: f.value,
         loading: s.value,
-        "is-edit": m.value,
+        "is-edit": p.value,
         "onUpdate:visible": t[0] || (t[0] = (o) => i.value = o),
-        onSubmit: V,
-        onClose: B
+        onSubmit: D,
+        onClose: N
       }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"])
     ]));
   }
 });
 export {
-  fe as default
+  pe as default
 };
