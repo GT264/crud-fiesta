@@ -33,7 +33,7 @@ return [
         'per_page' => 'per pagina',
         'previous' => 'Precedente',
         'next' => 'Successivo',
-        'of' => 'di',
+        'current_of_total' => 'Pagina :current di :total',
         'page' => 'Pagina',
     ],
     'delete_confirm' => [

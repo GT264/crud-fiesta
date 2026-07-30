@@ -10,30 +10,6 @@
           @input="onSearchInput"
         />
       </div>
-      <div class="flex items-center gap-2">
-        <select
-          v-if="perPageOptions.length > 0"
-          v-model="selectedPerPage"
-          class="flex h-9 rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          @change="onPerPageChange"
-        >
-          <option v-for="opt in perPageOptions" :key="opt" :value="opt">
-            {{ opt }}
-          </option>
-        </select>
-        <span class="text-xs text-muted-foreground whitespace-nowrap">{{ crudT('crud.datatable.per_page') }}</span>
-        <Button variant="outline" size="sm" :disabled="currentPage <= 1" @click="goToPage(currentPage - 1)">
-          <ChevronLeft class="h-4 w-4" />
-        </Button>
-        <span class="text-sm text-muted-foreground">
-          {{ totalRecords > 0 ? (currentPage - 1) * perPage + 1 : 0 }}-{{ Math.min(currentPage * perPage, totalRecords) }}
-          {{ crudT('crud.datatable.of') }}
-          {{ totalRecords }}
-        </span>
-        <Button variant="outline" size="sm" :disabled="currentPage * perPage >= totalRecords" @click="goToPage(currentPage + 1)">
-          <ChevronRight class="h-4 w-4" />
-        </Button>
-      </div>
     </div>
 
     <div class="rounded-md border">
@@ -148,11 +124,24 @@
     </div>
 
     <div class="flex items-center justify-end gap-2">
+      <div class="flex items-center gap-2">
+        <select
+          v-if="perPageOptions.length > 0"
+          v-model="selectedPerPage"
+          class="flex h-9 rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          @change="onPerPageChange"
+        >
+          <option v-for="opt in perPageOptions" :key="opt" :value="opt">
+            {{ opt }}
+          </option>
+        </select>
+        <span class="text-xs text-muted-foreground whitespace-nowrap">{{ crudT('crud.datatable.per_page') }}</span>
+      </div>
       <Button variant="outline" size="sm" :disabled="currentPage <= 1" @click="goToPage(currentPage - 1)">
         {{ crudT('crud.datatable.previous') }}
       </Button>
       <span class="text-sm text-muted-foreground">
-        {{ crudT('crud.datatable.page') }} {{ currentPage }} {{ crudT('crud.datatable.of') }} {{ Math.max(1, Math.ceil(totalRecords / perPage)) }}
+        {{ crudT('crud.datatable.current_of_total', { current: currentPage, total: Math.max(1, Math.ceil(totalRecords / perPage)) }) }}
       </span>
       <Button variant="outline" size="sm" :disabled="currentPage * perPage >= totalRecords" @click="goToPage(currentPage + 1)">
         {{ crudT('crud.datatable.next') }}
@@ -206,8 +195,14 @@ const emit = defineEmits<{
 }>()
 
 const page = usePage()
-function crudT(key: string): string {
-  return (page.props.crudLang as Record<string, string>)?.[key] ?? key
+function crudT(key: string, replacements?: Record<string, string | number>): string {
+  let value: string = (page.props.crudLang as Record<string, string>)?.[key] ?? key
+  if (replacements) {
+    for (const [param, val] of Object.entries(replacements)) {
+      value = value.replace(`:${param}`, String(val))
+    }
+  }
+  return value
 }
 
 const currentPage = ref(1)
