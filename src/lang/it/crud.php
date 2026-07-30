@@ -30,6 +30,7 @@ return [
             'date_from' => 'Da',
             'date_to' => 'A',
         ],
+        'per_page' => 'per pagina',
         'previous' => 'Precedente',
         'next' => 'Successivo',
         'of' => 'di',

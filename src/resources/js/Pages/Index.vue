@@ -8,7 +8,7 @@
         {{ crudT('crud.button.create') }}
       </Button>
     </div>
-    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :loading="loading" :key-name="key_name" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter">
+    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :per-page-options="pagination_per_page_options" :loading="loading" :key-name="key_name" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter" @per-page-change="onPerPageChange">
       <template #actions="{ row }">
         <CrudActions :row="row" :buttons="mappedButtons" :key-name="key_name" @view="onView" @edit="onEdit" @delete="onDelete" />
       </template>
@@ -32,7 +32,7 @@ interface ColumnDetail { field: string; header: string }
 interface BackendCrudButton { action: string; icon: string; label: string; route_name: string; event?: string }
 interface FrontendCrudButton { action: string; icon: string; label: string }
 interface PaginatorData { data: Record<string, any>[]; total: number; per_page: number; current_page: number }
-interface Props { column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; key_name: string; model_lang: string; crud_buttons: BackendCrudButton[] }
+interface Props { column_data: PaginatorData; columns_details: ColumnDetail[]; route_prefix: string; key_name: string; model_lang: string; crud_buttons: BackendCrudButton[]; pagination_per_page: number; pagination_per_page_options: number[] }
 
 const page = usePage()
 function crudT(key: string): string { return (page.props.crudLang as Record<string, string>)?.[key] ?? key }
@@ -114,6 +114,9 @@ function onDelete(id: any) { router.delete(`/${props.route_prefix}/${id}`) }
 
 function onPaginate(event: { page: number; rows: number }) {
   router.get(window.location.pathname, { page: event.page + 1, per_page: event.rows }, { preserveState: true, preserveScroll: true, only: ['column_data'], onStart: () => loading.value = true, onFinish: () => loading.value = false })
+}
+function onPerPageChange(perPage: number) {
+  router.get(window.location.pathname, { per_page: perPage, page: 1 }, { preserveState: true, preserveScroll: true, only: ['column_data'], onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
 function onSort(event: { sortField: string; sortOrder: number }) {
   router.get(window.location.pathname, { page: props.column_data.current_page, per_page: props.column_data.per_page, sort_field: event.sortField, sort_order: event.sortOrder }, { preserveState: true, preserveScroll: true, only: ['column_data'], onStart: () => loading.value = true, onFinish: () => loading.value = false })

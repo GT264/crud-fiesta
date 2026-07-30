@@ -28,8 +28,6 @@ abstract class CrudBaseDataTable
 
     public array $form_details = [];
 
-    public int $per_page = 25;
-
     private ?array $cachedColumnFilters = null;
 
     protected bool $enable_view = true;

@@ -11,6 +11,17 @@
         />
       </div>
       <div class="flex items-center gap-2">
+        <select
+          v-if="perPageOptions.length > 0"
+          v-model="selectedPerPage"
+          class="flex h-9 rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          @change="onPerPageChange"
+        >
+          <option v-for="opt in perPageOptions" :key="opt" :value="opt">
+            {{ opt }}
+          </option>
+        </select>
+        <span class="text-xs text-muted-foreground whitespace-nowrap">{{ crudT('crud.datatable.per_page') }}</span>
         <Button variant="outline" size="sm" :disabled="currentPage <= 1" @click="goToPage(currentPage - 1)">
           <ChevronLeft class="h-4 w-4" />
         </Button>
@@ -179,17 +190,19 @@ interface Props {
   columns: TableColumn[]
   totalRecords: number
   perPage?: number
+  perPageOptions?: number[]
   loading?: boolean
   keyName?: string
 }
 
-const props = withDefaults(defineProps<Props>(), { perPage: 25, loading: false, keyName: 'id' })
+const props = withDefaults(defineProps<Props>(), { perPage: 25, perPageOptions: () => [10, 25, 50, 100], loading: false, keyName: 'id' })
 
 const emit = defineEmits<{
   paginate: [event: { page: number; rows: number }]
   sort: [event: { sortField: string; sortOrder: number }]
   filter: [event: { globalFilter: any }]
   search: [event: { query: string }]
+  perPageChange: [event: number]
 }>()
 
 const page = usePage()
@@ -253,6 +266,13 @@ function onFilterInputDelayed(field: string) {
 function goToPage(p: number) {
   currentPage.value = p
   emit('paginate', { page: p - 1, rows: props.perPage })
+}
+
+const selectedPerPage = ref(props.perPage)
+
+function onPerPageChange() {
+  currentPage.value = 1
+  emit('perPageChange', selectedPerPage.value)
 }
 
 function onSort(field: string) {

@@ -15,4 +15,17 @@ return [
     */
     'resource_enum' => \App\Enums\AppResource::class,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    */
+
+    /* Default Pagination */
+    'pagination_per_page' => 10,
+
+    /* Pagination Options */
+    'pagination_per_page_options' => [10, 25, 50, 100],
+ 
+
 ];

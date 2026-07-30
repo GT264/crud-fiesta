@@ -1,266 +1,285 @@
-import { defineComponent as W, ref as k, computed as X, onUnmounted as Y, openBlock as n, createElementBlock as a, createElementVNode as s, createVNode as v, unref as g, withDirectives as h, vModelText as T, withCtx as U, toDisplayString as d, Fragment as b, renderList as x, createTextVNode as D, createBlock as L, createCommentVNode as F, vModelSelect as E, renderSlot as Z } from "vue";
-import { usePage as ee } from "@inertiajs/vue3";
-import { Search as te, ChevronLeft as le, ChevronRight as ne, ArrowUp as oe, ArrowDown as se, Loader2 as ae } from "lucide-vue-next";
-import $ from "./index16.js";
-const ie = { class: "space-y-4" }, re = { class: "flex items-center justify-between" }, de = { class: "relative w-64" }, ue = ["placeholder"], ce = { class: "flex items-center gap-2" }, fe = { class: "text-sm text-muted-foreground" }, me = { class: "rounded-md border" }, ve = { class: "w-full caption-bottom text-sm" }, pe = { class: "[&_tr]:border-b" }, ge = { class: "border-b transition-colors hover:bg-muted/50" }, he = ["onClick"], be = { class: "flex items-center gap-1" }, xe = { key: 0 }, ye = { class: "h-10 px-4 text-left align-middle font-medium text-muted-foreground w-32" }, _e = {
+import { defineComponent as Y, ref as y, computed as Z, onUnmounted as ee, openBlock as l, createElementBlock as o, createElementVNode as s, createVNode as v, unref as _, withDirectives as p, vModelText as U, Fragment as g, renderList as h, toDisplayString as r, vModelSelect as D, createCommentVNode as C, withCtx as T, createTextVNode as M, createBlock as E, renderSlot as te } from "vue";
+import { usePage as ne } from "@inertiajs/vue3";
+import { Search as le, ChevronLeft as oe, ChevronRight as se, ArrowUp as ae, ArrowDown as ie, Loader2 as re } from "lucide-vue-next";
+import F from "./index15.js";
+const de = { class: "space-y-4" }, ue = { class: "flex items-center justify-between" }, ce = { class: "relative w-64" }, fe = ["placeholder"], me = { class: "flex items-center gap-2" }, ve = ["value"], pe = { class: "text-xs text-muted-foreground whitespace-nowrap" }, ge = { class: "text-sm text-muted-foreground" }, he = { class: "rounded-md border" }, be = { class: "w-full caption-bottom text-sm" }, xe = { class: "[&_tr]:border-b" }, ye = { class: "border-b transition-colors hover:bg-muted/50" }, _e = ["onClick"], ke = { class: "flex items-center gap-1" }, we = { key: 0 }, Ce = { class: "h-10 px-4 text-left align-middle font-medium text-muted-foreground w-32" }, Pe = {
   key: 0,
   class: "border-b bg-muted/20"
-}, ke = ["onUpdate:modelValue", "onChange"], we = { value: "" }, Ce = ["value"], Ve = ["onUpdate:modelValue", "onChange"], Te = ["value"], Ue = ["onUpdate:modelValue", "onInput"], Fe = {
+}, Ve = ["onUpdate:modelValue", "onChange"], Ue = { value: "" }, Te = ["value"], Fe = ["onUpdate:modelValue", "onChange"], $e = ["value"], Ie = ["onUpdate:modelValue", "onInput"], Re = {
   key: 3,
   class: "flex items-center gap-1"
-}, $e = ["onUpdate:modelValue", "placeholder", "onInput"], Pe = ["onUpdate:modelValue", "placeholder", "onInput"], Ie = { class: "[&_tr:last-child]:border-0" }, Re = {
+}, Ne = ["onUpdate:modelValue", "placeholder", "onInput"], Oe = ["onUpdate:modelValue", "placeholder", "onInput"], Se = { class: "[&_tr:last-child]:border-0" }, De = {
   key: 0,
   class: "border-b transition-colors"
-}, Ne = ["colspan"], Se = {
+}, Me = ["colspan"], je = {
   key: 1,
   class: "border-b transition-colors"
-}, De = ["colspan"], Me = { class: "text-muted-foreground" }, je = { class: "p-4 align-middle text-center" }, ze = { class: "flex items-center justify-end gap-2" }, Ae = { class: "text-sm text-muted-foreground" }, qe = /* @__PURE__ */ W({
+}, ze = ["colspan"], Ae = { class: "text-muted-foreground" }, Be = { class: "p-4 align-middle text-center" }, Le = { class: "flex items-center justify-end gap-2" }, Ee = { class: "text-sm text-muted-foreground" }, Je = /* @__PURE__ */ Y({
   __name: "CrudDataTable",
   props: {
     items: {},
     columns: {},
     totalRecords: {},
     perPage: { default: 25 },
+    perPageOptions: { default: () => [10, 25, 50, 100] },
     loading: { type: Boolean, default: !1 },
     keyName: { default: "id" }
   },
-  emits: ["paginate", "sort", "filter", "search"],
-  setup(i, { emit: O }) {
-    const y = i, w = O, q = ee();
-    function f(l) {
+  emits: ["paginate", "sort", "filter", "search", "perPageChange"],
+  setup(a, { emit: q }) {
+    const b = a, k = q, Q = ne();
+    function c(n) {
       var t;
-      return ((t = q.props.crudLang) == null ? void 0 : t[l]) ?? l;
+      return ((t = Q.props.crudLang) == null ? void 0 : t[n]) ?? n;
     }
-    const m = k(1), P = k(null), C = k(1), I = k("");
+    const f = y(1), $ = y(null), P = y(1), I = y("");
     let R;
-    const c = k({}), N = {}, Q = X(() => y.columns.some((l) => l.filter_config != null));
-    function p(l) {
-      const t = y.columns.find((e) => e.field === l);
+    const m = y({}), N = {}, G = Z(() => b.columns.some((n) => n.filter_config != null));
+    function x(n) {
+      const t = b.columns.find((e) => e.field === n);
       return t == null ? void 0 : t.filter_config;
     }
-    function G() {
-      const l = {};
-      for (const t of y.columns) {
+    function H() {
+      const n = {};
+      for (const t of b.columns) {
         if (!t.filter_config) continue;
         const e = t.field, u = t.filter_config;
         if (u.type === "date_range") {
-          const r = c.value[e + "_start"], _ = c.value[e + "_end"];
-          (r || _) && (l[e] = { type: "date_range", value: { start: r || "", end: _ || "" } });
+          const d = m.value[e + "_start"], w = m.value[e + "_end"];
+          (d || w) && (n[e] = { type: "date_range", value: { start: d || "", end: w || "" } });
         } else {
-          const r = c.value[e];
-          r != null && r !== "" && (!Array.isArray(r) || r.length > 0) && (l[e] = { type: u.type, value: r });
+          const d = m.value[e];
+          d != null && d !== "" && (!Array.isArray(d) || d.length > 0) && (n[e] = { type: u.type, value: d });
         }
       }
-      return l;
+      return n;
     }
-    function M() {
-      w("filter", { globalFilter: G() });
+    function j() {
+      k("filter", { globalFilter: H() });
     }
-    function j(l) {
-      M();
+    function z(n) {
+      j();
     }
-    function S(l) {
-      clearTimeout(N[l]), N[l] = setTimeout(() => M(), 300);
+    function O(n) {
+      clearTimeout(N[n]), N[n] = setTimeout(() => j(), 300);
     }
-    function V(l) {
-      m.value = l, w("paginate", { page: l - 1, rows: y.perPage });
+    function V(n) {
+      f.value = n, k("paginate", { page: n - 1, rows: b.perPage });
     }
-    function H(l) {
-      const t = P.value;
-      P.value = l, C.value = t === l && C.value === 1 ? -1 : 1, w("sort", { sortField: l, sortOrder: C.value });
-    }
+    const S = y(b.perPage);
     function J() {
-      clearTimeout(R), R = setTimeout(() => w("search", { query: I.value }), 300);
+      f.value = 1, k("perPageChange", S.value);
     }
-    Y(() => {
+    function K(n) {
+      const t = $.value;
+      $.value = n, P.value = t === n && P.value === 1 ? -1 : 1, k("sort", { sortField: n, sortOrder: P.value });
+    }
+    function W() {
+      clearTimeout(R), R = setTimeout(() => k("search", { query: I.value }), 300);
+    }
+    ee(() => {
       clearTimeout(R), Object.values(N).forEach(clearTimeout);
     });
-    function K(l, t) {
-      if (!t.relation) return l[t.field];
-      const { relation: e, display_field: u } = t.relation, r = l[e];
-      return r && typeof r == "object" && u in r ? r[u] : l[t.field];
+    function X(n, t) {
+      if (!t.relation) return n[t.field];
+      const { relation: e, display_field: u } = t.relation, d = n[e];
+      return d && typeof d == "object" && u in d ? d[u] : n[t.field];
     }
-    return (l, t) => (n(), a("div", ie, [
-      s("div", re, [
-        s("div", de, [
-          v(g(te), { class: "absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" }),
-          h(s("input", {
+    return (n, t) => (l(), o("div", de, [
+      s("div", ue, [
+        s("div", ce, [
+          v(_(le), { class: "absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" }),
+          p(s("input", {
             "onUpdate:modelValue": t[0] || (t[0] = (e) => I.value = e),
-            placeholder: f("crud.datatable.search_placeholder"),
+            placeholder: c("crud.datatable.search_placeholder"),
             class: "flex h-9 w-full rounded-md border border-input bg-transparent pl-8 pr-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-            onInput: J
-          }, null, 40, ue), [
-            [T, I.value]
+            onInput: W
+          }, null, 40, fe), [
+            [U, I.value]
           ])
         ]),
-        s("div", ce, [
-          v($, {
+        s("div", me, [
+          a.perPageOptions.length > 0 ? p((l(), o("select", {
+            key: 0,
+            "onUpdate:modelValue": t[1] || (t[1] = (e) => S.value = e),
+            class: "flex h-9 rounded-md border border-input bg-transparent px-2 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            onChange: J
+          }, [
+            (l(!0), o(g, null, h(a.perPageOptions, (e) => (l(), o("option", {
+              key: e,
+              value: e
+            }, r(e), 9, ve))), 128))
+          ], 544)), [
+            [D, S.value]
+          ]) : C("", !0),
+          s("span", pe, r(c("crud.datatable.per_page")), 1),
+          v(F, {
             variant: "outline",
             size: "sm",
-            disabled: m.value <= 1,
-            onClick: t[1] || (t[1] = (e) => V(m.value - 1))
+            disabled: f.value <= 1,
+            onClick: t[2] || (t[2] = (e) => V(f.value - 1))
           }, {
-            default: U(() => [
-              v(g(le), { class: "h-4 w-4" })
+            default: T(() => [
+              v(_(oe), { class: "h-4 w-4" })
             ]),
             _: 1
           }, 8, ["disabled"]),
-          s("span", fe, d(i.totalRecords > 0 ? (m.value - 1) * i.perPage + 1 : 0) + "-" + d(Math.min(m.value * i.perPage, i.totalRecords)) + " " + d(f("crud.datatable.of")) + " " + d(i.totalRecords), 1),
-          v($, {
+          s("span", ge, r(a.totalRecords > 0 ? (f.value - 1) * a.perPage + 1 : 0) + "-" + r(Math.min(f.value * a.perPage, a.totalRecords)) + " " + r(c("crud.datatable.of")) + " " + r(a.totalRecords), 1),
+          v(F, {
             variant: "outline",
             size: "sm",
-            disabled: m.value * i.perPage >= i.totalRecords,
-            onClick: t[2] || (t[2] = (e) => V(m.value + 1))
+            disabled: f.value * a.perPage >= a.totalRecords,
+            onClick: t[3] || (t[3] = (e) => V(f.value + 1))
           }, {
-            default: U(() => [
-              v(g(ne), { class: "h-4 w-4" })
+            default: T(() => [
+              v(_(se), { class: "h-4 w-4" })
             ]),
             _: 1
           }, 8, ["disabled"])
         ])
       ]),
-      s("div", me, [
-        s("table", ve, [
-          s("thead", pe, [
-            s("tr", ge, [
-              (n(!0), a(b, null, x(i.columns, (e) => (n(), a("th", {
+      s("div", he, [
+        s("table", be, [
+          s("thead", xe, [
+            s("tr", ye, [
+              (l(!0), o(g, null, h(a.columns, (e) => (l(), o("th", {
                 key: e.field,
                 class: "h-10 px-4 text-left align-middle font-medium text-muted-foreground cursor-pointer select-none",
-                onClick: (u) => H(e.field)
+                onClick: (u) => K(e.field)
               }, [
-                s("div", be, [
-                  D(d(f(e.header)) + " ", 1),
-                  P.value === e.field ? (n(), a("span", xe, [
-                    C.value === 1 ? (n(), L(g(oe), {
+                s("div", ke, [
+                  M(r(c(e.header)) + " ", 1),
+                  $.value === e.field ? (l(), o("span", we, [
+                    P.value === 1 ? (l(), E(_(ae), {
                       key: 0,
                       class: "h-3 w-3"
-                    })) : (n(), L(g(se), {
+                    })) : (l(), E(_(ie), {
                       key: 1,
                       class: "h-3 w-3"
                     }))
-                  ])) : F("", !0)
+                  ])) : C("", !0)
                 ])
-              ], 8, he))), 128)),
-              s("th", ye, d(f("crud.button.actions")), 1)
+              ], 8, _e))), 128)),
+              s("th", Ce, r(c("crud.button.actions")), 1)
             ]),
-            Q.value ? (n(), a("tr", _e, [
-              (n(!0), a(b, null, x(i.columns, (e) => {
-                var u, r, _, z, A, B;
-                return n(), a("th", {
+            G.value ? (l(), o("tr", Pe, [
+              (l(!0), o(g, null, h(a.columns, (e) => {
+                var u, d, w, A, B, L;
+                return l(), o("th", {
                   key: "filter-" + e.field,
                   class: "px-4 py-1.5 align-middle"
                 }, [
-                  ((u = p(e.field)) == null ? void 0 : u.type) === "select" ? h((n(), a("select", {
+                  ((u = x(e.field)) == null ? void 0 : u.type) === "select" ? p((l(), o("select", {
                     key: 0,
-                    "onUpdate:modelValue": (o) => c.value[e.field] = o,
+                    "onUpdate:modelValue": (i) => m.value[e.field] = i,
                     class: "flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                    onChange: (o) => j(e.field)
+                    onChange: (i) => z(e.field)
                   }, [
-                    s("option", we, d(f("crud.datatable.filters.select_placeholder")), 1),
-                    (n(!0), a(b, null, x((r = p(e.field)) == null ? void 0 : r.options, (o) => (n(), a("option", {
-                      key: o.value,
-                      value: o.value
-                    }, d(o.label), 9, Ce))), 128))
-                  ], 40, ke)), [
-                    [E, c.value[e.field]]
-                  ]) : ((_ = p(e.field)) == null ? void 0 : _.type) === "multiselect" ? h((n(), a("select", {
+                    s("option", Ue, r(c("crud.datatable.filters.select_placeholder")), 1),
+                    (l(!0), o(g, null, h((d = x(e.field)) == null ? void 0 : d.options, (i) => (l(), o("option", {
+                      key: i.value,
+                      value: i.value
+                    }, r(i.label), 9, Te))), 128))
+                  ], 40, Ve)), [
+                    [D, m.value[e.field]]
+                  ]) : ((w = x(e.field)) == null ? void 0 : w.type) === "multiselect" ? p((l(), o("select", {
                     key: 1,
-                    "onUpdate:modelValue": (o) => c.value[e.field] = o,
+                    "onUpdate:modelValue": (i) => m.value[e.field] = i,
                     multiple: "",
                     class: "flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                    onChange: (o) => j(e.field)
+                    onChange: (i) => z(e.field)
                   }, [
-                    (n(!0), a(b, null, x((z = p(e.field)) == null ? void 0 : z.options, (o) => (n(), a("option", {
-                      key: o.value,
-                      value: o.value
-                    }, d(o.label), 9, Te))), 128))
-                  ], 40, Ve)), [
-                    [E, c.value[e.field]]
-                  ]) : ((A = p(e.field)) == null ? void 0 : A.type) === "date" ? h((n(), a("input", {
+                    (l(!0), o(g, null, h((A = x(e.field)) == null ? void 0 : A.options, (i) => (l(), o("option", {
+                      key: i.value,
+                      value: i.value
+                    }, r(i.label), 9, $e))), 128))
+                  ], 40, Fe)), [
+                    [D, m.value[e.field]]
+                  ]) : ((B = x(e.field)) == null ? void 0 : B.type) === "date" ? p((l(), o("input", {
                     key: 2,
-                    "onUpdate:modelValue": (o) => c.value[e.field] = o,
+                    "onUpdate:modelValue": (i) => m.value[e.field] = i,
                     type: "date",
                     class: "flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                    onInput: (o) => S(e.field)
-                  }, null, 40, Ue)), [
-                    [T, c.value[e.field]]
-                  ]) : ((B = p(e.field)) == null ? void 0 : B.type) === "date_range" ? (n(), a("div", Fe, [
-                    h(s("input", {
-                      "onUpdate:modelValue": (o) => c.value[e.field + "_start"] = o,
+                    onInput: (i) => O(e.field)
+                  }, null, 40, Ie)), [
+                    [U, m.value[e.field]]
+                  ]) : ((L = x(e.field)) == null ? void 0 : L.type) === "date_range" ? (l(), o("div", Re, [
+                    p(s("input", {
+                      "onUpdate:modelValue": (i) => m.value[e.field + "_start"] = i,
                       type: "date",
-                      placeholder: f("crud.datatable.filters.date_from"),
+                      placeholder: c("crud.datatable.filters.date_from"),
                       class: "flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                      onInput: (o) => S(e.field)
-                    }, null, 40, $e), [
-                      [T, c.value[e.field + "_start"]]
+                      onInput: (i) => O(e.field)
+                    }, null, 40, Ne), [
+                      [U, m.value[e.field + "_start"]]
                     ]),
-                    h(s("input", {
-                      "onUpdate:modelValue": (o) => c.value[e.field + "_end"] = o,
+                    p(s("input", {
+                      "onUpdate:modelValue": (i) => m.value[e.field + "_end"] = i,
                       type: "date",
-                      placeholder: f("crud.datatable.filters.date_to"),
+                      placeholder: c("crud.datatable.filters.date_to"),
                       class: "flex h-7 w-full rounded border border-input bg-transparent px-2 py-0 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                      onInput: (o) => S(e.field)
-                    }, null, 40, Pe), [
-                      [T, c.value[e.field + "_end"]]
+                      onInput: (i) => O(e.field)
+                    }, null, 40, Oe), [
+                      [U, m.value[e.field + "_end"]]
                     ])
-                  ])) : F("", !0)
+                  ])) : C("", !0)
                 ]);
               }), 128)),
-              t[5] || (t[5] = s("th", { class: "px-4 py-1.5 align-middle w-32" }, null, -1))
-            ])) : F("", !0)
+              t[6] || (t[6] = s("th", { class: "px-4 py-1.5 align-middle w-32" }, null, -1))
+            ])) : C("", !0)
           ]),
-          s("tbody", Ie, [
-            i.loading ? (n(), a("tr", Re, [
+          s("tbody", Se, [
+            a.loading ? (l(), o("tr", De, [
               s("td", {
-                colspan: i.columns.length + 1,
+                colspan: a.columns.length + 1,
                 class: "p-4 align-middle text-center"
               }, [
-                v(g(ae), { class: "inline-block h-5 w-5 animate-spin text-muted-foreground" })
-              ], 8, Ne)
-            ])) : i.items.length === 0 ? (n(), a("tr", Se, [
+                v(_(re), { class: "inline-block h-5 w-5 animate-spin text-muted-foreground" })
+              ], 8, Me)
+            ])) : a.items.length === 0 ? (l(), o("tr", je, [
               s("td", {
-                colspan: i.columns.length + 1,
+                colspan: a.columns.length + 1,
                 class: "p-4 align-middle text-center"
               }, [
-                s("p", Me, d(f("crud.datatable.no_data")), 1)
-              ], 8, De)
-            ])) : F("", !0),
-            (n(!0), a(b, null, x(i.items, (e) => (n(), a("tr", {
-              key: e[y.keyName],
+                s("p", Ae, r(c("crud.datatable.no_data")), 1)
+              ], 8, ze)
+            ])) : C("", !0),
+            (l(!0), o(g, null, h(a.items, (e) => (l(), o("tr", {
+              key: e[b.keyName],
               class: "border-b transition-colors hover:bg-muted/50"
             }, [
-              (n(!0), a(b, null, x(i.columns, (u) => (n(), a("td", {
+              (l(!0), o(g, null, h(a.columns, (u) => (l(), o("td", {
                 key: u.field,
                 class: "p-4 align-middle"
-              }, d(u.relation ? K(e, u) : e[u.field]), 1))), 128)),
-              s("td", je, [
-                Z(l.$slots, "actions", { row: e })
+              }, r(u.relation ? X(e, u) : e[u.field]), 1))), 128)),
+              s("td", Be, [
+                te(n.$slots, "actions", { row: e })
               ])
             ]))), 128))
           ])
         ])
       ]),
-      s("div", ze, [
-        v($, {
+      s("div", Le, [
+        v(F, {
           variant: "outline",
           size: "sm",
-          disabled: m.value <= 1,
-          onClick: t[3] || (t[3] = (e) => V(m.value - 1))
+          disabled: f.value <= 1,
+          onClick: t[4] || (t[4] = (e) => V(f.value - 1))
         }, {
-          default: U(() => [
-            D(d(f("crud.datatable.previous")), 1)
+          default: T(() => [
+            M(r(c("crud.datatable.previous")), 1)
           ]),
           _: 1
         }, 8, ["disabled"]),
-        s("span", Ae, d(f("crud.datatable.page")) + " " + d(m.value) + " " + d(f("crud.datatable.of")) + " " + d(Math.max(1, Math.ceil(i.totalRecords / i.perPage))), 1),
-        v($, {
+        s("span", Ee, r(c("crud.datatable.page")) + " " + r(f.value) + " " + r(c("crud.datatable.of")) + " " + r(Math.max(1, Math.ceil(a.totalRecords / a.perPage))), 1),
+        v(F, {
           variant: "outline",
           size: "sm",
-          disabled: m.value * i.perPage >= i.totalRecords,
-          onClick: t[4] || (t[4] = (e) => V(m.value + 1))
+          disabled: f.value * a.perPage >= a.totalRecords,
+          onClick: t[5] || (t[5] = (e) => V(f.value + 1))
         }, {
-          default: U(() => [
-            D(d(f("crud.datatable.next")), 1)
+          default: T(() => [
+            M(r(c("crud.datatable.next")), 1)
           ]),
           _: 1
         }, 8, ["disabled"])
@@ -269,5 +288,5 @@ const ie = { class: "space-y-4" }, re = { class: "flex items-center justify-betw
   }
 });
 export {
-  qe as default
+  Je as default
 };

@@ -23,6 +23,10 @@ abstract class CrudBaseController extends Controller
 
     use AuthorizesRequests, SetLanguage, SetRoutePrefix;
 
+    //----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //----------------------------------------------------------------------------
+
     public function __construct(
         protected Model $model,
         protected CrudBaseDataTable $crud_data_table,
@@ -32,6 +36,10 @@ abstract class CrudBaseController extends Controller
         $this->setLang();
         $this->setRoutePrefix();
     }
+
+    //----------------------------------------------------------------------------
+    // HELPER METHODS
+    //----------------------------------------------------------------------------
 
     protected function redirect(
         string $with,
@@ -55,10 +63,8 @@ abstract class CrudBaseController extends Controller
         return $this->redirect('success', $message);
     }
 
-    public function index(Request $request) : InertiaResponse
+    protected function getRepositoryParametersFromRequest(Request $request) : array
     {
-        $this->authorize('viewAny', $this->model::class);
-
         $sortField = $request->query('sort_field');
         $sortOrder = $request->query('sort_order');
         $search = $request->query('search');
@@ -70,11 +76,40 @@ abstract class CrudBaseController extends Controller
             $sortDirection = (int) $sortOrder === -1 ? 'desc' : 'asc';
         }
 
+        return [
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
+            'search' => $search,
+            'filters' => $filters,
+        ];
+    }
+
+    //---------------------------------------------------------------------------
+    // EXPORT METHODS
+    //---------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------
+    // CRUD METHODS
+    //----------------------------------------------------------------------------
+
+    public function index(Request $request) : InertiaResponse
+    {
+        $this->authorize('viewAny', $this->model::class);
+
         $relations = $this->crud_data_table->getRelationDisplayMap();
+
+        [
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
+            'search' => $search,
+            'filters' => $filters,
+        ] = $this->getRepositoryParametersFromRequest($request);
+
+        $perPage = (int) $request->query('per_page', config('crud-fiesta.pagination_per_page', 10));
 
         return Inertia::render($this->view_name, [
             'column_data' => $this->crud_base_repository->paginate(
-                $this->crud_data_table->per_page,
+                $perPage,
                 array_unique(array_merge($this->crud_data_table::default_columns, [$this->model->getKeyName()])),
                 $sortField,
                 $sortDirection,
@@ -91,6 +126,8 @@ abstract class CrudBaseController extends Controller
             'crud_buttons' => $this->crud_data_table->getCrudButtons(),
             'actions_label' => __('crud-fiesta::crud.button.actions'),
             'lang' => $this->lang,
+            'pagination_per_page' => config('crud-fiesta.pagination_per_page', 10),
+            'pagination_per_page_options' => config('crud-fiesta.pagination_per_page_options', [10, 25, 50, 100]),
         ]);
     }
 

@@ -1,4 +1,4 @@
-import f from "./index24.js";
+import f from "./index25.js";
 export {
   f as default
 };

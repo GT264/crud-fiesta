@@ -1,35 +1,46 @@
-import { defineComponent as a, withDirectives as n, openBlock as s, createElementBlock as u, normalizeClass as m, unref as t, isRef as c, vModelText as p } from "vue";
-import { useVModel as f } from "@vueuse/core";
-import { cn as b } from "./index39.js";
-const h = ["id", "placeholder", "required", "disabled"], q = /* @__PURE__ */ a({
-  __name: "Calendar",
+import { defineComponent as u, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as n, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as b, renderList as v, vModelSelect as h } from "vue";
+import { useVModel as y } from "@vueuse/core";
+import { cn as V } from "./index40.js";
+const g = ["id", "required", "disabled", "multiple"], x = {
+  key: 0,
+  value: "",
+  disabled: ""
+}, B = ["value"], D = /* @__PURE__ */ u({
+  __name: "Select",
   props: {
     id: {},
     modelValue: {},
+    options: { default: () => [] },
     placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
+    multiple: { type: Boolean, default: !1 },
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: i }) {
-    const o = e, l = f(o, "modelValue", i);
-    return (g, d) => n((s(), u("input", {
+  setup(e, { emit: r }) {
+    const d = e, i = y(d, "modelValue", r);
+    return (q, a) => m((t(), o("select", {
       id: e.id,
-      "onUpdate:modelValue": d[0] || (d[0] = (r) => c(l) ? l.value = r : null),
-      type: "date",
-      placeholder: e.placeholder,
+      "onUpdate:modelValue": a[0] || (a[0] = (l) => p(i) ? i.value = l : null),
       required: e.required,
       disabled: e.disabled,
-      class: m(t(b)(
-        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-        o.class
+      multiple: e.multiple,
+      class: c(n(V)(
+        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        d.class
       ))
-    }, null, 10, h)), [
-      [p, t(l)]
+    }, [
+      e.placeholder ? (t(), o("option", x, s(e.placeholder), 1)) : f("", !0),
+      (t(!0), o(b, null, v(e.options, (l) => (t(), o("option", {
+        key: l.value,
+        value: l.value
+      }, s(l.label), 9, B))), 128))
+    ], 10, g)), [
+      [h, n(i)]
     ]);
   }
 });
 export {
-  q as default
+  D as default
 };

@@ -1,46 +1,29 @@
-import { defineComponent as C, computed as a, openBlock as n, createElementBlock as k, createVNode as x, unref as s, withCtx as i, createTextVNode as u, toDisplayString as V, createBlock as _, createCommentVNode as y } from "vue";
-import { useFileDialog as B } from "@vueuse/core";
-import r from "./index16.js";
-const b = { class: "flex items-center gap-2" }, z = /* @__PURE__ */ C({
-  __name: "FileInput",
+import { defineComponent as s, openBlock as m, createElementBlock as p, createVNode as a, unref as t } from "vue";
+import { useEditor as c, EditorContent as l } from "@tiptap/vue-3";
+import u from "@tiptap/starter-kit";
+const _ = { class: "rounded-md border border-input" }, B = /* @__PURE__ */ s({
+  __name: "RichTextInput",
   props: {
     modelValue: {},
-    accept: { default: "*/*" },
     required: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(m, { emit: p }) {
-    const l = m, c = p, { files: t, open: d, reset: f } = B({ accept: l.accept, multiple: !1 }), o = a(() => t.value && t.value.length > 0 ? t.value[0] : null), v = a(() => o.value ? o.value.name : l.accept.startsWith("image/") ? "Choose image..." : "Choose file...");
-    return (F, e) => (n(), k("div", b, [
-      x(r, {
-        variant: "outline",
-        size: "sm",
-        type: "button",
-        onClick: e[0] || (e[0] = (g) => s(d)())
-      }, {
-        default: i(() => [
-          u(V(v.value), 1)
-        ]),
-        _: 1
-      }),
-      o.value ? (n(), _(r, {
-        key: 0,
-        variant: "ghost",
-        size: "sm",
-        type: "button",
-        class: "text-destructive",
-        onClick: e[1] || (e[1] = (g) => {
-          s(f)(), c("update:modelValue", null);
-        })
-      }, {
-        default: i(() => [...e[2] || (e[2] = [
-          u("Remove", -1)
-        ])]),
-        _: 1
-      })) : y("", !0)
+  setup(o, { emit: r }) {
+    const n = o, d = r, i = c({
+      content: n.modelValue,
+      extensions: [u],
+      onUpdate: ({ editor: e }) => {
+        d("update:modelValue", e.getHTML());
+      }
+    });
+    return (e, f) => (m(), p("div", _, [
+      a(t(l), {
+        editor: t(i),
+        class: "prose prose-sm max-w-none min-h-[200px] p-3"
+      }, null, 8, ["editor"])
     ]));
   }
 });
 export {
-  z as default
+  B as default
 };

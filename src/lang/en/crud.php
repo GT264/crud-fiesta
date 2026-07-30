@@ -30,6 +30,7 @@ return [
             'date_from' => 'From',
             'date_to' => 'To',
         ],
+        'per_page' => 'per page',
         'previous' => 'Previous',
         'next' => 'Next',
         'of' => 'of',
