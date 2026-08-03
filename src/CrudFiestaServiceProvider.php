@@ -52,13 +52,6 @@ class CrudFiestaServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Loads the consuming app's model translations from
-     * lang/{locale}/models/*.php and merges them with the
-     * package's crud.php translations into a single crudLang
-     * Inertia shared prop, so that crudT() can resolve all
-     * translation keys (both "crud.*" and "models.*").
-     */
     protected function registerCrudRouteMacro(): void
     {
         Route::macro('crud', function (string $prefix, string $controller) {
@@ -77,6 +70,13 @@ class CrudFiestaServiceProvider extends ServiceProvider
         });
     }
 
+     /**
+     * Loads the consuming app's model translations from
+     * lang/{locale}/models/*.php and merges them with the
+     * package's crud.php translations into a single crudLang
+     * Inertia shared prop, so that crudT() can resolve all
+     * translation keys (both "crud.*" and "models.*").
+     */
     protected function shareCrudTranslations(): void
     {
         Inertia::share('crudLang', function () {
