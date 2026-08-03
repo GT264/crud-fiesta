@@ -3,6 +3,7 @@
 namespace GT264\CrudFiesta;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -20,6 +21,7 @@ class CrudFiestaServiceProvider extends ServiceProvider
 
         $this->shareCrudTranslations();
         $this->shareFlashMessages();
+        $this->registerCrudRouteMacro();
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -57,6 +59,24 @@ class CrudFiestaServiceProvider extends ServiceProvider
      * Inertia shared prop, so that crudT() can resolve all
      * translation keys (both "crud.*" and "models.*").
      */
+    protected function registerCrudRouteMacro(): void
+    {
+        Route::macro('crud', function (string $prefix, string $controller) {
+            /** @var \Illuminate\Routing\Router $this */
+
+            // Standard Laravel resource routes (index, create, store, show, edit, update, destroy)
+            $this->resource($prefix, $controller);
+
+            // Export routes
+            $this->post("/{$prefix}/export/start", [$controller, 'exportStart'])
+                ->name("{$prefix}.export.start");
+            $this->get("/{$prefix}/export/status/{id}", [$controller, 'exportStatus'])
+                ->name("{$prefix}.export.status");
+            $this->get("/{$prefix}/export/download/{id}", [$controller, 'exportDownload'])
+                ->name("{$prefix}.export.download");
+        });
+    }
+
     protected function shareCrudTranslations(): void
     {
         Inertia::share('crudLang', function () {

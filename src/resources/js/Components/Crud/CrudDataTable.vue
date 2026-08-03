@@ -1,14 +1,27 @@
 <template>
   <div class="space-y-4">
     <div class="flex items-center justify-between">
-      <div class="relative w-64">
-        <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <input
-          v-model="searchQuery"
-          :placeholder="crudT('crud.datatable.search_placeholder')"
-          class="flex h-9 w-full rounded-md border border-input bg-transparent pl-8 pr-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          @input="onSearchInput"
-        />
+      <div class="flex items-center gap-2">
+        <div class="relative w-64">
+          <Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <input
+            v-model="searchQuery"
+            :placeholder="crudT('crud.datatable.search_placeholder')"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent pl-8 pr-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            @input="onSearchInput"
+          />
+        </div>
+        <DropdownMenu :items="exportMenuItems">
+          <template #trigger>
+            <Button variant="outline" size="sm">
+              <Download class="h-4 w-4 mr-1" />
+              {{ crudT('crud.export.label') }}
+            </Button>
+          </template>
+          <template #item="{ item }">
+            <span class="inline-block border border-border rounded px-2 py-0.5 text-xs bg-muted">{{ item.label }}</span>
+          </template>
+        </DropdownMenu>
       </div>
     </div>
 
@@ -153,8 +166,9 @@
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
 import { usePage } from '@inertiajs/vue3'
-import { Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, Loader2 } from 'lucide-vue-next'
+import { Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, Loader2, Download } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
+import DropdownMenu from '../ui/DropdownMenu.vue'
 
 interface ColumnFilterOption {
   label: string
@@ -182,9 +196,10 @@ interface Props {
   perPageOptions?: number[]
   loading?: boolean
   keyName?: string
+  routePrefix?: string
 }
 
-const props = withDefaults(defineProps<Props>(), { perPage: 25, perPageOptions: () => [10, 25, 50, 100], loading: false, keyName: 'id' })
+const props = withDefaults(defineProps<Props>(), { perPage: 25, perPageOptions: () => [10, 25, 50, 100], loading: false, keyName: 'id', routePrefix: '' })
 
 const emit = defineEmits<{
   paginate: [event: { page: number; rows: number }]
@@ -192,6 +207,7 @@ const emit = defineEmits<{
   filter: [event: { globalFilter: any }]
   search: [event: { query: string }]
   perPageChange: [event: number]
+  export: [format: 'xlsx' | 'csv']
 }>()
 
 const page = usePage()
@@ -295,4 +311,20 @@ function resolveRelationValue(row: Record<string, any>, col: TableColumn): any {
     ? related[displayField]
     : row[col.field]
 }
+
+interface ExportMenuItem {
+  label: string
+  command: () => void
+}
+
+const exportMenuItems = computed<ExportMenuItem[]>(() => [
+  {
+    label: crudT('crud.export.excel'),
+    command: () => emit('export', 'xlsx'),
+  },
+  {
+    label: crudT('crud.export.csv'),
+    command: () => emit('export', 'csv'),
+  },
+])
 </script>

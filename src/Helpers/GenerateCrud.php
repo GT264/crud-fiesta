@@ -140,5 +140,11 @@ class GenerateCrud
             // Write file
             File::put("{$path}/{$filename}", $content);
         }
+
+        // Output route instruction
+        $prefix = Str::lower(Str::kebab(Str::plural($model_name)));
+        $controllerClass = "{$model_class}CrudController";
+        echo "\n📋 Add to your routes/web.php:\n";
+        echo "    Route::crud('{$prefix}', \\{$controller_namespace}\\{$controllerClass}::class);\n\n";
     }
 }

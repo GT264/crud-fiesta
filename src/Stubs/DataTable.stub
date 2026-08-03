@@ -42,6 +42,19 @@ class {{ model_name }}DataTable extends CrudBaseDataTable
         ];
     }
 
+    /**
+     * Colonne da includere nell'export (Excel/CSV).
+     * Restituisce un array di nomi di colonna nello stesso ordine
+     * in cui appariranno nel file esportato.
+     * Default: restituisce static::default_columns.
+     *
+     * @return array
+     */
+    public function getColumnsToExport(): array
+    {
+        return static::default_columns;
+    }
+
     protected function relationDisplayMap(): array
     {
         return [

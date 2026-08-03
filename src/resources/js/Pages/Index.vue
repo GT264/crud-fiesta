@@ -8,7 +8,7 @@
         {{ crudT('crud.button.create') }}
       </Button>
     </div>
-    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :per-page-options="pagination_per_page_options" :loading="loading" :key-name="key_name" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter" @per-page-change="onPerPageChange">
+    <CrudDataTable :items="column_data.data" :columns="columns_details" :total-records="column_data.total" :per-page="column_data.per_page" :per-page-options="pagination_per_page_options" :loading="loading" :key-name="key_name" :route-prefix="route_prefix" @paginate="onPaginate" @sort="onSort" @search="onSearch" @filter="onFilter" @per-page-change="onPerPageChange" @export="onExport">
       <template #actions="{ row }">
         <CrudActions :row="row" :buttons="mappedButtons" :key-name="key_name" @view="onView" @edit="onEdit" @delete="onDelete" />
       </template>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onUnmounted } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { route } from 'ziggy-js'
 import { Plus } from 'lucide-vue-next'
@@ -41,7 +41,6 @@ const props = withDefaults(defineProps<Props>(), {})
 const modelPlural = computed(() => {
   const fromModel = crudT(props.model_lang + '.plural')
   if (fromModel !== props.model_lang + '.plural') return fromModel
-  // Fallback: extract model name from key, e.g. "models.post" → "post"
   const parts = (props.model_lang || '').split('.')
   return parts[parts.length - 1] || 'Items'
 })
@@ -119,12 +118,189 @@ function onPerPageChange(perPage: number) {
   router.get(window.location.pathname, { per_page: perPage, page: 1 }, { preserveState: true, preserveScroll: true, only: ['column_data'], onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
 function onSort(event: { sortField: string; sortOrder: number }) {
+  currentSortField.value = event.sortField
+  currentSortOrder.value = event.sortOrder
   router.get(window.location.pathname, { page: props.column_data.current_page, per_page: props.column_data.per_page, sort_field: event.sortField, sort_order: event.sortOrder }, { preserveState: true, preserveScroll: true, only: ['column_data'], onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
 function onSearch(event: { query: string }) {
+  currentSearch.value = event.query
   router.get(window.location.pathname, { search: event.query }, { preserveState: true, preserveScroll: true, only: ['column_data'], replace: true, onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
 function onFilter(event: { globalFilter: Record<string, { type: string; value: any }> }) {
+  currentFilters.value = event.globalFilter
   router.get(window.location.pathname, { filters: event.globalFilter }, { preserveState: true, preserveScroll: true, only: ['column_data'], replace: true, onStart: () => loading.value = true, onFinish: () => loading.value = false })
 }
+
+//----------------------------------------------------------------------------
+// EXPORT LOGIC
+//----------------------------------------------------------------------------
+
+const currentSortField = ref<string | null>(null)
+const currentSortOrder = ref<number>(1)
+const currentSearch = ref<string>('')
+const currentFilters = ref<Record<string, { type: string; value: any }>>({})
+
+let pollInterval: ReturnType<typeof setInterval> | null = null
+
+const severityClasses: Record<string, string> = {
+  success: 'border-green-200 bg-green-50 text-green-800',
+  error: 'border-red-200 bg-red-50 text-red-800',
+  warning: 'border-yellow-200 bg-yellow-50 text-yellow-800',
+  info: 'border-blue-200 bg-blue-50 text-blue-800',
+}
+
+function addToast(severity: 'success' | 'error' | 'info' | 'warning', summary: string, detail: string, life: number) {
+  // Direct DOM manipulation — bypasses Vue/Inertia reactivity issues with async setInterval callbacks
+  const container = document.getElementById('crud-fiesta-toast-container')
+    || createToastContainer()
+
+  const toast = document.createElement('div')
+  toast.className = `flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg transition-all ${severityClasses[severity]}`
+
+  const content = document.createElement('div')
+  content.className = 'flex-1'
+
+  if (summary) {
+    const summaryEl = document.createElement('div')
+    summaryEl.className = 'font-semibold text-sm'
+    summaryEl.textContent = summary
+    content.appendChild(summaryEl)
+  }
+
+  if (detail) {
+    const detailEl = document.createElement('div')
+    detailEl.className = 'text-sm opacity-80'
+    detailEl.textContent = detail
+    content.appendChild(detailEl)
+  }
+
+  const closeBtn = document.createElement('button')
+  closeBtn.className = 'opacity-50 hover:opacity-100'
+  closeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
+  closeBtn.onclick = () => toast.remove()
+
+  toast.appendChild(content)
+  toast.appendChild(closeBtn)
+  container.appendChild(toast)
+
+  console.log('[crud-fiesta] Toast added via DOM:', { severity, summary, detail })
+
+  if (life > 0) {
+    setTimeout(() => toast.remove(), life)
+  }
+}
+
+function createToastContainer() {
+  const container = document.createElement('div')
+  container.id = 'crud-fiesta-toast-container'
+  container.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:10000;display:flex;flex-direction:column;gap:0.5rem;'
+  document.body.appendChild(container)
+  return container
+}
+
+async function onExport(format: 'xlsx' | 'csv') {
+  try {
+    const body: Record<string, any> = { format }
+
+    if (currentSearch.value) {
+      body.search = currentSearch.value
+    }
+    if (currentSortField.value) {
+      body.sort_field = currentSortField.value
+      body.sort_order = currentSortOrder.value
+    }
+    if (Object.keys(currentFilters.value).length > 0) {
+      body.filters = currentFilters.value
+    }
+
+    const resp = await fetch(`/${props.route_prefix}/export/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': (page.props as any).csrf_token ?? '',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({ message: 'Export request failed' }))
+      addToast('error', 'Export Error', err.message || 'Export request failed', 5000)
+      return
+    }
+
+    const { export_id } = await resp.json()
+
+    console.log('[crud-fiesta] Export started:', export_id)
+
+    addToast('info', 'Export', 'Export started — preparing your file...', 120000)
+
+    // Begin polling
+    startPolling(export_id)
+  } catch (err: any) {
+    addToast('error', 'Export Error', 'Export failed: ' + (err.message || 'Unknown error'), 5000)
+  }
+}
+
+function startPolling(exportId: string) {
+  stopPolling()
+
+  pollInterval = setInterval(async () => {
+    try {
+      const resp = await fetch(`/${props.route_prefix}/export/status/${exportId}`, {
+        headers: { 'Accept': 'application/json' },
+      })
+
+      if (!resp.ok) {
+        console.warn('[crud-fiesta] Export status returned non-OK:', resp.status)
+        return
+      }
+
+      const data = await resp.json()
+
+      console.log('[crud-fiesta] Export status:', data.status, 'processed:', data.processed, '/', data.total)
+
+      if (data.status === 'queued' || data.status === 'processing') {
+        const detail = data.status === 'queued'
+          ? 'Export started — preparing your file...'
+          : `Exporting ${data.processed ?? 0} of ${data.total ?? 0} records...`
+
+        addToast('info', 'Export', detail, 120000)
+      } else if (data.status === 'completed') {
+        stopPolling()
+        triggerDownload(exportId)
+      } else if (data.status === 'failed') {
+        stopPolling()
+        addToast('error', 'Export Failed', 'Export failed: ' + (data.error || 'Unknown error'), 10000)
+      }
+    } catch (err) {
+      console.warn('[crud-fiesta] Export polling error:', err)
+      // Keep trying on network errors
+    }
+  }, 2000)
+}
+
+function triggerDownload(exportId: string) {
+  addToast('success', 'Export ready!', 'Download starting...', 3000)
+
+  // Trigger download via a hidden anchor to avoid popup blockers
+  const downloadUrl = `/${props.route_prefix}/export/download/${exportId}`
+  const anchor = document.createElement('a')
+  anchor.href = downloadUrl
+  anchor.target = '_blank'
+  document.body.appendChild(anchor)
+  anchor.click()
+  document.body.removeChild(anchor)
+}
+
+function stopPolling() {
+  if (pollInterval) {
+    clearInterval(pollInterval)
+    pollInterval = null
+  }
+}
+
+onUnmounted(() => {
+  stopPolling()
+})
 </script>

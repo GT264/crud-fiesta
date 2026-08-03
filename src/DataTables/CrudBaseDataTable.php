@@ -77,6 +77,8 @@ abstract class CrudBaseDataTable
 
     abstract protected function commonFormDetails() : array;
 
+    abstract public function getColumnsToExport() : array;
+
     /**
      * Mappa delle relazioni da visualizzare nelle colonne della tabella index.
      * Formato: [

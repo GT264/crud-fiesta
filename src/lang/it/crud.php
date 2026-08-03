@@ -43,4 +43,14 @@ return [
     'title' => [
         'index' => 'Elenco :model_name',
     ],
+    'export' => [
+        'label' => 'Esporta',
+        'excel' => 'Esporta Excel',
+        'csv' => 'Esporta CSV',
+        'started' => 'Esportazione avviata — preparazione del file...',
+        'processing' => 'Esportazione di :processed di :total record...',
+        'ready' => 'Esportazione pronta!',
+        'download' => 'Scarica',
+        'failed' => 'Esportazione fallita: :error',
+    ],
 ];

@@ -8,14 +8,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 use GT264\CrudFiesta\DataTables\CrudBaseDataTable;
+use GT264\CrudFiesta\Jobs\ExportDataJob;
 use GT264\CrudFiesta\Repositories\CrudBaseRepository;
 use GT264\CrudFiesta\Traits\SetLanguage;
 use GT264\CrudFiesta\Traits\SetRoutePrefix;
 
 use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class CrudBaseController extends Controller
 {
@@ -87,6 +91,103 @@ abstract class CrudBaseController extends Controller
     //---------------------------------------------------------------------------
     // EXPORT METHODS
     //---------------------------------------------------------------------------
+
+    public function exportStart(Request $request) : JsonResponse
+    {
+        $this->authorize('viewAny', $this->model::class);
+
+        $validated = $request->validate([
+            'format' => 'required|in:xlsx,csv',
+            'search' => 'nullable|string',
+            'sort_field' => 'nullable|string',
+            'sort_order' => 'nullable|integer',
+            'filters' => 'nullable|array',
+        ]);
+
+        [
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
+            'search' => $search,
+            'filters' => $filters,
+        ] = $this->getRepositoryParametersFromRequest($request);
+
+        $format = $validated['format'];
+
+        $exportId = (string) Str::uuid();
+        $timestamp = now()->format('Y-m-d_His');
+        $modelName = Str::plural(Str::snake(class_basename($this->model::class)));
+        $columns = $this->crud_data_table->getColumnsToExport();
+        $relationMap = $this->crud_data_table->getRelationDisplayMap();
+
+        Cache::put("crud-fiesta:export:{$exportId}", [
+            'status' => 'queued',
+            'format' => $format,
+        ], now()->addHours(24));
+
+        ExportDataJob::dispatch(
+            exportId: $exportId,
+            modelClass: $this->model::class,
+            modelName: $modelName,
+            columns: $columns,
+            relationMap: $relationMap,
+            sortField: $sortField,
+            sortDirection: $sortDirection,
+            search: $search,
+            filters: $filters,
+            format: $format,
+            timestamp: $timestamp,
+        );
+
+        return response()->json(['export_id' => $exportId]);
+    }
+
+    public function exportStatus(string $id) : JsonResponse
+    {
+        $data = Cache::get("crud-fiesta:export:{$id}");
+
+        if (!$data) {
+            return response()->json(['status' => 'not_found'], 404);
+        }
+
+        $response = [
+            'status' => $data['status'],
+            'processed' => $data['processed'] ?? 0,
+            'total' => $data['total'] ?? 0,
+        ];
+
+        if ($data['status'] === 'failed') {
+            $response['error'] = $data['error'] ?? 'Unknown error';
+        }
+
+        return response()->json($response);
+    }
+
+    public function exportDownload(string $id) : StreamedResponse
+    {
+        $data = Cache::get("crud-fiesta:export:{$id}");
+
+        if (!$data || $data['status'] !== 'completed') {
+            abort(404);
+        }
+
+        $filePath = $data['file_path'];
+
+        if (!file_exists($filePath)) {
+            Cache::forget("crud-fiesta:export:{$id}");
+            abort(404);
+        }
+
+        $filename = basename($filePath);
+        $mimeType = $data['format'] === 'csv'
+            ? 'text/csv'
+            : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+        return response()->streamDownload(function () use ($filePath, $id) {
+            readfile($filePath);
+            @unlink($filePath);
+            Cache::forget("crud-fiesta:export:{$id}");
+        }, $filename, ['Content-Type' => $mimeType]);
+    }
 
     //----------------------------------------------------------------------------
     // CRUD METHODS
