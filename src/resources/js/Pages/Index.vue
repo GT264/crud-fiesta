@@ -142,62 +142,6 @@ const currentFilters = ref<Record<string, { type: string; value: any }>>({})
 
 let pollInterval: ReturnType<typeof setInterval> | null = null
 
-const severityClasses: Record<string, string> = {
-  success: 'border-green-200 bg-green-50 text-green-800',
-  error: 'border-red-200 bg-red-50 text-red-800',
-  warning: 'border-yellow-200 bg-yellow-50 text-yellow-800',
-  info: 'border-blue-200 bg-blue-50 text-blue-800',
-}
-
-function addToast(severity: 'success' | 'error' | 'info' | 'warning', summary: string, detail: string, life: number) {
-  // Direct DOM manipulation — bypasses Vue/Inertia reactivity issues with async setInterval callbacks
-  const container = document.getElementById('crud-fiesta-toast-container')
-    || createToastContainer()
-
-  const toast = document.createElement('div')
-  toast.className = `flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg transition-all ${severityClasses[severity]}`
-
-  const content = document.createElement('div')
-  content.className = 'flex-1'
-
-  if (summary) {
-    const summaryEl = document.createElement('div')
-    summaryEl.className = 'font-semibold text-sm'
-    summaryEl.textContent = summary
-    content.appendChild(summaryEl)
-  }
-
-  if (detail) {
-    const detailEl = document.createElement('div')
-    detailEl.className = 'text-sm opacity-80'
-    detailEl.textContent = detail
-    content.appendChild(detailEl)
-  }
-
-  const closeBtn = document.createElement('button')
-  closeBtn.className = 'opacity-50 hover:opacity-100'
-  closeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>'
-  closeBtn.onclick = () => toast.remove()
-
-  toast.appendChild(content)
-  toast.appendChild(closeBtn)
-  container.appendChild(toast)
-
-  console.log('[crud-fiesta] Toast added via DOM:', { severity, summary, detail })
-
-  if (life > 0) {
-    setTimeout(() => toast.remove(), life)
-  }
-}
-
-function createToastContainer() {
-  const container = document.createElement('div')
-  container.id = 'crud-fiesta-toast-container'
-  container.style.cssText = 'position:fixed;top:1rem;right:1rem;z-index:10000;display:flex;flex-direction:column;gap:0.5rem;'
-  document.body.appendChild(container)
-  return container
-}
-
 async function onExport(format: 'xlsx' | 'csv') {
   try {
     const body: Record<string, any> = { format }
@@ -225,20 +169,18 @@ async function onExport(format: 'xlsx' | 'csv') {
 
     if (!resp.ok) {
       const err = await resp.json().catch(() => ({ message: 'Export request failed' }))
-      addToast('error', 'Export Error', err.message || 'Export request failed', 5000)
+      toastRef.value?.add({ severity: 'error', summary: 'Export Error', detail: err.message || 'Export request failed', life: 5000 })
       return
     }
 
     const { export_id } = await resp.json()
 
-    console.log('[crud-fiesta] Export started:', export_id)
-
-    addToast('info', 'Export', 'Export started — preparing your file...', 120000)
+    toastRef.value?.add({ severity: 'info', summary: 'Export', detail: 'Export started — preparing your file...', life: 120000 })
 
     // Begin polling
     startPolling(export_id)
   } catch (err: any) {
-    addToast('error', 'Export Error', 'Export failed: ' + (err.message || 'Unknown error'), 5000)
+    toastRef.value?.add({ severity: 'error', summary: 'Export Error', detail: 'Export failed: ' + (err.message || 'Unknown error'), life: 5000 })
   }
 }
 
@@ -258,20 +200,18 @@ function startPolling(exportId: string) {
 
       const data = await resp.json()
 
-      console.log('[crud-fiesta] Export status:', data.status, 'processed:', data.processed, '/', data.total)
-
       if (data.status === 'queued' || data.status === 'processing') {
         const detail = data.status === 'queued'
           ? 'Export started — preparing your file...'
           : `Exporting ${data.processed ?? 0} of ${data.total ?? 0} records...`
 
-        addToast('info', 'Export', detail, 120000)
+        toastRef.value?.add({ severity: 'info', summary: 'Export', detail, life: 120000 })
       } else if (data.status === 'completed') {
         stopPolling()
         triggerDownload(exportId)
       } else if (data.status === 'failed') {
         stopPolling()
-        addToast('error', 'Export Failed', 'Export failed: ' + (data.error || 'Unknown error'), 10000)
+        toastRef.value?.add({ severity: 'error', summary: 'Export Failed', detail: 'Export failed: ' + (data.error || 'Unknown error'), life: 10000 })
       }
     } catch (err) {
       console.warn('[crud-fiesta] Export polling error:', err)
@@ -280,17 +220,21 @@ function startPolling(exportId: string) {
   }, 2000)
 }
 
-function triggerDownload(exportId: string) {
-  addToast('success', 'Export ready!', 'Download starting...', 3000)
+async function triggerDownload(exportId: string) {
+  toastRef.value?.add({ severity: 'info', summary: 'Downloading...', detail: 'Your export file is being prepared', life: 5000 })
 
-  // Trigger download via a hidden anchor to avoid popup blockers
-  const downloadUrl = `/${props.route_prefix}/export/download/${exportId}`
+  const url = `/${props.route_prefix}/export/download/${exportId}`
+  const resp = await fetch(url)
+  const blob = await resp.blob()
+  const blobUrl = URL.createObjectURL(blob)
+
   const anchor = document.createElement('a')
-  anchor.href = downloadUrl
-  anchor.target = '_blank'
+  anchor.href = blobUrl
+  anchor.download = ''
   document.body.appendChild(anchor)
   anchor.click()
   document.body.removeChild(anchor)
+  URL.revokeObjectURL(blobUrl)
 }
 
 function stopPolling() {

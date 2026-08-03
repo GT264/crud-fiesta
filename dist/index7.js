@@ -3,14 +3,14 @@ import { usePage as T } from "@inertiajs/vue3";
 import { Loader2 as j } from "lucide-vue-next";
 import O from "./index17.js";
 import w from "./index15.js";
-import V from "./index18.js";
-import P from "./index19.js";
-import z from "./index20.js";
-import g from "./index21.js";
-import A from "./index22.js";
-import G from "./index23.js";
-import x from "./index24.js";
-import H from "./index25.js";
+import V from "./index19.js";
+import P from "./index20.js";
+import z from "./index21.js";
+import g from "./index22.js";
+import A from "./index23.js";
+import G from "./index24.js";
+import x from "./index25.js";
+import H from "./index26.js";
 const I = { class: "flex flex-col gap-4" }, J = { class: "text-lg font-semibold" }, K = ["for"], Q = {
   key: 0,
   class: "text-red-500"

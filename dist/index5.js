@@ -1,13 +1,13 @@
-import { defineComponent as ce, computed as O, ref as n, onUnmounted as ue, openBlock as de, createElementBlock as pe, createVNode as m, unref as I, createElementVNode as A, toDisplayString as B, withCtx as q, createTextVNode as fe } from "vue";
-import { usePage as me, router as i } from "@inertiajs/vue3";
-import { route as D } from "ziggy-js";
-import { Plus as ve } from "lucide-vue-next";
-import ge from "./index15.js";
-import _e from "./index26.js";
-import he from "./index6.js";
-import xe from "./index8.js";
-import ye from "./index7.js";
-const we = { class: "crud-index-page" }, be = { class: "flex items-center justify-between mb-4" }, Ee = { class: "text-2xl font-bold" }, Pe = /* @__PURE__ */ ce({
+import { defineComponent as ne, computed as C, ref as l, onUnmounted as le, openBlock as se, createElementBlock as ie, createVNode as m, unref as P, createElementVNode as R, toDisplayString as T, withCtx as U, createTextVNode as ue } from "vue";
+import { usePage as ce, router as d } from "@inertiajs/vue3";
+import { route as A } from "ziggy-js";
+import { Plus as de } from "lucide-vue-next";
+import pe from "./index15.js";
+import fe from "./index18.js";
+import me from "./index6.js";
+import ve from "./index8.js";
+import ge from "./index7.js";
+const _e = { class: "crud-index-page" }, ye = { class: "flex items-center justify-between mb-4" }, he = { class: "text-2xl font-bold" }, Ce = /* @__PURE__ */ ne({
   __name: "Index",
   props: {
     column_data: {},
@@ -19,229 +19,207 @@ const we = { class: "crud-index-page" }, be = { class: "flex items-center justif
     pagination_per_page: {},
     pagination_per_page_options: {}
   },
-  setup(s) {
-    const S = me();
+  setup(u) {
+    const S = ce();
     function v(e) {
       var t;
       return ((t = S.props.crudLang) == null ? void 0 : t[e]) ?? e;
     }
-    const r = s, R = O(() => {
-      const e = v(r.model_lang + ".plural");
-      if (e !== r.model_lang + ".plural") return e;
-      const t = (r.model_lang || "").split(".");
+    const a = u, I = C(() => {
+      const e = v(a.model_lang + ".plural");
+      if (e !== a.model_lang + ".plural") return e;
+      const t = (a.model_lang || "").split(".");
       return t[t.length - 1] || "Items";
-    }), U = O(() => v("crud.title.index").replace(":model_name", R.value)), V = _e, k = n(null), a = n(!1), g = /* @__PURE__ */ new Set();
-    i.on("finish", () => {
-      var t, o;
+    }), q = C(() => v("crud.title.index").replace(":model_name", I.value)), L = fe, c = l(null), s = l(!1), _ = /* @__PURE__ */ new Set();
+    d.on("finish", () => {
+      var t, r;
       const e = S.props.flash;
-      e != null && e.success && !g.has("success:" + e.success) && (g.add("success:" + e.success), (t = k.value) == null || t.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 })), e != null && e.error && !g.has("error:" + e.error) && (g.add("error:" + e.error), (o = k.value) == null || o.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 }));
+      e != null && e.success && !_.has("success:" + e.success) && (_.add("success:" + e.success), (t = c.value) == null || t.add({ severity: "success", summary: "Success", detail: e.success, life: 5e3 })), e != null && e.error && !_.has("error:" + e.error) && (_.add("error:" + e.error), (r = c.value) == null || r.add({ severity: "error", summary: "Error", detail: e.error, life: 5e3 }));
     });
-    const d = n(!1), C = n(""), F = n({}), _ = n(null), h = n(!1), c = n(!1), x = n(null), M = { show: "view", edit: "edit", destroy: "delete" };
-    function L(e) {
-      return e.event || M[e.action] || e.action;
+    const f = l(!1), E = l(""), F = l({}), y = l(null), h = l(!1), p = l(!1), x = l(null), D = { show: "view", edit: "edit", destroy: "delete" };
+    function N(e) {
+      return e.event || D[e.action] || e.action;
     }
-    const K = O(() => r.crud_buttons.map((e) => ({ action: L(e), icon: e.icon, label: e.label })));
-    function z(e) {
-      return D(e);
+    const V = C(() => a.crud_buttons.map((e) => ({ action: N(e), icon: e.icon, label: e.label })));
+    function B(e) {
+      return A(e);
     }
-    function H(e, t) {
-      return D(e, { id: t });
+    function K(e, t) {
+      return A(e, { id: t });
     }
     async function J() {
-      const e = r.crud_buttons.find((t) => t.action === "create");
-      c.value = !0;
+      const e = a.crud_buttons.find((t) => t.action === "create");
+      p.value = !0;
       try {
-        const t = e ? z(e.route_name) : `/${r.route_prefix}/create`, o = await (await fetch(t, { headers: { Accept: "application/json" } })).json();
-        F.value = o, C.value = v("crud.button.create"), _.value = null, h.value = !1, x.value = null, d.value = !0;
+        const t = e ? B(e.route_name) : `/${a.route_prefix}/create`, r = await (await fetch(t, { headers: { Accept: "application/json" } })).json();
+        F.value = r, E.value = v("crud.button.create"), y.value = null, h.value = !1, x.value = null, f.value = !0;
       } catch (t) {
         console.error("Failed to load create form:", t);
       } finally {
-        c.value = !1;
+        p.value = !1;
       }
     }
-    async function W(e) {
-      const t = r.crud_buttons.find((o) => o.action === "edit");
-      c.value = !0;
+    async function M(e) {
+      const t = a.crud_buttons.find((r) => r.action === "edit");
+      p.value = !0;
       try {
-        const o = t ? H(t.route_name, e) : `/${r.route_prefix}/${e}/edit`, l = await (await fetch(o, { headers: { Accept: "application/json" } })).json();
-        F.value = l.form_details, C.value = v("crud.button.edit"), _.value = l.item, h.value = !0, x.value = e, d.value = !0;
-      } catch (o) {
-        console.error("Failed to load edit form:", o);
+        const r = t ? K(t.route_name, e) : `/${a.route_prefix}/${e}/edit`, n = await (await fetch(r, { headers: { Accept: "application/json" } })).json();
+        F.value = n.form_details, E.value = v("crud.button.edit"), y.value = n.item, h.value = !0, x.value = e, f.value = !0;
+      } catch (r) {
+        console.error("Failed to load edit form:", r);
       } finally {
-        c.value = !1;
+        p.value = !1;
       }
     }
-    function X(e) {
-      c.value = !0;
+    function W(e) {
+      p.value = !0;
       const t = () => {
-        c.value = !1, d.value = !1;
+        p.value = !1, f.value = !1;
       };
-      h.value ? i.put(`/${r.route_prefix}/${x.value}`, e, { onFinish: t }) : i.post(`/${r.route_prefix}`, e, { onFinish: t });
+      h.value ? d.put(`/${a.route_prefix}/${x.value}`, e, { onFinish: t }) : d.post(`/${a.route_prefix}`, e, { onFinish: t });
     }
-    function G() {
-      d.value = !1, _.value = null, x.value = null;
-    }
-    function Q(e) {
+    function X() {
+      f.value = !1, y.value = null, x.value = null;
     }
     function Y(e) {
-      i.delete(`/${r.route_prefix}/${e}`);
+    }
+    function z(e) {
+      d.delete(`/${a.route_prefix}/${e}`);
+    }
+    function G(e) {
+      d.get(window.location.pathname, { page: e.page + 1, per_page: e.rows }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => s.value = !0, onFinish: () => s.value = !1 });
+    }
+    function H(e) {
+      d.get(window.location.pathname, { per_page: e, page: 1 }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => s.value = !0, onFinish: () => s.value = !1 });
+    }
+    function Q(e) {
+      $.value = e.sortField, O.value = e.sortOrder, d.get(window.location.pathname, { page: a.column_data.current_page, per_page: a.column_data.per_page, sort_field: e.sortField, sort_order: e.sortOrder }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => s.value = !0, onFinish: () => s.value = !1 });
     }
     function Z(e) {
-      i.get(window.location.pathname, { page: e.page + 1, per_page: e.rows }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => a.value = !0, onFinish: () => a.value = !1 });
+      k.value = e.query, d.get(window.location.pathname, { search: e.query }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => s.value = !0, onFinish: () => s.value = !1 });
     }
     function ee(e) {
-      i.get(window.location.pathname, { per_page: e, page: 1 }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => a.value = !0, onFinish: () => a.value = !1 });
+      j.value = e.globalFilter, d.get(window.location.pathname, { filters: e.globalFilter }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => s.value = !0, onFinish: () => s.value = !1 });
     }
-    function te(e) {
-      $.value = e.sortField, P.value = e.sortOrder, i.get(window.location.pathname, { page: r.column_data.current_page, per_page: r.column_data.per_page, sort_field: e.sortField, sort_order: e.sortOrder }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], onStart: () => a.value = !0, onFinish: () => a.value = !1 });
-    }
-    function oe(e) {
-      T.value = e.query, i.get(window.location.pathname, { search: e.query }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => a.value = !0, onFinish: () => a.value = !1 });
-    }
-    function re(e) {
-      j.value = e.globalFilter, i.get(window.location.pathname, { filters: e.globalFilter }, { preserveState: !0, preserveScroll: !0, only: ["column_data"], replace: !0, onStart: () => a.value = !0, onFinish: () => a.value = !1 });
-    }
-    const $ = n(null), P = n(1), T = n(""), j = n({});
-    let y = null;
-    const ne = {
-      success: "border-green-200 bg-green-50 text-green-800",
-      error: "border-red-200 bg-red-50 text-red-800",
-      warning: "border-yellow-200 bg-yellow-50 text-yellow-800",
-      info: "border-blue-200 bg-blue-50 text-blue-800"
-    };
-    function p(e, t, o, l) {
-      const N = document.getElementById("crud-fiesta-toast-container") || ae(), f = document.createElement("div");
-      f.className = `flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg transition-all ${ne[e]}`;
-      const b = document.createElement("div");
-      if (b.className = "flex-1", t) {
-        const u = document.createElement("div");
-        u.className = "font-semibold text-sm", u.textContent = t, b.appendChild(u);
-      }
-      if (o) {
-        const u = document.createElement("div");
-        u.className = "text-sm opacity-80", u.textContent = o, b.appendChild(u);
-      }
-      const E = document.createElement("button");
-      E.className = "opacity-50 hover:opacity-100", E.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>', E.onclick = () => f.remove(), f.appendChild(b), f.appendChild(E), N.appendChild(f), console.log("[crud-fiesta] Toast added via DOM:", { severity: e, summary: t, detail: o }), l > 0 && setTimeout(() => f.remove(), l);
-    }
-    function ae() {
-      const e = document.createElement("div");
-      return e.id = "crud-fiesta-toast-container", e.style.cssText = "position:fixed;top:1rem;right:1rem;z-index:10000;display:flex;flex-direction:column;gap:0.5rem;", document.body.appendChild(e), e;
-    }
-    async function le(e) {
+    const $ = l(null), O = l(1), k = l(""), j = l({});
+    let w = null;
+    async function te(e) {
+      var t, r, n;
       try {
-        const t = { format: e };
-        T.value && (t.search = T.value), $.value && (t.sort_field = $.value, t.sort_order = P.value), Object.keys(j.value).length > 0 && (t.filters = j.value);
-        const o = await fetch(`/${r.route_prefix}/export/start`, {
+        const o = { format: e };
+        k.value && (o.search = k.value), $.value && (o.sort_field = $.value, o.sort_order = O.value), Object.keys(j.value).length > 0 && (o.filters = j.value);
+        const i = await fetch(`/${a.route_prefix}/export/start`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             "X-CSRF-TOKEN": S.props.csrf_token ?? ""
           },
-          body: JSON.stringify(t)
+          body: JSON.stringify(o)
         });
-        if (!o.ok) {
-          const N = await o.json().catch(() => ({ message: "Export request failed" }));
-          p("error", "Export Error", N.message || "Export request failed", 5e3);
+        if (!i.ok) {
+          const ae = await i.json().catch(() => ({ message: "Export request failed" }));
+          (t = c.value) == null || t.add({ severity: "error", summary: "Export Error", detail: ae.message || "Export request failed", life: 5e3 });
           return;
         }
-        const { export_id: l } = await o.json();
-        console.log("[crud-fiesta] Export started:", l), p("info", "Export", "Export started — preparing your file...", 12e4), se(l);
-      } catch (t) {
-        p("error", "Export Error", "Export failed: " + (t.message || "Unknown error"), 5e3);
+        const { export_id: g } = await i.json();
+        console.log("[crud-fiesta] Export started:", g), (r = c.value) == null || r.add({ severity: "info", summary: "Export", detail: "Export started — preparing your file...", life: 12e4 }), oe(g);
+      } catch (o) {
+        (n = c.value) == null || n.add({ severity: "error", summary: "Export Error", detail: "Export failed: " + (o.message || "Unknown error"), life: 5e3 });
       }
     }
-    function se(e) {
-      w(), y = setInterval(async () => {
+    function oe(e) {
+      b(), w = setInterval(async () => {
+        var t, r;
         try {
-          const t = await fetch(`/${r.route_prefix}/export/status/${e}`, {
+          const n = await fetch(`/${a.route_prefix}/export/status/${e}`, {
             headers: { Accept: "application/json" }
           });
-          if (!t.ok) {
-            console.warn("[crud-fiesta] Export status returned non-OK:", t.status);
+          if (!n.ok) {
+            console.warn("[crud-fiesta] Export status returned non-OK:", n.status);
             return;
           }
-          const o = await t.json();
+          const o = await n.json();
           if (console.log("[crud-fiesta] Export status:", o.status, "processed:", o.processed, "/", o.total), o.status === "queued" || o.status === "processing") {
-            const l = o.status === "queued" ? "Export started — preparing your file..." : `Exporting ${o.processed ?? 0} of ${o.total ?? 0} records...`;
-            p("info", "Export", l, 12e4);
-          } else o.status === "completed" ? (w(), ie(e)) : o.status === "failed" && (w(), p("error", "Export Failed", "Export failed: " + (o.error || "Unknown error"), 1e4));
-        } catch (t) {
-          console.warn("[crud-fiesta] Export polling error:", t);
+            const i = o.status === "queued" ? "Export started — preparing your file..." : `Exporting ${o.processed ?? 0} of ${o.total ?? 0} records...`;
+            (t = c.value) == null || t.add({ severity: "info", summary: "Export", detail: i, life: 12e4 });
+          } else o.status === "completed" ? (b(), re(e)) : o.status === "failed" && (b(), (r = c.value) == null || r.add({ severity: "error", summary: "Export Failed", detail: "Export failed: " + (o.error || "Unknown error"), life: 1e4 }));
+        } catch (n) {
+          console.warn("[crud-fiesta] Export polling error:", n);
         }
       }, 2e3);
     }
-    function ie(e) {
-      p("success", "Export ready!", "Download starting...", 3e3);
-      const t = `/${r.route_prefix}/export/download/${e}`, o = document.createElement("a");
-      o.href = t, o.target = "_blank", document.body.appendChild(o), o.click(), document.body.removeChild(o);
+    async function re(e) {
+      var g;
+      (g = c.value) == null || g.add({ severity: "info", summary: "Downloading...", detail: "Your export file is being prepared", life: 5e3 });
+      const t = `/${a.route_prefix}/export/download/${e}`, n = await (await fetch(t)).blob(), o = URL.createObjectURL(n), i = document.createElement("a");
+      i.href = o, i.download = "", document.body.appendChild(i), i.click(), document.body.removeChild(i), URL.revokeObjectURL(o);
     }
-    function w() {
-      y && (clearInterval(y), y = null);
+    function b() {
+      w && (clearInterval(w), w = null);
     }
-    return ue(() => {
-      w();
-    }), (e, t) => (de(), pe("div", we, [
-      m(I(V), {
+    return le(() => {
+      b();
+    }), (e, t) => (se(), ie("div", _e, [
+      m(P(L), {
         ref_key: "toastRef",
-        ref: k
+        ref: c
       }, null, 512),
-      A("div", be, [
-        A("h1", Ee, B(U.value), 1),
-        m(ge, {
+      R("div", ye, [
+        R("h1", he, T(q.value), 1),
+        m(pe, {
           variant: "default",
           onClick: J
         }, {
-          default: q(() => [
-            m(I(ve), { class: "h-4 w-4 mr-1" }),
-            fe(" " + B(v("crud.button.create")), 1)
+          default: U(() => [
+            m(P(de), { class: "h-4 w-4 mr-1" }),
+            ue(" " + T(v("crud.button.create")), 1)
           ]),
           _: 1
         })
       ]),
-      m(he, {
-        items: s.column_data.data,
-        columns: s.columns_details,
-        "total-records": s.column_data.total,
-        "per-page": s.column_data.per_page,
-        "per-page-options": s.pagination_per_page_options,
-        loading: a.value,
-        "key-name": s.key_name,
-        "route-prefix": s.route_prefix,
-        onPaginate: Z,
-        onSort: te,
-        onSearch: oe,
-        onFilter: re,
-        onPerPageChange: ee,
-        onExport: le
+      m(me, {
+        items: u.column_data.data,
+        columns: u.columns_details,
+        "total-records": u.column_data.total,
+        "per-page": u.column_data.per_page,
+        "per-page-options": u.pagination_per_page_options,
+        loading: s.value,
+        "key-name": u.key_name,
+        "route-prefix": u.route_prefix,
+        onPaginate: G,
+        onSort: Q,
+        onSearch: Z,
+        onFilter: ee,
+        onPerPageChange: H,
+        onExport: te
       }, {
-        actions: q(({ row: o }) => [
-          m(xe, {
-            row: o,
-            buttons: K.value,
-            "key-name": s.key_name,
-            onView: Q,
-            onEdit: W,
-            onDelete: Y
+        actions: U(({ row: r }) => [
+          m(ve, {
+            row: r,
+            buttons: V.value,
+            "key-name": u.key_name,
+            onView: Y,
+            onEdit: M,
+            onDelete: z
           }, null, 8, ["row", "buttons", "key-name"])
         ]),
         _: 1
       }, 8, ["items", "columns", "total-records", "per-page", "per-page-options", "loading", "key-name", "route-prefix"]),
-      m(ye, {
-        visible: d.value,
-        title: C.value,
+      m(ge, {
+        visible: f.value,
+        title: E.value,
         fields: F.value,
-        data: _.value,
-        loading: c.value,
+        data: y.value,
+        loading: p.value,
         "is-edit": h.value,
-        "onUpdate:visible": t[0] || (t[0] = (o) => d.value = o),
-        onSubmit: X,
-        onClose: G
+        "onUpdate:visible": t[0] || (t[0] = (r) => f.value = r),
+        onSubmit: W,
+        onClose: X
       }, null, 8, ["visible", "title", "fields", "data", "loading", "is-edit"])
     ]));
   }
 });
 export {
-  Pe as default
+  Ce as default
 };
