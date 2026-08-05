@@ -41,11 +41,11 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { usePage } from '@inertiajs/vue3'
 import { Eye, Pencil, Trash2, EllipsisVertical, AlertTriangle } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
 import Dialog from '../ui/Dialog.vue'
 import DropdownMenu from '../ui/DropdownMenu.vue'
+import { useCrudTranslation } from '../../composables/useCrudTranslation'
 
 interface CrudButton {
   action: string
@@ -75,11 +75,7 @@ const emit = defineEmits<{
   delete: [id: any]
 }>()
 
-const page = usePage()
-
-function crudT(key: string): string {
-  return (page.props.crudLang as Record<string, string>)?.[key] ?? key
-}
+const { crudT } = useCrudTranslation()
 
 const rowId = computed(() => props.row[props.keyName] ?? Object.values(props.row)[0])
 const deleteDialogVisible = ref(false)

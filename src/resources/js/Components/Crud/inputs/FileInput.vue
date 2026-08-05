@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFileDialog } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import Button from '../../ui/Button.vue'
 
 interface Props {
@@ -16,6 +16,10 @@ const emit = defineEmits<{ 'update:modelValue': [value: File | null] }>()
 const { files, open, reset } = useFileDialog({ accept: props.accept, multiple: false })
 const selectedFile = computed<File | null>(() => (files.value && files.value.length > 0 ? files.value[0] : null))
 const label = computed(() => selectedFile.value ? selectedFile.value.name : (props.accept.startsWith('image/') ? 'Choose image...' : 'Choose file...'))
+
+watch(selectedFile, (file) => {
+  emit('update:modelValue', file)
+})
 </script>
 
 <template>

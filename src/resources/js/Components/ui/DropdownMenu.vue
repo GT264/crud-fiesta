@@ -61,7 +61,7 @@ function onItemClick(item: MenuItem) {
     >
       <button
         v-for="(item, index) in items"
-        :key="index"
+        :key="`${item.label}-${index}`"
         :disabled="item.disabled"
         class="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
         @click="onItemClick(item)"

@@ -165,21 +165,15 @@
 
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
-import { usePage } from '@inertiajs/vue3'
-import { Search, ChevronLeft, ChevronRight, ArrowUp, ArrowDown, Loader2, Download } from 'lucide-vue-next'
+import { Search, ArrowUp, ArrowDown, Loader2, Download } from 'lucide-vue-next'
 import Button from '../ui/Button.vue'
 import DropdownMenu from '../ui/DropdownMenu.vue'
-
-interface ColumnFilterOption {
-  label: string
-  value: string | number
-}
-
-interface ColumnFilterConfig {
-  field: string
-  type: 'select' | 'multiselect' | 'date' | 'date_range'
-  options?: ColumnFilterOption[]
-}
+import { useCrudTranslation } from '../../composables/useCrudTranslation'
+import {
+  buildFilterPayload,
+  type ColumnFilterConfig,
+  type FilterValues,
+} from '../../lib/utils'
 
 interface TableColumn {
   field: string
@@ -210,16 +204,7 @@ const emit = defineEmits<{
   export: [format: 'xlsx' | 'csv']
 }>()
 
-const page = usePage()
-function crudT(key: string, replacements?: Record<string, string | number>): string {
-  let value: string = (page.props.crudLang as Record<string, string>)?.[key] ?? key
-  if (replacements) {
-    for (const [param, val] of Object.entries(replacements)) {
-      value = value.replace(`:${param}`, String(val))
-    }
-  }
-  return value
-}
+const { crudT } = useCrudTranslation()
 
 const currentPage = ref(1)
 const sortField = ref<string | null>(null)
@@ -227,7 +212,7 @@ const sortOrder = ref<number>(1)
 const searchQuery = ref('')
 let searchTimeout: ReturnType<typeof setTimeout> | undefined
 
-const filterValues = ref<Record<string, any>>({})
+const filterValues = ref<FilterValues>({})
 const filterTimers: Record<string, ReturnType<typeof setTimeout>> = {}
 
 const hasFilters = computed(() => {
@@ -239,30 +224,8 @@ function getFilterConfig(field: string): ColumnFilterConfig | undefined {
   return col?.filter_config
 }
 
-function buildFilterPayload(): Record<string, { type: string; value: any }> {
-  const payload: Record<string, { type: string; value: any }> = {}
-  for (const col of props.columns) {
-    if (!col.filter_config) continue
-    const field = col.field
-    const config = col.filter_config
-    if (config.type === 'date_range') {
-      const start = filterValues.value[field + '_start']
-      const end = filterValues.value[field + '_end']
-      if (start || end) {
-        payload[field] = { type: 'date_range', value: { start: start || '', end: end || '' } }
-      }
-    } else {
-      const val = filterValues.value[field]
-      if (val !== undefined && val !== null && val !== '' && (!Array.isArray(val) || val.length > 0)) {
-        payload[field] = { type: config.type, value: val }
-      }
-    }
-  }
-  return payload
-}
-
 function emitFilters() {
-  emit('filter', { globalFilter: buildFilterPayload() })
+  emit('filter', { globalFilter: buildFilterPayload(props.columns, filterValues.value) })
 }
 
 function onFilterChange(_field: string) {

@@ -1,196 +1,195 @@
-import { defineComponent as E, computed as N, ref as L, watch as S, openBlock as r, createBlock as u, withCtx as q, createElementVNode as s, toDisplayString as c, withModifiers as y, createElementBlock as v, Fragment as D, renderList as F, createTextVNode as h, createCommentVNode as _, createVNode as U, unref as M } from "vue";
-import { usePage as T } from "@inertiajs/vue3";
-import { Loader2 as j } from "lucide-vue-next";
-import O from "./index17.js";
-import w from "./index15.js";
-import V from "./index19.js";
-import P from "./index20.js";
-import z from "./index21.js";
-import g from "./index22.js";
-import A from "./index23.js";
-import G from "./index24.js";
-import x from "./index25.js";
-import H from "./index26.js";
-const I = { class: "flex flex-col gap-4" }, J = { class: "text-lg font-semibold" }, K = ["for"], Q = {
+import { defineComponent as N, computed as y, openBlock as a, createBlock as t, withCtx as f, createElementVNode as m, toDisplayString as i, withModifiers as S, createElementBlock as c, Fragment as T, renderList as F, createTextVNode as V, unref as d, createCommentVNode as s, createVNode as v } from "vue";
+import { Loader2 as L } from "lucide-vue-next";
+import M from "./index19.js";
+import g from "./index15.js";
+import p from "./index20.js";
+import j from "./index21.js";
+import D from "./index22.js";
+import $ from "./index23.js";
+import O from "./index24.js";
+import z from "./index25.js";
+import C from "./index26.js";
+import A from "./index27.js";
+import { useCrudTranslation as G } from "./index17.js";
+const H = { class: "flex flex-col gap-4" }, I = { class: "text-lg font-semibold" }, J = ["for"], K = {
   key: 0,
   class: "text-red-500"
-}, R = { class: "flex justify-end gap-2 mt-4" }, ie = /* @__PURE__ */ E({
+}, P = {
+  key: 13,
+  class: "text-red-500 text-sm mt-1"
+}, Q = { class: "flex justify-end gap-2 mt-4" }, de = /* @__PURE__ */ N({
   __name: "CrudForm",
   props: {
     visible: { type: Boolean },
     title: {},
     fields: {},
-    data: {},
+    form: {},
     loading: { type: Boolean, default: !1 },
-    isEdit: { type: Boolean, default: !1 }
+    isEdit: { type: Boolean, default: !1 },
+    errors: { default: () => ({}) }
   },
   emits: ["update:visible", "submit", "close"],
-  setup(i, { emit: $ }) {
-    const m = i, p = $, B = T();
-    function d(t) {
-      var n;
-      return t ? ((n = B.props.crudLang) == null ? void 0 : n[t]) ?? t : "";
-    }
-    const f = N({
-      get: () => m.visible,
-      set: (t) => p("update:visible", t)
-    }), a = L({});
-    S(() => m.visible, (t) => {
-      a.value = t && m.data ? { ...m.data } : {};
-    }, { immediate: !0 });
-    const C = () => p("submit", a.value), b = () => {
-      a.value = {}, p("close"), p("update:visible", !1);
+  setup(o, { emit: B }) {
+    const q = o, n = B, { crudT: u } = G(), h = y({
+      get: () => q.visible,
+      set: (U) => n("update:visible", U)
+    }), E = () => n("submit"), b = () => {
+      n("close"), n("update:visible", !1);
     };
-    return (t, n) => (r(), u(O, {
-      open: f.value,
+    return (U, w) => (a(), t(M, {
+      open: h.value,
       modal: !0,
       class: "w-full md:w-1/2",
-      "onUpdate:open": n[0] || (n[0] = (e) => f.value = e),
+      "onUpdate:open": w[0] || (w[0] = (e) => h.value = e),
       onClose: b
     }, {
-      default: q(() => [
-        s("div", I, [
-          s("h2", J, c(i.title), 1),
-          s("form", {
+      default: f(() => [
+        m("div", H, [
+          m("h2", I, i(o.title), 1),
+          m("form", {
             id: "crud-form",
             class: "space-y-4",
-            onSubmit: y(C, ["prevent"])
+            onSubmit: S(E, ["prevent"])
           }, [
-            (r(!0), v(D, null, F(i.fields, (e, l) => (r(), v("div", {
-              key: l,
-              class: "field"
-            }, [
-              s("label", {
-                for: l,
-                class: "block mb-2 font-semibold text-sm"
+            (a(!0), c(T, null, F(o.fields, (e, l) => {
+              var x;
+              return a(), c("div", {
+                key: l,
+                class: "field"
               }, [
-                h(c(d(e.label)) + " ", 1),
-                e.required ? (r(), v("span", Q, "*")) : _("", !0)
-              ], 8, K),
-              e.type === "text" ? (r(), u(V, {
-                key: 0,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "email" ? (r(), u(V, {
-                key: 1,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                type: "email",
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "textarea" ? (r(), u(P, {
-                key: 2,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required,
-                rows: "4"
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "number" ? (r(), u(V, {
-                key: 3,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                modelModifiers: { number: !0 },
-                type: "number",
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "date" ? (r(), u(A, {
-                key: 4,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "checkbox" ? (r(), u(z, {
-                key: 5,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "password" ? (r(), u(V, {
-                key: 6,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                type: "password",
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "select" ? (r(), u(g, {
-                key: 7,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                options: e.options || [],
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "multi_select" ? (r(), u(g, {
-                key: 8,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                options: e.options || [],
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required,
-                multiple: ""
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "mask" ? (r(), u(H, {
-                key: 9,
-                id: l,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                placeholder: d(e.placeholder),
-                class: "w-full",
-                required: e.required
-              }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "rich_text" ? (r(), u(G, {
-                key: 10,
-                modelValue: a.value[l],
-                "onUpdate:modelValue": (o) => a.value[l] = o,
-                required: e.required
-              }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "file" ? (r(), u(x, {
-                key: "file-" + l,
-                required: e.required,
-                accept: "*/*"
-              }, null, 8, ["required"])) : e.type === "image" ? (r(), u(x, {
-                key: "image-" + l,
-                required: e.required,
-                accept: "image/*"
-              }, null, 8, ["required"])) : _("", !0)
-            ]))), 128))
+                m("label", {
+                  for: l,
+                  class: "block mb-2 font-semibold text-sm"
+                }, [
+                  V(i(d(u)(e.label)) + " ", 1),
+                  e.required ? (a(), c("span", K, "*")) : s("", !0)
+                ], 8, J),
+                e.type === "text" ? (a(), t(p, {
+                  key: 0,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "email" ? (a(), t(p, {
+                  key: 1,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  type: "email",
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "textarea" ? (a(), t(j, {
+                  key: 2,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required,
+                  rows: "4"
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "number" ? (a(), t(p, {
+                  key: 3,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  modelModifiers: { number: !0 },
+                  type: "number",
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "date" ? (a(), t(O, {
+                  key: 4,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "checkbox" ? (a(), t(D, {
+                  key: 5,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "required"])) : e.type === "password" ? (a(), t(p, {
+                  key: 6,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  type: "password",
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "select" ? (a(), t($, {
+                  key: 7,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  options: e.options || [],
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "multi_select" ? (a(), t($, {
+                  key: 8,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  options: e.options || [],
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required,
+                  multiple: ""
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "options", "placeholder", "required"])) : e.type === "mask" ? (a(), t(A, {
+                  key: 9,
+                  id: l,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  placeholder: d(u)(e.placeholder),
+                  class: "w-full",
+                  required: e.required
+                }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "placeholder", "required"])) : e.type === "rich_text" ? (a(), t(z, {
+                  key: 10,
+                  modelValue: o.form[l],
+                  "onUpdate:modelValue": (r) => o.form[l] = r,
+                  required: e.required
+                }, null, 8, ["modelValue", "onUpdate:modelValue", "required"])) : e.type === "file" ? (a(), t(C, {
+                  key: "file-" + l,
+                  required: e.required,
+                  accept: "*/*"
+                }, null, 8, ["required"])) : e.type === "image" ? (a(), t(C, {
+                  key: "image-" + l,
+                  required: e.required,
+                  accept: "image/*"
+                }, null, 8, ["required"])) : s("", !0),
+                (x = o.errors) != null && x[l] ? (a(), c("p", P, i(o.errors[l]), 1)) : s("", !0)
+              ]);
+            }), 128))
           ], 32),
-          s("div", R, [
-            U(w, {
+          m("div", Q, [
+            v(g, {
               variant: "secondary",
               onClick: b
             }, {
-              default: q(() => [
-                h(c(d("crud.button.cancel")), 1)
+              default: f(() => [
+                V(i(d(u)("crud.button.cancel")), 1)
               ]),
               _: 1
             }),
-            U(w, {
+            v(g, {
               variant: "default",
-              disabled: i.loading,
+              disabled: o.loading,
               type: "submit",
               form: "crud-form"
             }, {
-              default: q(() => [
-                i.loading ? (r(), u(M(j), {
+              default: f(() => [
+                o.loading ? (a(), t(d(L), {
                   key: 0,
                   class: "h-4 w-4 mr-1 animate-spin"
-                })) : _("", !0),
-                h(" " + c(m.isEdit ? d("crud.button.edit") : d("crud.button.create")), 1)
+                })) : s("", !0),
+                V(" " + i(q.isEdit ? d(u)("crud.button.edit") : d(u)("crud.button.create")), 1)
               ]),
               _: 1
             }, 8, ["disabled"])
@@ -202,5 +201,5 @@ const I = { class: "flex flex-col gap-4" }, J = { class: "text-lg font-semibold"
   }
 });
 export {
-  ie as default
+  de as default
 };

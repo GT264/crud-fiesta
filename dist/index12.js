@@ -1,10 +1,10 @@
-import { defineComponent as N, computed as p, ref as V, openBlock as v, createElementBlock as $, createVNode as o, withCtx as a, createElementVNode as n, createBlock as D, resolveDynamicComponent as E, toDisplayString as c, unref as _, createTextVNode as m } from "vue";
-import { usePage as T } from "@inertiajs/vue3";
-import { EllipsisVertical as j, AlertTriangle as A, Trash2 as B, Pencil as I, Eye as g } from "lucide-vue-next";
-import f from "./index15.js";
-import M from "./index17.js";
-import P from "./index16.js";
-const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-2 w-full" }, O = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, W = /* @__PURE__ */ N({
+import { defineComponent as k, computed as v, ref as N, openBlock as _, createElementBlock as T, createVNode as l, withCtx as c, createElementVNode as s, createBlock as V, resolveDynamicComponent as $, toDisplayString as r, unref as t, createTextVNode as f } from "vue";
+import { EllipsisVertical as D, AlertTriangle as E, Trash2 as j, Pencil as A, Eye as w } from "lucide-vue-next";
+import p from "./index15.js";
+import B from "./index19.js";
+import I from "./index16.js";
+import { useCrudTranslation as M } from "./index17.js";
+const z = { class: "flex justify-center" }, O = { class: "flex items-center gap-2 w-full" }, P = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, R = /* @__PURE__ */ k({
   __name: "CrudActions",
   props: {
     row: {},
@@ -12,85 +12,80 @@ const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-
     keyName: { default: "id" }
   },
   emits: ["view", "edit", "delete"],
-  setup(w, { emit: b }) {
-    const r = w, d = b, x = T();
-    function l(e) {
-      var t;
-      return ((t = x.props.crudLang) == null ? void 0 : t[e]) ?? e;
-    }
-    const u = p(() => r.row[r.keyName] ?? Object.values(r.row)[0]), s = V(!1);
-    function h(e) {
+  setup(b, { emit: g }) {
+    const d = b, u = g, { crudT: n } = M(), m = v(() => d.row[d.keyName] ?? Object.values(d.row)[0]), i = N(!1);
+    function x(e) {
       return {
-        view: g,
-        edit: I,
-        delete: B
-      }[e] || g;
+        view: w,
+        edit: A,
+        delete: j
+      }[e] || w;
     }
-    function y(e) {
-      e === "delete" ? s.value = !0 : e === "view" ? d("view", u.value) : e === "edit" && d("edit", u.value);
+    function h(e) {
+      e === "delete" ? i.value = !0 : e === "view" ? u("view", m.value) : e === "edit" && u("edit", m.value);
     }
-    function C() {
-      s.value = !1, d("delete", u.value);
+    function y() {
+      i.value = !1, u("delete", m.value);
     }
-    const k = p(
-      () => r.buttons.map((e) => ({
+    const C = v(
+      () => d.buttons.map((e) => ({
         label: e.label,
         icon: e.icon,
         action: e.action,
-        command: () => y(e.action)
+        command: () => h(e.action)
       }))
     );
-    return (e, t) => (v(), $("div", z, [
-      o(P, { items: k.value }, {
-        trigger: a(() => [
-          o(f, {
-            label: l("crud.button.actions"),
+    return (e, o) => (_(), T("div", z, [
+      l(I, { items: C.value }, {
+        trigger: c(() => [
+          l(p, {
+            label: t(n)("crud.button.actions"),
             variant: "secondary",
             size: "sm"
           }, {
-            default: a(() => [
-              o(_(j), { class: "h-4 w-4 mr-1" }),
-              m(" " + c(l("crud.button.actions")), 1)
+            default: c(() => [
+              l(t(D), { class: "h-4 w-4 mr-1" }),
+              f(" " + r(t(n)("crud.button.actions")), 1)
             ]),
             _: 1
           }, 8, ["label"])
         ]),
-        item: a(({ item: i }) => [
-          n("div", L, [
-            (v(), D(E(h(i.action)), { class: "h-4 w-4" })),
-            n("span", O, c(i.label), 1)
+        item: c(({ item: a }) => [
+          s("div", O, [
+            (_(), V($(x(a.action)), { class: "h-4 w-4" })),
+            s("span", P, r(a.label), 1)
           ])
         ]),
         _: 1
       }, 8, ["items"]),
-      o(M, {
-        open: s.value,
-        "onUpdate:open": t[1] || (t[1] = (i) => s.value = i),
-        onClose: t[2] || (t[2] = (i) => s.value = !1)
+      l(B, {
+        open: i.value,
+        "onUpdate:open": o[1] || (o[1] = (a) => i.value = a),
+        onClose: o[2] || (o[2] = (a) => i.value = !1)
       }, {
-        default: a(() => [
-          n("div", S, [
-            n("h2", U, c(l("crud.delete_confirm.header")), 1),
-            n("div", q, [
-              o(_(A), { class: "h-6 w-6 text-yellow-500" }),
-              n("span", null, c(l("crud.delete_confirm.message")), 1)
+        default: c(() => [
+          s("div", S, [
+            s("h2", U, r(t(n)("crud.delete_confirm.header")), 1),
+            s("div", q, [
+              l(t(E), { class: "h-6 w-6 text-yellow-500" }),
+              s("span", null, r(t(n)("crud.delete_confirm.message")), 1)
             ]),
-            n("div", F, [
-              o(f, {
+            s("div", F, [
+              l(p, {
                 variant: "secondary",
-                onClick: t[0] || (t[0] = (i) => s.value = !1)
+                onClick: o[0] || (o[0] = (a) => i.value = !1)
               }, {
-                default: a(() => [
-                  m(c(l("crud.button.cancel")), 1)
+                default: c(() => [
+                  f(r(t(n)("crud.button.cancel")), 1)
                 ]),
                 _: 1
               }),
-              o(f, {
+              l(p, {
                 variant: "destructive",
-                onClick: C
+                onClick: y
               }, {
-                default: a(() => [
-                  m(c(l("crud.button.delete")), 1)
+                default: c(() => [
+                  f(r(t(n)("crud.button.delete")), 1)
                 ]),
                 _: 1
               })
@@ -103,5 +98,5 @@ const z = { class: "flex justify-center" }, L = { class: "flex items-center gap-
   }
 });
 export {
-  W as default
+  R as default
 };

@@ -1,35 +1,43 @@
-import { defineComponent as a, withDirectives as n, openBlock as s, createElementBlock as u, normalizeClass as m, unref as t, isRef as c, vModelText as p } from "vue";
-import { useVModel as f } from "@vueuse/core";
-import { cn as b } from "./index39.js";
-const h = ["id", "placeholder", "required", "disabled"], q = /* @__PURE__ */ a({
-  __name: "Calendar",
+import { defineComponent as r, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as a, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as v, renderList as V, vModelSelect as b } from "vue";
+import { useVModel as h } from "@vueuse/core";
+import { cn as y, inputClasses as B } from "./index18.js";
+const k = ["id", "required", "disabled", "multiple"], q = {
+  key: 0,
+  value: "",
+  disabled: ""
+}, C = ["value"], w = /* @__PURE__ */ r({
+  __name: "Select",
   props: {
     id: {},
     modelValue: {},
+    options: { default: () => [] },
     placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
+    multiple: { type: Boolean, default: !1 },
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: i }) {
-    const o = e, l = f(o, "modelValue", i);
-    return (g, d) => n((s(), u("input", {
+  setup(e, { emit: u }) {
+    const d = e, i = h(d, "modelValue", u);
+    return (g, n) => m((t(), o("select", {
       id: e.id,
-      "onUpdate:modelValue": d[0] || (d[0] = (r) => c(l) ? l.value = r : null),
-      type: "date",
-      placeholder: e.placeholder,
+      "onUpdate:modelValue": n[0] || (n[0] = (l) => p(i) ? i.value = l : null),
       required: e.required,
       disabled: e.disabled,
-      class: m(t(b)(
-        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-        o.class
-      ))
-    }, null, 10, h)), [
-      [p, t(l)]
+      multiple: e.multiple,
+      class: c(a(y)(a(B), d.class))
+    }, [
+      e.placeholder ? (t(), o("option", q, s(e.placeholder), 1)) : f("", !0),
+      (t(!0), o(v, null, V(e.options, (l) => (t(), o("option", {
+        key: l.value,
+        value: l.value
+      }, s(l.label), 9, C))), 128))
+    ], 10, k)), [
+      [b, a(i)]
     ]);
   }
 });
 export {
-  q as default
+  w as default
 };

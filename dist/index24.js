@@ -1,29 +1,32 @@
-import { defineComponent as s, openBlock as m, createElementBlock as p, createVNode as a, unref as t } from "vue";
-import { useEditor as c, EditorContent as l } from "@tiptap/vue-3";
-import u from "@tiptap/starter-kit";
-const _ = { class: "rounded-md border border-input" }, B = /* @__PURE__ */ s({
-  __name: "RichTextInput",
+import { defineComponent as r, withDirectives as s, openBlock as n, createElementBlock as u, normalizeClass as m, unref as d, isRef as c, vModelText as p } from "vue";
+import { useVModel as f } from "@vueuse/core";
+import { cn as V, inputClasses as h } from "./index18.js";
+const b = ["id", "placeholder", "required", "disabled"], y = /* @__PURE__ */ r({
+  __name: "Calendar",
   props: {
+    id: {},
     modelValue: {},
-    required: { type: Boolean }
+    placeholder: {},
+    required: { type: Boolean },
+    disabled: { type: Boolean },
+    class: {}
   },
   emits: ["update:modelValue"],
-  setup(o, { emit: r }) {
-    const n = o, d = r, i = c({
-      content: n.modelValue,
-      extensions: [u],
-      onUpdate: ({ editor: e }) => {
-        d("update:modelValue", e.getHTML());
-      }
-    });
-    return (e, f) => (m(), p("div", _, [
-      a(t(l), {
-        editor: t(i),
-        class: "prose prose-sm max-w-none min-h-[200px] p-3"
-      }, null, 8, ["editor"])
-    ]));
+  setup(e, { emit: a }) {
+    const o = e, l = f(o, "modelValue", a);
+    return (B, t) => s((n(), u("input", {
+      id: e.id,
+      "onUpdate:modelValue": t[0] || (t[0] = (i) => c(l) ? l.value = i : null),
+      type: "date",
+      placeholder: e.placeholder,
+      required: e.required,
+      disabled: e.disabled,
+      class: m(d(V)(d(h), o.class))
+    }, null, 10, b)), [
+      [p, d(l)]
+    ]);
   }
 });
 export {
-  B as default
+  y as default
 };
