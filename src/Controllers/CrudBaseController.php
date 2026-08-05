@@ -193,7 +193,9 @@ abstract class CrudBaseController extends Controller
     // CRUD METHODS
     //----------------------------------------------------------------------------
 
-    public function index(Request $request) : InertiaResponse
+    public function index(
+        Request $request
+    ) : InertiaResponse
     {
         $this->authorize('viewAny', $this->model::class);
 
@@ -241,14 +243,14 @@ abstract class CrudBaseController extends Controller
         return response()->json($form_details);
     }
 
-    public function store(
-        Request $request
+    protected function doStore(
+        array $validatedData
     ) : RedirectResponse
     {
         $this->authorize('create', $this->model::class);
 
         try {
-            $this->crud_base_repository->create($request->all());
+            $this->crud_base_repository->create($validatedData);
             return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_create', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError(__('crud-fiesta::crud.message.error_create', ['model_name' => $this->model_name_singular]));
@@ -280,16 +282,16 @@ abstract class CrudBaseController extends Controller
         ]);
     }
 
-    public function update(
-        Request $request,
-        string|int $id
+    protected function doUpdate(
+        string|int $id, 
+        array $validatedData
     ) : RedirectResponse
     {
         $item = $this->crud_base_repository->findOrFail($id);
         $this->authorize('update', $item);
 
         try {
-            $this->crud_base_repository->update($id, $request->all());
+            $this->crud_base_repository->update($id, $validatedData);
             return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_update', ['model_name' => $this->model_name_singular]));
         } catch (\Exception $e) {
             return $this->redirectWithError($e->getMessage());

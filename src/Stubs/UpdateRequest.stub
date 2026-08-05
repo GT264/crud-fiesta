@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ request_namespace }};
+
+use {{ use_base_update_request }};
+
+class {{ model_name }}UpdateRequest extends CrudBaseUpdateRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            // Define your validation rules here
+        ];
+    }
+}

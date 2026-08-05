@@ -31,16 +31,23 @@ class GenerateCrud
         $data_table_namespace = "App\DataTables";
         $repository_namespace = "App\Repositories";
         $policy_namespace = "App\Policies";
+        $request_namespace = "App\Http\Requests";
 
         // Classes
         $model_class = "{$model_name}";
         $data_table_class = "{$model_name}DataTable";
         $repository_class = "{$model_name}Repository";
+        $store_request_class = "{$model_name}StoreRequest";
+        $update_request_class = "{$model_name}UpdateRequest";
 
         // Use statements
         $use_model = "{$model_namespace}\\{$model_class}";
         $use_data_table = "{$data_table_namespace}\\{$data_table_class}";
         $use_repository = "{$repository_namespace}\\{$repository_class}";
+        $use_store_request = "{$request_namespace}\\{$store_request_class}";
+        $use_update_request = "{$request_namespace}\\{$update_request_class}";
+        $use_base_store_request = "GT264\CrudFiesta\Requests\CrudBaseStoreRequest";
+        $use_base_update_request = "GT264\CrudFiesta\Requests\CrudBaseUpdateRequest";
 
         // Name for language files
         $language_name = Str::lower(Str::snake($model_name));
@@ -62,14 +69,21 @@ class GenerateCrud
                 '{{ data_table_namespace }}',
                 '{{ policy_namespace }}',
                 '{{ repository_namespace }}',
-                
+                '{{ request_namespace }}',
+
                 '{{ use_model }}',
                 '{{ use_data_table }}',
                 '{{ use_repository }}',
+                '{{ use_store_request }}',
+                '{{ use_update_request }}',
+                '{{ use_base_store_request }}',
+                '{{ use_base_update_request }}',
 
                 '{{ model_class }}',
                 '{{ data_table_class }}',
                 '{{ repository_class }}',
+                '{{ store_request_class }}',
+                '{{ update_request_class }}',
 
             ], [
                 $model_name,
@@ -79,14 +93,21 @@ class GenerateCrud
                 $data_table_namespace,
                 $policy_namespace,
                 $repository_namespace,
+                $request_namespace,
 
                 $use_model,
                 $use_data_table,
                 $use_repository,
+                $use_store_request,
+                $use_update_request,
+                $use_base_store_request,
+                $use_base_update_request,
 
                 $model_class,
                 $data_table_class,
-                $repository_class
+                $repository_class,
+                $store_request_class,
+                $update_request_class,
 
             ], $content);
 
@@ -124,6 +145,14 @@ class GenerateCrud
                 case 'Repository.stub':
                     $path = app_path('Repositories');
                     $filename = "{$model_class}Repository.php";
+                    break;
+                case 'StoreRequest.stub':
+                    $path = app_path('Http/Requests');
+                    $filename = "{$store_request_class}.php";
+                    break;
+                case 'UpdateRequest.stub':
+                    $path = app_path('Http/Requests');
+                    $filename = "{$update_request_class}.php";
                     break;
                 default:
                     // Todo error

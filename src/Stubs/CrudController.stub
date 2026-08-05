@@ -7,6 +7,8 @@ use GT264\CrudFiesta\Controllers\CrudBaseController;
 use {{ use_model }};
 use {{ use_data_table }};
 use {{ use_repository }};
+use {{ use_store_request }};
+use {{ use_update_request }};
 
 class {{ model_name }}CrudController extends CrudBaseController
 {
@@ -17,5 +19,15 @@ class {{ model_name }}CrudController extends CrudBaseController
         {{ repository_class }} $crud_base_repository
     ) {
         parent::__construct($model, $crud_data_table, $crud_base_repository);
+    }
+
+    public function store({{ store_request_class }} $request) : \Illuminate\Http\RedirectResponse
+    {
+        return parent::doStore($request->validated());
+    }
+
+    public function update({{ update_request_class }} $request, string|int $id) : \Illuminate\Http\RedirectResponse
+    {
+        return parent::doUpdate($id, $request->validated());
     }
 }
