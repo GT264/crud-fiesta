@@ -77,13 +77,18 @@ export function useCrudForm(routePrefix: string, crudButtons: BackendCrudButton[
   }
 
   function onFormSubmit() {
-    form.clearErrors()
     const url = formIsEdit.value ? `/${routePrefix}/${editingId.value}` : `/${routePrefix}`
 
     if (formIsEdit.value) {
-      form.put(url, { onSuccess: () => { formVisible.value = false } })
+      form.put(url, {
+        onSuccess: () => { formVisible.value = false },
+        onError: () => { /* keep modal open — errors are displayed inline */ },
+      })
     } else {
-      form.post(url, { onSuccess: () => { formVisible.value = false } })
+      form.post(url, {
+        onSuccess: () => { formVisible.value = false },
+        onError: () => { /* keep modal open — errors are displayed inline */ },
+      })
     }
   }
 

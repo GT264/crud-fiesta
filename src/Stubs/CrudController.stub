@@ -21,13 +21,4 @@ class {{ model_name }}CrudController extends CrudBaseController
         parent::__construct($model, $crud_data_table, $crud_base_repository);
     }
 
-    public function store({{ store_request_class }} $request) : \Illuminate\Http\RedirectResponse
-    {
-        return parent::doStore($request->validated());
-    }
-
-    public function update({{ update_request_class }} $request, string|int $id) : \Illuminate\Http\RedirectResponse
-    {
-        return parent::doUpdate($id, $request->validated());
-    }
 }

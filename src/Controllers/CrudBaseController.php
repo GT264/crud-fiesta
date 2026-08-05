@@ -5,6 +5,7 @@ namespace GT264\CrudFiesta\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -189,6 +190,51 @@ abstract class CrudBaseController extends Controller
         }, $filename, ['Content-Type' => $mimeType]);
     }
 
+    //------------------------------------------------------------------------
+    // FORM REQUEST RESOLUTION
+    //------------------------------------------------------------------------
+
+    /**
+     * Resolve the concrete store Form Request class by convention.
+     *
+     * @return string
+     */
+    protected function getStoreRequestClass(): string
+    {
+        return 'App\\Http\\Requests\\' . class_basename($this->model::class) . 'StoreRequest';
+    }
+
+    /**
+     * Resolve the concrete update Form Request class by convention.
+     *
+     * @return string
+     */
+    protected function getUpdateRequestClass(): string
+    {
+        return 'App\\Http\\Requests\\' . class_basename($this->model::class) . 'UpdateRequest';
+    }
+
+    /**
+     * Resolve and validate the form request class.
+     *
+     * @param  string  $requestClass
+     * @return \Illuminate\Foundation\Http\FormRequest
+     *
+     * @throws \RuntimeException
+     */
+    protected function resolveFormRequest(string $requestClass): FormRequest
+    {
+        if (!class_exists($requestClass)) {
+            $modelName = class_basename($this->model::class);
+            throw new \RuntimeException(
+                "Form Request class [{$requestClass}] not found. " .
+                "Run 'php artisan crud:generate {$modelName}' to create it."
+            );
+        }
+
+        return app($requestClass);
+    }
+
     //----------------------------------------------------------------------------
     // CRUD METHODS
     //----------------------------------------------------------------------------
@@ -243,13 +289,15 @@ abstract class CrudBaseController extends Controller
         return response()->json($form_details);
     }
 
-    protected function doStore(
-        array $validatedData
-    ) : RedirectResponse
+    public function store(Request $request) : RedirectResponse
     {
         $this->authorize('create', $this->model::class);
 
-        $this->crud_base_repository->create($validatedData);
+        $formRequest = $this->resolveFormRequest($this->getStoreRequestClass());
+
+        dd($formRequest->validated(), $formRequest->all(), $request->all());
+
+        $this->crud_base_repository->create($formRequest->validated());
 
         return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_create', ['model_name' => $this->model_name_singular]));
     }
@@ -279,15 +327,14 @@ abstract class CrudBaseController extends Controller
         ]);
     }
 
-    protected function doUpdate(
-        string|int $id, 
-        array $validatedData
-    ) : RedirectResponse
+    public function update(Request $request, string|int $id) : RedirectResponse
     {
         $item = $this->crud_base_repository->findOrFail($id);
         $this->authorize('update', $item);
 
-        $this->crud_base_repository->update($id, $validatedData);
+        $formRequest = $this->resolveFormRequest($this->getUpdateRequestClass());
+
+        $this->crud_base_repository->update($id, $formRequest->validated());
 
         return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_update', ['model_name' => $this->model_name_singular]));
     }

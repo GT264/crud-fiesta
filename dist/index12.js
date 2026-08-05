@@ -1,9 +1,9 @@
 import { defineComponent as k, computed as v, ref as N, openBlock as _, createElementBlock as T, createVNode as l, withCtx as c, createElementVNode as s, createBlock as V, resolveDynamicComponent as $, toDisplayString as r, unref as t, createTextVNode as f } from "vue";
 import { EllipsisVertical as D, AlertTriangle as E, Trash2 as j, Pencil as A, Eye as w } from "lucide-vue-next";
-import p from "./index16.js";
-import B from "./index15.js";
-import I from "./index26.js";
-import { useCrudTranslation as M } from "./index25.js";
+import p from "./index15.js";
+import B from "./index16.js";
+import I from "./index17.js";
+import { useCrudTranslation as M } from "./index18.js";
 const z = { class: "flex justify-center" }, O = { class: "flex items-center gap-2 w-full" }, P = { class: "action-label-rect" }, S = { class: "flex flex-col gap-4" }, U = { class: "text-lg font-semibold" }, q = { class: "flex items-center gap-3" }, F = { class: "flex justify-end gap-2 mt-4" }, R = /* @__PURE__ */ k({
   __name: "CrudActions",
   props: {

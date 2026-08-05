@@ -1,12 +1,12 @@
 import { defineComponent as G, computed as m, ref as p, openBlock as H, createElementBlock as J, createVNode as l, unref as t, createElementVNode as x, toDisplayString as y, withCtx as w, createTextVNode as L } from "vue";
 import { router as c } from "@inertiajs/vue3";
 import { Plus as Q } from "lucide-vue-next";
-import W from "./index16.js";
+import W from "./index15.js";
 import X from "./index28.js";
 import Y from "./index6.js";
 import Z from "./index8.js";
 import ee from "./index7.js";
-import { useCrudTranslation as te } from "./index25.js";
+import { useCrudTranslation as te } from "./index18.js";
 import { useFlashToasts as oe } from "./index29.js";
 import { useCrudForm as re } from "./index30.js";
 import { useExport as ne } from "./index31.js";

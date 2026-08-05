@@ -1,33 +1,33 @@
-import { defineComponent as t, withDirectives as n, openBlock as a, createElementBlock as u, normalizeClass as c, unref as d, isRef as m, vModelCheckbox as p } from "vue";
-import { useVModel as b } from "@vueuse/core";
-import { cn as f } from "./index27.js";
-const h = ["id", "required", "disabled"], B = /* @__PURE__ */ t({
-  __name: "Checkbox",
+import { defineComponent as n, withDirectives as s, openBlock as r, createElementBlock as u, normalizeClass as m, unref as t, isRef as c, vModelDynamic as p } from "vue";
+import { useVModel as f } from "@vueuse/core";
+import { cn as y, inputClasses as V } from "./index27.js";
+const h = ["id", "type", "placeholder", "required", "disabled"], C = /* @__PURE__ */ n({
+  __name: "Input",
   props: {
     id: {},
-    modelValue: { type: Boolean },
+    type: { default: "text" },
+    modelValue: {},
+    placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: r }) {
-    const i = e, o = b(i, "modelValue", r);
-    return (v, l) => n((a(), u("input", {
+  setup(e, { emit: a }) {
+    const d = e, l = f(d, "modelValue", a);
+    return (q, o) => s((r(), u("input", {
       id: e.id,
-      "onUpdate:modelValue": l[0] || (l[0] = (s) => m(o) ? o.value = s : null),
-      type: "checkbox",
+      "onUpdate:modelValue": o[0] || (o[0] = (i) => c(l) ? l.value = i : null),
+      type: e.type,
+      placeholder: e.placeholder,
       required: e.required,
       disabled: e.disabled,
-      class: c(d(f)(
-        "peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-        i.class
-      ))
+      class: m(t(y)(t(V), d.class))
     }, null, 10, h)), [
-      [p, d(o)]
+      [p, t(l)]
     ]);
   }
 });
 export {
-  B as default
+  C as default
 };

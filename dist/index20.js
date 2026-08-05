@@ -1,43 +1,33 @@
-import { defineComponent as r, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as a, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as v, renderList as V, vModelSelect as b } from "vue";
-import { useVModel as h } from "@vueuse/core";
-import { cn as y, inputClasses as B } from "./index27.js";
-const k = ["id", "required", "disabled", "multiple"], q = {
-  key: 0,
-  value: "",
-  disabled: ""
-}, C = ["value"], w = /* @__PURE__ */ r({
-  __name: "Select",
+import { defineComponent as s, withDirectives as i, openBlock as n, createElementBlock as m, normalizeClass as u, unref as o, isRef as c, vModelText as f } from "vue";
+import { useVModel as p } from "@vueuse/core";
+import { cn as x, textareaClasses as V } from "./index27.js";
+const h = ["id", "placeholder", "required", "disabled", "rows"], C = /* @__PURE__ */ s({
+  __name: "Textarea",
   props: {
     id: {},
     modelValue: {},
-    options: { default: () => [] },
     placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
-    multiple: { type: Boolean, default: !1 },
+    rows: { default: 4 },
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: u }) {
-    const d = e, i = h(d, "modelValue", u);
-    return (g, n) => m((t(), o("select", {
+  setup(e, { emit: d }) {
+    const a = e, l = p(a, "modelValue", d);
+    return (b, t) => i((n(), m("textarea", {
       id: e.id,
-      "onUpdate:modelValue": n[0] || (n[0] = (l) => p(i) ? i.value = l : null),
+      "onUpdate:modelValue": t[0] || (t[0] = (r) => c(l) ? l.value = r : null),
+      placeholder: e.placeholder,
       required: e.required,
       disabled: e.disabled,
-      multiple: e.multiple,
-      class: c(a(y)(a(B), d.class))
-    }, [
-      e.placeholder ? (t(), o("option", q, s(e.placeholder), 1)) : f("", !0),
-      (t(!0), o(v, null, V(e.options, (l) => (t(), o("option", {
-        key: l.value,
-        value: l.value
-      }, s(l.label), 9, C))), 128))
-    ], 10, k)), [
-      [b, a(i)]
+      rows: e.rows,
+      class: u(o(x)(o(V), a.class))
+    }, null, 10, h)), [
+      [f, o(l)]
     ]);
   }
 });
 export {
-  w as default
+  C as default
 };

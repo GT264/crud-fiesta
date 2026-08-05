@@ -1,29 +1,43 @@
-import { defineComponent as s, openBlock as m, createElementBlock as p, createVNode as a, unref as t } from "vue";
-import { useEditor as c, EditorContent as l } from "@tiptap/vue-3";
-import u from "@tiptap/starter-kit";
-const _ = { class: "rounded-md border border-input" }, B = /* @__PURE__ */ s({
-  __name: "RichTextInput",
+import { defineComponent as r, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as a, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as v, renderList as V, vModelSelect as b } from "vue";
+import { useVModel as h } from "@vueuse/core";
+import { cn as y, inputClasses as B } from "./index27.js";
+const k = ["id", "required", "disabled", "multiple"], q = {
+  key: 0,
+  value: "",
+  disabled: ""
+}, C = ["value"], w = /* @__PURE__ */ r({
+  __name: "Select",
   props: {
+    id: {},
     modelValue: {},
-    required: { type: Boolean }
+    options: { default: () => [] },
+    placeholder: {},
+    required: { type: Boolean },
+    disabled: { type: Boolean },
+    multiple: { type: Boolean, default: !1 },
+    class: {}
   },
   emits: ["update:modelValue"],
-  setup(o, { emit: r }) {
-    const n = o, d = r, i = c({
-      content: n.modelValue,
-      extensions: [u],
-      onUpdate: ({ editor: e }) => {
-        d("update:modelValue", e.getHTML());
-      }
-    });
-    return (e, f) => (m(), p("div", _, [
-      a(t(l), {
-        editor: t(i),
-        class: "prose prose-sm max-w-none min-h-[200px] p-3"
-      }, null, 8, ["editor"])
-    ]));
+  setup(e, { emit: u }) {
+    const d = e, i = h(d, "modelValue", u);
+    return (g, n) => m((t(), o("select", {
+      id: e.id,
+      "onUpdate:modelValue": n[0] || (n[0] = (l) => p(i) ? i.value = l : null),
+      required: e.required,
+      disabled: e.disabled,
+      multiple: e.multiple,
+      class: c(a(y)(a(B), d.class))
+    }, [
+      e.placeholder ? (t(), o("option", q, s(e.placeholder), 1)) : f("", !0),
+      (t(!0), o(v, null, V(e.options, (l) => (t(), o("option", {
+        key: l.value,
+        value: l.value
+      }, s(l.label), 9, C))), 128))
+    ], 10, k)), [
+      [b, a(i)]
+    ]);
   }
 });
 export {
-  B as default
+  w as default
 };

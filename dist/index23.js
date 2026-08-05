@@ -1,48 +1,32 @@
-import { defineComponent as V, computed as s, watch as k, openBlock as i, createElementBlock as x, createVNode as _, unref as u, withCtx as m, createTextVNode as r, toDisplayString as y, createBlock as B, createCommentVNode as b } from "vue";
-import { useFileDialog as h } from "@vueuse/core";
-import p from "./index16.js";
-const F = { class: "flex items-center gap-2" }, z = /* @__PURE__ */ V({
-  __name: "FileInput",
+import { defineComponent as r, withDirectives as s, openBlock as n, createElementBlock as u, normalizeClass as m, unref as d, isRef as c, vModelText as p } from "vue";
+import { useVModel as f } from "@vueuse/core";
+import { cn as V, inputClasses as h } from "./index27.js";
+const b = ["id", "placeholder", "required", "disabled"], y = /* @__PURE__ */ r({
+  __name: "Calendar",
   props: {
+    id: {},
     modelValue: {},
-    accept: { default: "*/*" },
-    required: { type: Boolean }
+    placeholder: {},
+    required: { type: Boolean },
+    disabled: { type: Boolean },
+    class: {}
   },
   emits: ["update:modelValue"],
-  setup(c, { emit: d }) {
-    const o = c, a = d, { files: l, open: f, reset: v } = h({ accept: o.accept, multiple: !1 }), t = s(() => l.value && l.value.length > 0 ? l.value[0] : null), g = s(() => t.value ? t.value.name : o.accept.startsWith("image/") ? "Choose image..." : "Choose file...");
-    return k(t, (n) => {
-      a("update:modelValue", n);
-    }), (n, e) => (i(), x("div", F, [
-      _(p, {
-        variant: "outline",
-        size: "sm",
-        type: "button",
-        onClick: e[0] || (e[0] = (C) => u(f)())
-      }, {
-        default: m(() => [
-          r(y(g.value), 1)
-        ]),
-        _: 1
-      }),
-      t.value ? (i(), B(p, {
-        key: 0,
-        variant: "ghost",
-        size: "sm",
-        type: "button",
-        class: "text-destructive",
-        onClick: e[1] || (e[1] = (C) => {
-          u(v)(), a("update:modelValue", null);
-        })
-      }, {
-        default: m(() => [...e[2] || (e[2] = [
-          r("Remove", -1)
-        ])]),
-        _: 1
-      })) : b("", !0)
-    ]));
+  setup(e, { emit: a }) {
+    const o = e, l = f(o, "modelValue", a);
+    return (B, t) => s((n(), u("input", {
+      id: e.id,
+      "onUpdate:modelValue": t[0] || (t[0] = (i) => c(l) ? l.value = i : null),
+      type: "date",
+      placeholder: e.placeholder,
+      required: e.required,
+      disabled: e.disabled,
+      class: m(d(V)(d(h), o.class))
+    }, null, 10, b)), [
+      [p, d(l)]
+    ]);
   }
 });
 export {
-  z as default
+  y as default
 };

@@ -74,9 +74,7 @@ abstract class CrudBaseDataTable
 
     abstract protected function creationFormDetails() : array;
     abstract protected function editFormDetails() : array;
-
     abstract protected function commonFormDetails() : array;
-
     abstract public function getColumnsToExport() : array;
 
     /**
@@ -261,6 +259,28 @@ abstract class CrudBaseDataTable
     public function getRelationDisplayMap() : array
     {
         return $this->relationDisplayMap();
+    }
+
+    /**
+     * Restituisce le regole di validazione per lo store.
+     * Di default restituisce array vuoto; le sottoclassi possono sovrascrivere.
+     *
+     * @return array<string, mixed>
+     */
+    public function getStoreValidationRules(): array
+    {
+        return [];
+    }
+
+    /**
+     * Restituisce le regole di validazione per l'update.
+     * Di default restituisce array vuoto; le sottoclassi possono sovrascrivere.
+     *
+     * @return array<string, mixed>
+     */
+    public function getUpdateValidationRules(): array
+    {
+        return [];
     }
 
 }

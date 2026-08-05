@@ -1,34 +1,29 @@
-import { defineComponent as d, resolveDirective as n, withDirectives as m, openBlock as u, createElementBlock as c, normalizeClass as p, unref as t, isRef as f, vModelText as k } from "vue";
-import { useVModel as v } from "@vueuse/core";
-import { cn as V, inputClasses as h } from "./index27.js";
-const q = ["id", "placeholder", "required"], w = /* @__PURE__ */ d({
-  __name: "MaskedInput",
+import { defineComponent as s, openBlock as m, createElementBlock as p, createVNode as a, unref as t } from "vue";
+import { useEditor as c, EditorContent as l } from "@tiptap/vue-3";
+import u from "@tiptap/starter-kit";
+const _ = { class: "rounded-md border border-input" }, B = /* @__PURE__ */ s({
+  __name: "RichTextInput",
   props: {
-    id: {},
     modelValue: {},
-    placeholder: {},
-    required: { type: Boolean },
-    mask: {},
-    class: {}
+    required: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: i }) {
-    const o = e, l = v(o, "modelValue", i);
-    return (B, a) => {
-      const s = n("maska");
-      return m((u(), c("input", {
-        id: e.id,
-        "onUpdate:modelValue": a[0] || (a[0] = (r) => f(l) ? l.value = r : null),
-        placeholder: e.placeholder,
-        required: e.required,
-        class: p(t(V)(t(h), o.class))
-      }, null, 10, q)), [
-        [k, t(l)],
-        [s, e.mask]
-      ]);
-    };
+  setup(o, { emit: r }) {
+    const n = o, d = r, i = c({
+      content: n.modelValue,
+      extensions: [u],
+      onUpdate: ({ editor: e }) => {
+        d("update:modelValue", e.getHTML());
+      }
+    });
+    return (e, f) => (m(), p("div", _, [
+      a(t(l), {
+        editor: t(i),
+        class: "prose prose-sm max-w-none min-h-[200px] p-3"
+      }, null, 8, ["editor"])
+    ]));
   }
 });
 export {
-  w as default
+  B as default
 };
