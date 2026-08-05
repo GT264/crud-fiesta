@@ -1,33 +1,32 @@
-import { defineComponent as s, withDirectives as i, openBlock as n, createElementBlock as m, normalizeClass as u, unref as o, isRef as c, vModelText as f } from "vue";
-import { useVModel as p } from "@vueuse/core";
-import { cn as x, textareaClasses as V } from "./index18.js";
-const h = ["id", "placeholder", "required", "disabled", "rows"], C = /* @__PURE__ */ s({
-  __name: "Textarea",
+import { defineComponent as r, withDirectives as s, openBlock as n, createElementBlock as u, normalizeClass as m, unref as d, isRef as c, vModelText as p } from "vue";
+import { useVModel as f } from "@vueuse/core";
+import { cn as V, inputClasses as h } from "./index27.js";
+const b = ["id", "placeholder", "required", "disabled"], y = /* @__PURE__ */ r({
+  __name: "Calendar",
   props: {
     id: {},
     modelValue: {},
     placeholder: {},
     required: { type: Boolean },
     disabled: { type: Boolean },
-    rows: { default: 4 },
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: d }) {
-    const a = e, l = p(a, "modelValue", d);
-    return (b, t) => i((n(), m("textarea", {
+  setup(e, { emit: a }) {
+    const o = e, l = f(o, "modelValue", a);
+    return (B, t) => s((n(), u("input", {
       id: e.id,
-      "onUpdate:modelValue": t[0] || (t[0] = (r) => c(l) ? l.value = r : null),
+      "onUpdate:modelValue": t[0] || (t[0] = (i) => c(l) ? l.value = i : null),
+      type: "date",
       placeholder: e.placeholder,
       required: e.required,
       disabled: e.disabled,
-      rows: e.rows,
-      class: u(o(x)(o(V), a.class))
-    }, null, 10, h)), [
-      [f, o(l)]
+      class: m(d(V)(d(h), o.class))
+    }, null, 10, b)), [
+      [p, d(l)]
     ]);
   }
 });
 export {
-  C as default
+  y as default
 };

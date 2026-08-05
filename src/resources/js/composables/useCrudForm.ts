@@ -37,7 +37,7 @@ export function useCrudForm(routePrefix: string, crudButtons: BackendCrudButton[
   function buildRouteWithId(name: string, id: string | number): string { return route(name, { id }) }
 
   function resetFormData(initial: Record<string, any>) {
-    Object.keys(form).forEach((k) => delete (form as any)[k])
+    form.reset()
     Object.entries(initial).forEach(([k, v]) => {
       (form as Record<string, any>)[k] = v
     })

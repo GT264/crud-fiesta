@@ -1,48 +1,58 @@
-import { defineComponent as V, computed as s, watch as k, openBlock as i, createElementBlock as x, createVNode as _, unref as u, withCtx as m, createTextVNode as r, toDisplayString as y, createBlock as B, createCommentVNode as b } from "vue";
-import { useFileDialog as h } from "@vueuse/core";
-import p from "./index15.js";
-const F = { class: "flex items-center gap-2" }, z = /* @__PURE__ */ V({
-  __name: "FileInput",
+import { defineComponent as f, ref as v, openBlock as n, createElementBlock as t, createElementVNode as c, renderSlot as d, createBlock as g, Teleport as k, createCommentVNode as l, normalizeClass as i, unref as x, Fragment as y, renderList as h, toDisplayString as C } from "vue";
+import { cn as _ } from "./index27.js";
+const $ = { class: "relative inline-block" }, w = ["disabled", "onClick"], z = { class: "inline-block border border-border rounded px-2 py-0.5 text-xs bg-muted" }, N = /* @__PURE__ */ f({
+  __name: "DropdownMenu",
   props: {
-    modelValue: {},
-    accept: { default: "*/*" },
-    required: { type: Boolean }
+    items: { default: () => [] },
+    class: {}
   },
-  emits: ["update:modelValue"],
-  setup(c, { emit: d }) {
-    const o = c, a = d, { files: l, open: f, reset: v } = h({ accept: o.accept, multiple: !1 }), t = s(() => l.value && l.value.length > 0 ? l.value[0] : null), g = s(() => t.value ? t.value.name : o.accept.startsWith("image/") ? "Choose image..." : "Choose file...");
-    return k(t, (n) => {
-      a("update:modelValue", n);
-    }), (n, e) => (i(), x("div", F, [
-      _(p, {
-        variant: "outline",
-        size: "sm",
-        type: "button",
-        onClick: e[0] || (e[0] = (C) => u(f)())
-      }, {
-        default: m(() => [
-          r(y(g.value), 1)
-        ]),
-        _: 1
-      }),
-      t.value ? (i(), B(p, {
+  setup(r) {
+    const u = r, s = v(!1);
+    function p(e) {
+      e.stopPropagation(), s.value = !s.value;
+    }
+    function a() {
+      s.value = !1;
+    }
+    function m(e) {
+      e.command && e.command(), a();
+    }
+    return (e, B) => (n(), t("div", $, [
+      c("div", { onClick: p }, [
+        d(e.$slots, "trigger")
+      ]),
+      (n(), g(k, { to: "body" }, [
+        s.value ? (n(), t("div", {
+          key: 0,
+          class: "fixed inset-0 z-40",
+          onClick: a
+        })) : l("", !0)
+      ])),
+      s.value ? (n(), t("div", {
         key: 0,
-        variant: "ghost",
-        size: "sm",
-        type: "button",
-        class: "text-destructive",
-        onClick: e[1] || (e[1] = (C) => {
-          u(v)(), a("update:modelValue", null);
-        })
-      }, {
-        default: m(() => [...e[2] || (e[2] = [
-          r("Remove", -1)
-        ])]),
-        _: 1
-      })) : b("", !0)
+        class: i(x(_)(
+          "absolute right-0 z-50 mt-2 w-48 rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+          u.class
+        ))
+      }, [
+        (n(!0), t(y, null, h(r.items, (o, b) => (n(), t("button", {
+          key: `${o.label}-${b}`,
+          disabled: o.disabled,
+          class: "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50",
+          onClick: (M) => m(o)
+        }, [
+          d(e.$slots, "item", { item: o }, () => [
+            o.icon ? (n(), t("span", {
+              key: 0,
+              class: i(o.icon)
+            }, null, 2)) : l("", !0),
+            c("span", z, C(o.label), 1)
+          ])
+        ], 8, w))), 128))
+      ], 2)) : l("", !0)
     ]));
   }
 });
 export {
-  z as default
+  N as default
 };

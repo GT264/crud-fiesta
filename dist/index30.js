@@ -1,67 +1,77 @@
-import { onUnmounted as w } from "vue";
-import { usePage as b } from "@inertiajs/vue3";
-function k(c, a, p, u, m, f) {
-  const y = b();
-  let i = null;
-  async function v(s) {
-    var o, n, t;
+import { ref as s, computed as I } from "vue";
+import { useForm as T, router as p } from "@inertiajs/vue3";
+import { route as $ } from "ziggy-js";
+function V(c, u) {
+  const r = s(!1), f = s(""), m = s({}), l = s(!1), i = s(null), n = T({}), h = { show: "view", edit: "edit", destroy: "delete" };
+  function F(e) {
+    return e.event || h[e.action] || e.action;
+  }
+  const w = I(
+    () => u.map((e) => ({ action: F(e), icon: e.icon, label: e.label }))
+  );
+  function j(e) {
+    return $(e);
+  }
+  function b(e, t) {
+    return $(e, { id: t });
+  }
+  function d(e) {
+    n.reset(), Object.entries(e).forEach(([t, o]) => {
+      n[t] = o;
+    }), n.clearErrors();
+  }
+  async function y(e) {
+    const t = u.find((o) => o.action === "create");
     try {
-      const e = { format: s };
-      p.value && (e.search = p.value), u.value && (e.sort_field = u.value, e.sort_order = m.value), Object.keys(f.value).length > 0 && (e.filters = f.value);
-      const r = await fetch(`/${c}/export/start`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "X-CSRF-TOKEN": y.props.csrf_token ?? ""
-        },
-        body: JSON.stringify(e)
-      });
-      if (!r.ok) {
-        const g = await r.json().catch(() => ({ message: "Export request failed" }));
-        (o = a.value) == null || o.add({ severity: "error", summary: "Export Error", detail: g.message || "Export request failed", life: 5e3 });
-        return;
-      }
-      const { export_id: d } = await r.json();
-      (n = a.value) == null || n.add({ severity: "info", summary: "Export", detail: "Export started — preparing your file...", life: 12e4 }), E(d);
-    } catch (e) {
-      (t = a.value) == null || t.add({ severity: "error", summary: "Export Error", detail: "Export failed: " + (e.message || "Unknown error"), life: 5e3 });
+      const o = t ? j(t.route_name) : `/${c}/create`, a = await (await fetch(o, { headers: { Accept: "application/json" } })).json();
+      d({}), m.value = a, f.value = e, l.value = !1, i.value = null, r.value = !0;
+    } catch (o) {
+      console.error("Failed to load create form:", o);
     }
   }
-  function E(s) {
-    l(), i = setInterval(async () => {
-      var o, n;
-      try {
-        const t = await fetch(`/${c}/export/status/${s}`, {
-          headers: { Accept: "application/json" }
-        });
-        if (!t.ok) {
-          console.warn("[crud-fiesta] Export status returned non-OK:", t.status);
-          return;
-        }
-        const e = await t.json();
-        if (e.status === "queued" || e.status === "processing") {
-          const r = e.status === "queued" ? "Export started — preparing your file..." : `Exporting ${e.processed ?? 0} of ${e.total ?? 0} records...`;
-          (o = a.value) == null || o.add({ severity: "info", summary: "Export", detail: r, life: 12e4 });
-        } else e.status === "completed" ? (l(), x(s)) : e.status === "failed" && (l(), (n = a.value) == null || n.add({ severity: "error", summary: "Export Failed", detail: "Export failed: " + (e.error || "Unknown error"), life: 1e4 }));
-      } catch (t) {
-        console.warn("[crud-fiesta] Export polling error:", t);
-      }
-    }, 2e3);
+  async function E(e, t) {
+    const o = u.find((a) => a.action === "edit");
+    try {
+      const a = o ? b(o.route_name, e) : `/${c}/${e}/edit`, v = await (await fetch(a, { headers: { Accept: "application/json" } })).json();
+      d(v.item ?? {}), m.value = v.form_details, f.value = t, l.value = !0, i.value = e, r.value = !0;
+    } catch (a) {
+      console.error("Failed to load edit form:", a);
+    }
   }
-  async function x(s) {
-    var d;
-    (d = a.value) == null || d.add({ severity: "info", summary: "Downloading...", detail: "Your export file is being prepared", life: 5e3 });
-    const o = `/${c}/export/download/${s}`, t = await (await fetch(o)).blob(), e = URL.createObjectURL(t), r = document.createElement("a");
-    r.href = e, r.download = "", document.body.appendChild(r), r.click(), document.body.removeChild(r), URL.revokeObjectURL(e);
+  function g() {
+    n.clearErrors();
+    const e = l.value ? `/${c}/${i.value}` : `/${c}`;
+    l.value ? n.put(e, { onSuccess: () => {
+      r.value = !1;
+    } }) : n.post(e, { onSuccess: () => {
+      r.value = !1;
+    } });
   }
-  function l() {
-    i && (clearInterval(i), i = null);
+  function A() {
+    r.value = !1, i.value = null, d({});
   }
-  return w(() => {
-    l();
-  }), { onExport: v };
+  function S(e) {
+    p.get(`/${c}/${e}`);
+  }
+  function C(e) {
+    p.delete(`/${c}/${e}`);
+  }
+  return {
+    formVisible: r,
+    formTitle: f,
+    formFields: m,
+    formIsEdit: l,
+    editingId: i,
+    form: n,
+    mappedButtons: w,
+    goToCreate: y,
+    onEdit: E,
+    onFormSubmit: g,
+    onFormClose: A,
+    onView: S,
+    onDelete: C
+  };
 }
 export {
-  k as useExport
+  V as useCrudForm
 };

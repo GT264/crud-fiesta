@@ -1,32 +1,34 @@
-import { defineComponent as r, withDirectives as s, openBlock as n, createElementBlock as u, normalizeClass as m, unref as d, isRef as c, vModelText as p } from "vue";
-import { useVModel as f } from "@vueuse/core";
-import { cn as V, inputClasses as h } from "./index18.js";
-const b = ["id", "placeholder", "required", "disabled"], y = /* @__PURE__ */ r({
-  __name: "Calendar",
+import { defineComponent as d, resolveDirective as n, withDirectives as m, openBlock as u, createElementBlock as c, normalizeClass as p, unref as t, isRef as f, vModelText as k } from "vue";
+import { useVModel as v } from "@vueuse/core";
+import { cn as V, inputClasses as h } from "./index27.js";
+const q = ["id", "placeholder", "required"], w = /* @__PURE__ */ d({
+  __name: "MaskedInput",
   props: {
     id: {},
     modelValue: {},
     placeholder: {},
     required: { type: Boolean },
-    disabled: { type: Boolean },
+    mask: {},
     class: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: a }) {
-    const o = e, l = f(o, "modelValue", a);
-    return (B, t) => s((n(), u("input", {
-      id: e.id,
-      "onUpdate:modelValue": t[0] || (t[0] = (i) => c(l) ? l.value = i : null),
-      type: "date",
-      placeholder: e.placeholder,
-      required: e.required,
-      disabled: e.disabled,
-      class: m(d(V)(d(h), o.class))
-    }, null, 10, b)), [
-      [p, d(l)]
-    ]);
+  setup(e, { emit: i }) {
+    const o = e, l = v(o, "modelValue", i);
+    return (B, a) => {
+      const s = n("maska");
+      return m((u(), c("input", {
+        id: e.id,
+        "onUpdate:modelValue": a[0] || (a[0] = (r) => f(l) ? l.value = r : null),
+        placeholder: e.placeholder,
+        required: e.required,
+        class: p(t(V)(t(h), o.class))
+      }, null, 10, q)), [
+        [k, t(l)],
+        [s, e.mask]
+      ]);
+    };
   }
 });
 export {
-  y as default
+  w as default
 };

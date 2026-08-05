@@ -1,43 +1,48 @@
-import { defineComponent as r, withDirectives as m, openBlock as t, createElementBlock as o, normalizeClass as c, unref as a, isRef as p, toDisplayString as s, createCommentVNode as f, Fragment as v, renderList as V, vModelSelect as b } from "vue";
-import { useVModel as h } from "@vueuse/core";
-import { cn as y, inputClasses as B } from "./index18.js";
-const k = ["id", "required", "disabled", "multiple"], q = {
-  key: 0,
-  value: "",
-  disabled: ""
-}, C = ["value"], w = /* @__PURE__ */ r({
-  __name: "Select",
+import { defineComponent as V, computed as s, watch as k, openBlock as i, createElementBlock as x, createVNode as _, unref as u, withCtx as m, createTextVNode as r, toDisplayString as y, createBlock as B, createCommentVNode as b } from "vue";
+import { useFileDialog as h } from "@vueuse/core";
+import p from "./index16.js";
+const F = { class: "flex items-center gap-2" }, z = /* @__PURE__ */ V({
+  __name: "FileInput",
   props: {
-    id: {},
     modelValue: {},
-    options: { default: () => [] },
-    placeholder: {},
-    required: { type: Boolean },
-    disabled: { type: Boolean },
-    multiple: { type: Boolean, default: !1 },
-    class: {}
+    accept: { default: "*/*" },
+    required: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: u }) {
-    const d = e, i = h(d, "modelValue", u);
-    return (g, n) => m((t(), o("select", {
-      id: e.id,
-      "onUpdate:modelValue": n[0] || (n[0] = (l) => p(i) ? i.value = l : null),
-      required: e.required,
-      disabled: e.disabled,
-      multiple: e.multiple,
-      class: c(a(y)(a(B), d.class))
-    }, [
-      e.placeholder ? (t(), o("option", q, s(e.placeholder), 1)) : f("", !0),
-      (t(!0), o(v, null, V(e.options, (l) => (t(), o("option", {
-        key: l.value,
-        value: l.value
-      }, s(l.label), 9, C))), 128))
-    ], 10, k)), [
-      [b, a(i)]
-    ]);
+  setup(c, { emit: d }) {
+    const o = c, a = d, { files: l, open: f, reset: v } = h({ accept: o.accept, multiple: !1 }), t = s(() => l.value && l.value.length > 0 ? l.value[0] : null), g = s(() => t.value ? t.value.name : o.accept.startsWith("image/") ? "Choose image..." : "Choose file...");
+    return k(t, (n) => {
+      a("update:modelValue", n);
+    }), (n, e) => (i(), x("div", F, [
+      _(p, {
+        variant: "outline",
+        size: "sm",
+        type: "button",
+        onClick: e[0] || (e[0] = (C) => u(f)())
+      }, {
+        default: m(() => [
+          r(y(g.value), 1)
+        ]),
+        _: 1
+      }),
+      t.value ? (i(), B(p, {
+        key: 0,
+        variant: "ghost",
+        size: "sm",
+        type: "button",
+        class: "text-destructive",
+        onClick: e[1] || (e[1] = (C) => {
+          u(v)(), a("update:modelValue", null);
+        })
+      }, {
+        default: m(() => [...e[2] || (e[2] = [
+          r("Remove", -1)
+        ])]),
+        _: 1
+      })) : b("", !0)
+    ]));
   }
 });
 export {
-  w as default
+  z as default
 };

@@ -65,6 +65,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const { crudT } = useCrudTranslation()
 
+const Toast = ToastComponent
+
 const paginatedData = computed(() => props.column_data)
 const tableColumns = computed(() => props.columns_details)
 const modelTranslationKey = computed(() => props.model_lang)

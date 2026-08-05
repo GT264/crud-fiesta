@@ -1,31 +1,27 @@
-import { defineComponent as t, withDirectives as n, openBlock as a, createElementBlock as u, normalizeClass as c, unref as d, isRef as m, vModelCheckbox as p } from "vue";
-import { useVModel as b } from "@vueuse/core";
-import { cn as f } from "./index18.js";
-const h = ["id", "required", "disabled"], B = /* @__PURE__ */ t({
-  __name: "Checkbox",
+import { defineComponent as s, openBlock as m, createElementBlock as p, createVNode as a, unref as t } from "vue";
+import { useEditor as c, EditorContent as l } from "@tiptap/vue-3";
+import u from "@tiptap/starter-kit";
+const _ = { class: "rounded-md border border-input" }, B = /* @__PURE__ */ s({
+  __name: "RichTextInput",
   props: {
-    id: {},
-    modelValue: { type: Boolean },
-    required: { type: Boolean },
-    disabled: { type: Boolean },
-    class: {}
+    modelValue: {},
+    required: { type: Boolean }
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: r }) {
-    const i = e, o = b(i, "modelValue", r);
-    return (v, l) => n((a(), u("input", {
-      id: e.id,
-      "onUpdate:modelValue": l[0] || (l[0] = (s) => m(o) ? o.value = s : null),
-      type: "checkbox",
-      required: e.required,
-      disabled: e.disabled,
-      class: c(d(f)(
-        "peer h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
-        i.class
-      ))
-    }, null, 10, h)), [
-      [p, d(o)]
-    ]);
+  setup(o, { emit: r }) {
+    const n = o, d = r, i = c({
+      content: n.modelValue,
+      extensions: [u],
+      onUpdate: ({ editor: e }) => {
+        d("update:modelValue", e.getHTML());
+      }
+    });
+    return (e, f) => (m(), p("div", _, [
+      a(t(l), {
+        editor: t(i),
+        class: "prose prose-sm max-w-none min-h-[200px] p-3"
+      }, null, 8, ["editor"])
+    ]));
   }
 });
 export {
