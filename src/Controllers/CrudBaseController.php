@@ -4,8 +4,8 @@ namespace GT264\CrudFiesta\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,9 +24,14 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class CrudBaseController extends Controller
 {
-    protected string $view_name = 'Crud/Index';
 
     use AuthorizesRequests, SetLanguage, SetRoutePrefix;
+
+    protected const string view_name = 'Pages/Index';
+
+    protected const string storeRequestClass = '';
+
+    protected const string updateRequestClass = ''; 
 
     //----------------------------------------------------------------------------
     // CONSTRUCTOR
@@ -46,26 +51,27 @@ abstract class CrudBaseController extends Controller
     // HELPER METHODS
     //----------------------------------------------------------------------------
 
-    protected function redirect(
+    protected function redirectToIndex(
         string $with,
         string $message
     ) : RedirectResponse
     {
-        return redirect()->back()->with($with, $message);
+        return redirect()->route($this->route_prefix . '.index')
+            ->with($with, $message);
     }
 
     protected function redirectWithError(
         string $message
     ) : RedirectResponse
     {
-        return $this->redirect('error', $message);
+        return $this->redirectToIndex('error', $message);
     }
 
     protected function redirectWithSuccess(
         string $message
     ) : RedirectResponse
     {
-        return $this->redirect('success', $message);
+        return $this->redirectToIndex('success', $message);
     }
 
     protected function getRepositoryParametersFromRequest(Request $request) : array
@@ -190,39 +196,16 @@ abstract class CrudBaseController extends Controller
         }, $filename, ['Content-Type' => $mimeType]);
     }
 
-    //------------------------------------------------------------------------
-    // FORM REQUEST RESOLUTION
-    //------------------------------------------------------------------------
-
     /**
-     * Resolve the concrete store Form Request class by convention.
-     *
-     * @return string
-     */
-    protected function getStoreRequestClass(): string
-    {
-        return 'App\\Http\\Requests\\' . class_basename($this->model::class) . 'StoreRequest';
-    }
-
-    /**
-     * Resolve the concrete update Form Request class by convention.
-     *
-     * @return string
-     */
-    protected function getUpdateRequestClass(): string
-    {
-        return 'App\\Http\\Requests\\' . class_basename($this->model::class) . 'UpdateRequest';
-    }
-
-    /**
-     * Resolve and validate the form request class.
+     * Get validation rules from the FormRequest class without triggering
+     * Laravel's automatic FormRequest validation.
      *
      * @param  string  $requestClass
-     * @return \Illuminate\Foundation\Http\FormRequest
+     * @return array
      *
      * @throws \RuntimeException
      */
-    protected function resolveFormRequest(string $requestClass): FormRequest
+    protected function getValidationRules(string $requestClass, Request $request): array
     {
         if (!class_exists($requestClass)) {
             $modelName = class_basename($this->model::class);
@@ -232,7 +215,15 @@ abstract class CrudBaseController extends Controller
             );
         }
 
-        return app($requestClass);
+        /** @var \Illuminate\Foundation\Http\FormRequest $formRequest */
+        $formRequest = $requestClass::createFrom($request);
+        $formRequest->setContainer(app());
+
+        if (method_exists($formRequest, 'authorize') && !$formRequest->authorize()) {
+            throw new AuthorizationException;
+        }
+
+        return $formRequest->rules();
     }
 
     //----------------------------------------------------------------------------
@@ -256,7 +247,7 @@ abstract class CrudBaseController extends Controller
 
         $perPage = (int) $request->query('per_page', config('crud-fiesta.pagination_per_page', 10));
 
-        return Inertia::render($this->view_name, [
+        return Inertia::render(self::view_name, [
             'column_data' => $this->crud_base_repository->paginate(
                 $perPage,
                 array_unique(array_merge($this->crud_data_table::default_columns, [$this->model->getKeyName()])),
@@ -293,11 +284,9 @@ abstract class CrudBaseController extends Controller
     {
         $this->authorize('create', $this->model::class);
 
-        $formRequest = $this->resolveFormRequest($this->getStoreRequestClass());
+        $validated = $request->validate($this->getValidationRules(static::storeRequestClass, $request));
 
-        dd($formRequest->validated(), $formRequest->all(), $request->all());
-
-        $this->crud_base_repository->create($formRequest->validated());
+        $this->crud_base_repository->create($validated);
 
         return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_create', ['model_name' => $this->model_name_singular]));
     }
@@ -329,12 +318,13 @@ abstract class CrudBaseController extends Controller
 
     public function update(Request $request, string|int $id) : RedirectResponse
     {
+        
         $item = $this->crud_base_repository->findOrFail($id);
         $this->authorize('update', $item);
 
-        $formRequest = $this->resolveFormRequest($this->getUpdateRequestClass());
+        $validated = $request->validate($this->getValidationRules(static::updateRequestClass, $request));
 
-        $this->crud_base_repository->update($id, $formRequest->validated());
+        $this->crud_base_repository->update($id, $validated);
 
         return $this->redirectWithSuccess(__('crud-fiesta::crud.message.success_update', ['model_name' => $this->model_name_singular]));
     }

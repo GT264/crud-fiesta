@@ -1,23 +1,17 @@
-import t from "./index5.js";
-import m from "./index6.js";
-import n from "./index7.js";
-import s from "./index8.js";
-const e = {
-  CrudIndex: t,
-  CrudDataTable: m,
-  CrudForm: n,
-  CrudActions: s
-}, u = {
-  install: (r) => {
-    Object.entries(e).forEach(([o, a]) => {
-      r.component(o, a);
+import r from "./index5.js";
+import n from "./index6.js";
+const a = {
+  CrudIndex: r,
+  CrudDataTable: n
+}, m = {
+  install: (t) => {
+    Object.entries(a).forEach(([o, e]) => {
+      t.component(o, e);
     });
   }
 };
 export {
-  s as CrudActions,
-  m as CrudDataTable,
-  n as CrudForm,
-  t as CrudIndex,
-  u as default
+  n as CrudDataTable,
+  r as CrudIndex,
+  m as default
 };

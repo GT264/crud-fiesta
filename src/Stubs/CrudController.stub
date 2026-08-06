@@ -13,6 +13,9 @@ use {{ use_update_request }};
 class {{ model_name }}CrudController extends CrudBaseController
 {
 
+    protected const string storeRequestClass = {{ model_name }}StoreRequest::class;
+    protected const string updateRequestClass = {{ model_name }}UpdateRequest::class;
+
     public function __construct(
         {{ model_class }} $model,
         {{ data_table_class }} $crud_data_table,
