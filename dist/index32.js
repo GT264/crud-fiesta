@@ -1,20 +1,16 @@
-import { h as c } from "vue";
-import m from "./index33.js";
-/**
- * @license lucide-vue-next v0.460.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const f = (o, e) => (r, { slots: t }) => c(
-  m,
-  {
-    ...r,
-    iconNode: e,
-    name: o
+const r = String.prototype.replace, e = /%20/g, n = {
+  RFC1738: "RFC1738",
+  RFC3986: "RFC3986"
+}, o = {
+  RFC1738: function(t) {
+    return r.call(t, e, "+");
   },
-  t
-);
+  RFC3986: function(t) {
+    return String(t);
+  }
+}, c = n.RFC1738, s = n.RFC3986;
 export {
-  f as default
+  c as RFC1738,
+  s as default,
+  o as formatters
 };

@@ -1,5 +1,5 @@
-import { stringify as $ } from "./index23.js";
-import { parse as w } from "./index24.js";
+import { stringify as $ } from "./index12.js";
+import { parse as w } from "./index13.js";
 function a() {
   return a = Object.assign ? Object.assign.bind() : function(g) {
     for (var e = 1; e < arguments.length; e++) {
