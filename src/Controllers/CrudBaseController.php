@@ -95,6 +95,21 @@ abstract class CrudBaseController extends Controller
         ];
     }
 
+
+    //----------------------------------------------------------------------------
+    // TEST HELPERS
+    //----------------------------------------------------------------------------
+
+    public function getRouteNamePrefix() : string
+    {
+        return $this->route_prefix;
+    }
+
+    public function getInertiaPage() : String
+    {
+        return self::view_name;
+    }
+
     //---------------------------------------------------------------------------
     // EXPORT METHODS
     //---------------------------------------------------------------------------
