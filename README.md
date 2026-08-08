@@ -1,6 +1,6 @@
 # CRUD Fiesta 🎉
 
-Un pacchetto Laravel per la gestione rapida di operazioni CRUD parametriche con supporto Inertia.js, Vue 3, PrimeVue e Spatie Permissions.
+Un pacchetto Laravel per la gestione rapida di operazioni CRUD parametriche con supporto Inertia.js, Vue 3, shadcn-vue e Spatie Permissions.
 
 **Il frontend è centralizzato nel pacchetto** — nessun file da copiare nel progetto, tutto funziona tramite plugin Vue.
 
@@ -10,13 +10,23 @@ Pacchetto in fase di sviluppo, non ancora pronto per la produzione.
 
 ## Requisiti
 
+### Backend
 - PHP >= 8.3
 - Laravel >= 13.0
 - [spatie/laravel-permission](https://github.com/spatie/laravel-permission) ^7.0
 - [inertiajs/inertia-laravel](https://github.com/inertiajs/inertia-laravel) ^3.0
+
+### Frontend
 - Node.js con npm
-- PrimeVue ^4.0
-- Vue 3
+- Vue ^3.4
+- [shadcn-vue](https://www.shadcn-vue.com/) ^3.0
+- Tailwind CSS ^4.0
+- [Ziggy](https://github.com/tighten/ziggy) ^2.0 (per `route()` globale nei componenti Vue)
+- [lucide-vue-next](https://github.com/lucide-icons/lucide) ^0.460
+- [maska](https://github.com/beholdr/maska) ^2.0
+- [@vueuse/core](https://vueuse.org/) ^12.0
+
+Il progetto consumer deve avere shadcn-vue configurato con i propri design token e il componente `<Toaster />` di `vue-sonner` posizionato nel layout dell'applicazione (tipicamente fornito da `layout-fiesta`).
 
 ---
 
@@ -47,19 +57,18 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-// Aggiungi questi due plugin dal pacchetto
-import PrimeVuePlugin from 'crud-fiesta/resources/js/plugins/primevue'
-import CrudPlugin from 'crud-fiesta/resources/js/plugins/crudFiesta'
+// Importa i plugin dal pacchetto
+import { CrudPlugin, ShadcnPlugin } from 'crud-fiesta'
 
 const app = createApp(App)
 
-app.use(PrimeVuePlugin)  // Setup PrimeVue
-app.use(CrudPlugin)      // Registra i componenti CRUD
+app.use(CrudPlugin)     // Registra i componenti CRUD (CfIndex, CfDataTable, CfForm, CfActions)
+app.use(ShadcnPlugin)   // Placeholder per compatibilità cross-package
 app.use(router)
 app.mount('#app')
 ```
 
-Fatto! I componenti CRUD sono ora disponibili globalmente.
+Fatto! I componenti CRUD sono ora disponibili globalmente come `<CfIndex />`, `<CfDataTable />`, `<CfForm />`, `<CfActions />`.
 
 ### 4. Configura l'enum delle risorse
 
@@ -119,7 +128,7 @@ Poi registra le rotte:
 Route::resource('users', App\Http\Controllers\UserController::class);
 ```
 
-**Finito!** Accedi a `/users` e avrai una CRUD completa con frontend da PrimeVue.
+**Finito!** Accedi a `/users` e avrai una CRUD completa con frontend shadcn-vue.
 
 ### Opzione 2: Setup Manuale
 
@@ -246,57 +255,209 @@ Route::resource('users', \App\Http\Controllers\UserController::class);
 
 ## Frontend — Componenti Vue
 
-I componenti CRUD sono già integrati nel pacchetto e disponibili tramite il plugin Vue. **Nessuna copia di file necessaria.**
+I componenti CRUD sono integrati nel pacchetto e disponibili tramite il plugin Vue. **Nessuna copia di file necessaria.**
 
 ### Componenti Disponibili
 
-- **`<CrudIndex />`** — Pagina principale con DataTable e gestione CRUD
-- **`<CrudDataTable />`** — Componente DataTable riutilizzabile
-- **`<CrudForm />`** — Form in modale per create/edit
-- **`<CrudActions />`** — Barra azioni (view, edit, delete)
+| Componente | Tag | Descrizione |
+|------------|-----|-------------|
+| **CfIndex** | `<CfIndex />` | Pagina Inertia wrapper che orchestra lo stato server-side (filtri, ordinamento, paginazione, export, toast) |
+| **CfDataTable** | `<CfDataTable />` | Tabella dati basata su `@tanstack/vue-table` con filtri, ordinamento, paginazione, skeleton loader |
+| **CfForm** | `<CfForm />` | Form dinamico per create/edit, renderizza campi in base ai `FormType` dichiarati dal backend |
+| **CfActions** | `<CfActions />` | Barra azioni per riga (view, edit, delete) con dialog di conferma per la delete |
 
-### Esempio di utilizzo diretto (avanzato)
+### Props Inertia (passate dal backend)
 
-Se vuoi personalizzare la pagina Index, puoi creare una pagina custom in `resources/js/Pages/`:
+Il controller `CrudBaseController` passa automaticamente queste props alla pagina Inertia:
 
-```vue
-<template>
-  <CrudIndex
-    title="Users"
-    :items="items"
-    :columns="columns"
-    :total-records="totalRecords"
-    :crud-buttons="crudButtons"
-    :form-fields="formFields"
-    @store="handleStore"
-    @update="handleUpdate"
-    @delete="handleDelete"
-  />
-</template>
+| Prop | Tipo | Descrizione |
+|------|------|-------------|
+| `column_data` | `LengthAwarePaginator` | Dati paginati della risorsa |
+| `columns_details` | `ColumnDetail[]` | Metadati delle colonne (field, header, filter_config, relation) |
+| `column_filters` | `Record<string, FilterConfig>` | Configurazione filtri per colonna |
+| `route_prefix` | `string` | Prefisso delle rotte (es. `users`) |
+| `key_name` | `string` | Nome della chiave primaria (es. `id`) |
+| `model_lang` | `string` | Chiave di traduzione del modello |
+| `crud_buttons` | `CrudButton[]` | Pulsanti azione per riga |
+| `optional_buttons` | `CrudButton[]` | Pulsanti opzionali aggiuntivi |
+| `actions_label` | `string` | Etichetta colonna azioni |
+| `lang` | `string` | Lingua corrente (es. `it`, `en`) |
+| `pagination_per_page` | `number` | Righe per pagina predefinite |
+| `pagination_per_page_options` | `number[]` | Opzioni selettore righe per pagina |
+| `flash` | `{ success?: string, error?: string }` | Messaggi flash per toast |
 
-<script setup>
-import { ref } from 'vue'
+---
 
-const items = ref([])
-const totalRecords = ref(0)
+## TypeScript Types
 
-const columns = [
-  { field: 'name', header: 'Nome' },
-  { field: 'email', header: 'Email' }
-]
+Il pacchetto esporta le seguenti interfacce TypeScript (importabili da `crud-fiesta`):
 
-const formFields = {
-  name: { form_type: 'text', required: true },
-  email: { form_type: 'email', required: true }
-}
-
-const crudButtons = [
-  { icon: 'pi pi-eye', label: 'View', action: 'view' },
-  { icon: 'pi pi-pencil', label: 'Edit', action: 'edit' },
-  { icon: 'pi pi-trash', label: 'Delete', action: 'delete' }
-]
-</script>
+```typescript
+import type {
+  LengthAwarePaginator,
+  ColumnDetail,
+  FilterConfig,
+  FilterType,
+  CrudAction,
+  CrudButton,
+  CrudIndexPageProps,
+  PaginationMeta,
+  CfDataTableProps,
+  FieldConfig,
+  CfFormProps,
+  CfActionsProps,
+} from 'crud-fiesta'
 ```
+
+### Interfacce Principali
+
+**`LengthAwarePaginator<T>`** — Dati paginati dal backend:
+- `data: T[]` — Array di record
+- `current_page: number`, `last_page: number`, `per_page: number`, `total: number`
+- `from: number | null`, `to: number | null`
+
+**`ColumnDetail`** — Metadato di una colonna:
+- `field: string` — Nome campo nel database
+- `header: string` — Etichetta tradotta
+- `filter_config?: FilterConfig` — Configurazione filtro opzionale
+- `relation?: { relation: string; display_field: string }` — Relazione eager-loaded
+
+**`FilterConfig`** — Configurazione di un filtro:
+- `field: string`
+- `type: FilterType` — `'select' | 'multiselect' | 'date' | 'date_range'`
+- `options?: Array<{ label: string; value: string | number }>`
+
+**`CrudButton`** — Pulsante azione per riga:
+- `action: CrudAction` — `'show' | 'edit' | 'destroy'`
+- `icon: string` — Nome icona Lucide
+- `label: string`
+- `route_name: string`
+- `event?: string` — Nome evento custom
+
+**`CrudIndexPageProps`** — Props complete della pagina index (include tutti i campi sopra).
+
+**`CfDataTableProps`** — Props del componente DataTable (include `PaginationMeta`, filtri, ordinamento).
+
+**`CfFormProps`** — Props del componente Form: `formDetails`, `item?`, `routePrefix`, `action`.
+
+**`CfActionsProps`** — Props del componente Actions: `buttons`, `row`, `routePrefix`, `keyName`.
+
+**`FieldConfig`** — Configurazione campo form: `field`, `label`, `form_type`, `placeholder?`, `options?`.
+
+---
+
+## Composable `useCrudFiesta`
+
+Il pacchetto esporta il composable `useCrudFiesta` con helper per routing e formattazione:
+
+```typescript
+import { useCrudFiesta } from 'crud-fiesta'
+
+const { buildRoute, formatColumnValue, getSortIcon, getNextSortOrder } = useCrudFiesta()
+```
+
+### Metodi
+
+| Metodo | Firma | Descrizione |
+|--------|-------|-------------|
+| `buildRoute` | `(routeName: string, params?: Record<string, string \| number>) => string` | Costruisce una URL usando Ziggy `route()` |
+| `formatColumnValue` | `(row: Record<string, unknown>, field: string, relation?: { relation: string; display_field: string }) => string` | Estrae il valore di una cella, gestendo relazioni eager-loaded |
+| `getSortIcon` | `(field: string, sortField: string \| null, sortOrder: 'asc' \| 'desc' \| null) => string \| null` | Restituisce il nome dell'icona di ordinamento (`ArrowUp`/`ArrowDown`) o `null` |
+| `getNextSortOrder` | `(field: string, currentField: string \| null, currentOrder: 'asc' \| 'desc' \| null) => 'asc' \| 'desc' \| null` | Calcola il prossimo stato di ordinamento (asc → desc → null) |
+
+---
+
+## Feature Avanzate
+
+### Export
+
+`CfIndex` gestisce l'export asincrono dei dati. Nella toolbar della tabella è presente un pulsante "Export" con dropdown per scegliere il formato:
+
+- **XLSX** — Export in formato Excel
+- **CSV** — Export in formato CSV
+
+L'export rispetta i filtri e l'ordinamento correnti. Il flusso è:
+
+1. **Richiesta**: POST a `{route_prefix}.exportStart` con formato, filtri e ordinamento
+2. **Polling**: GET a `{route_prefix}.exportStatus/{exportId}` ogni 2 secondi
+3. **Download**: quando lo stato è `completed`, download automatico da `{route_prefix}.exportDownload/{exportId}`
+4. **Timeout**: dopo 5 minuti il polling si interrompe con toast di errore
+
+Il backend usa `ExportDataJob` (job in coda) per generare il file.
+
+### Filtri per Colonna
+
+I filtri sono configurati nel backend tramite il metodo `columnFilters()` del `CrudBaseDataTable`. Tipi supportati:
+
+| Tipo | Descrizione | UI |
+|------|-------------|-----|
+| `select` | Dropdown a selezione singola | `<Select>` shadcn-vue |
+| `multiselect` | Dropdown a selezione multipla | `<Select>` multiplo |
+| `date` | Input data singola | `<input type="date">` |
+| `date_range` | Intervallo date (start/end) | Due input date |
+
+I filtri attivi appaiono come **badge rimovibili** sopra la tabella, con un pulsante "Cancella tutti i filtri" per resettare. Lo stato dei filtri è riflesso nella query string come `?filters[status]=active&filters[role][]=admin`.
+
+### Toast di Feedback
+
+Dopo azioni CRUD (create, update, delete), `CfIndex` legge i messaggi flash da `usePage().props.flash`:
+
+- `flash.success` → toast verde (`vue-sonner`)
+- `flash.error` → toast rosso
+
+**Importante**: `CfIndex` si limita a triggerare i toast. Il posizionamento del componente `<Toaster />` è responsabilità del progetto consumer (tipicamente in `layout-fiesta`). Vedi [Constitution Principle VII](.specify/memory/constitution.md).
+
+### Ricerca Globale
+
+La toolbar della tabella include un campo di ricerca testuale che popola il parametro `?search=` nella query string. La ricerca è gestita lato server e si combina con filtri e ordinamento.
+
+### Skeleton Loader
+
+Durante le transizioni Inertia (cambio pagina, filtro, ordinamento), `CfDataTable` mostra righe placeholder animate (skeleton) finché i nuovi dati non sono disponibili.
+
+### Dialog di Conferma Delete
+
+Il pulsante delete in `CfActions` mostra un `AlertDialog` (shadcn-vue) di conferma prima di procedere con la richiesta Inertia. Questo previene eliminazioni accidentali.
+
+---
+
+## Slot di Personalizzazione
+
+I componenti espongono slot per permettere la personalizzazione senza fork.
+
+### `CfDataTable` Slots
+
+| Slot | Descrizione |
+|------|-------------|
+| `#header-[field]` | Personalizza l'header di una colonna specifica |
+| `#cell-[field]` | Personalizza il rendering di una cella (es. avatar, badge status) |
+| `#filter-[field]` | Sostituisce l'input di filtro predefinito per una colonna |
+| `#actions` | Personalizza l'intera colonna azioni |
+| `#toolbar-prepend` | Contenuto prima della search bar nella toolbar |
+| `#toolbar-append` | Contenuto dopo il pulsante Create nella toolbar |
+| `#empty` | Stato vuoto personalizzato (quando non ci sono record) |
+| `#create-button` | Sostituisce il pulsante "Create" predefinito |
+
+### `CfActions` Slots
+
+| Slot | Descrizione |
+|------|-------------|
+| `#button` | Personalizza il rendering del singolo pulsante azione |
+
+---
+
+## Registry
+
+I componenti Vue del pacchetto sono distribuiti tramite il sistema registry di shadcn-vue. Questo permette ai consumer di installare i componenti via CLI:
+
+```bash
+npx shadcn-vue add <registry-url>
+```
+
+- **`registry.json`** — Elenca tutti i componenti disponibili in ordine di dipendenza
+- **`registry/r/*.json`** — File di dettaglio per ogni componente con dipendenze, file, e metadata
+
+La registry assicura che tutte le dipendenze (shadcn-vue base components, altri componenti crud-fiesta) siano risolte automaticamente.
 
 ---
 
@@ -304,7 +465,7 @@ const crudButtons = [
 
 ### File di configurazione
 
-Opzionalmente, publica la configurazione:
+Opzionalmente, pubblica la configurazione:
 
 ```bash
 php artisan vendor:publish --tag=crud-fiesta-config
@@ -319,7 +480,7 @@ php artisan vendor:publish --tag=crud-fiesta-config
 
 ### File di lingua
 
-Opzionalmente, publica i file di lingua:
+Opzionalmente, pubblica i file di lingua:
 
 ```bash
 php artisan vendor:publish --tag=crud-fiesta-lang
@@ -358,6 +519,51 @@ Poi assegnali ai ruoli:
 $role = Role::create(['name' => 'editor']);
 $role->givePermissionTo(['users.view', 'users.create', 'users.edit']);
 ```
+
+---
+
+## Sviluppo
+
+### Stack Tecnologico
+
+| Layer | Tecnologia | Versione |
+|-------|-----------|---------|
+| Backend | PHP | >= 8.3 |
+| Framework | Laravel | ^13.0 |
+| Auth/RBAC | spatie/laravel-permission | ^7.0 |
+| Middleware | inertiajs/inertia-laravel | ^3.0 |
+| Frontend | Vue | ^3.4 |
+| UI Library | shadcn-vue | ^3.0 |
+| Icons | lucide-vue-next | ^0.460 |
+| CSS | Tailwind CSS | ^4.0 |
+| Type Check | TypeScript | ^5.0 |
+| Bundler | Vite | ^6.0 |
+| Table | @tanstack/vue-table | ^9.1 |
+| Toast | vue-sonner | ^2.0 |
+
+### Build
+
+```bash
+npm install
+npm run build
+```
+
+Il build Vite:
+- Entry point: `src/resources/js/index.ts`
+- Output: `dist/index.js` (ES module)
+- `preserveModules: true` per mantenere la struttura directory
+- Dipendenze external: `vue`, `@inertiajs/vue3` (per evitare istanze duplicate nel consumer)
+- La directory `dist/` è committata nel repository (Constitution Principle IV)
+
+### Workflow Speckit
+
+Lo sviluppo segue il workflow speckit in 3 fasi:
+
+1. **`/speckit-specify`** → `specs/[###-feature]/spec.md` (user stories, requisiti)
+2. **`/speckit-plan`** → `specs/[###-feature]/plan.md` (piano implementazione)
+3. **`/speckit-tasks`** → `specs/[###-feature]/tasks.md` (task breakdown)
+
+Vedi [`.specify/memory/constitution.md`](.specify/memory/constitution.md) per i principi architetturali completi.
 
 ---
 
