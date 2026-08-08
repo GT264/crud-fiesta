@@ -112,13 +112,18 @@ abstract class CrudBaseRepository
     }
 
     /**
-     * Paginazione dei risultati
+     * Costruisce una query filtrata con sorting, search, filtri e eager loading.
+     * Condiviso tra paginate() ed ExportDataJob per evitare duplicazione.
      *
-     * @param int $perPage
      * @param array $columns
-     * @return LengthAwarePaginator
+     * @param string|null $sortField
+     * @param string $sortOrder
+     * @param array $relations
+     * @param string|null $search
+     * @param array|null $filters
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null, ?array $filters = null): LengthAwarePaginator
+    public function buildFilteredQuery(array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null, ?array $filters = null): \Illuminate\Database\Eloquent\Builder
     {
         $query = $this->model->newQuery();
 
@@ -183,7 +188,7 @@ abstract class CrudBaseRepository
             $displayField = $relationConfig['display_field'];
 
             $query->with([
-                $relationName => function ($q) use ($foreignKey, $displayField) {
+                $relationName => function ($q) use ($displayField) {
                     // Carica solo la chiave primaria e il campo da mostrare
                     $relatedModel = $q->getModel();
                     $q->select([$relatedModel->getKeyName(), $displayField]);
@@ -191,7 +196,25 @@ abstract class CrudBaseRepository
             ]);
         }
 
-        return $query->paginate($perPage, $columns);
+        return $query;
+    }
+
+    /**
+     * Paginazione dei risultati
+     *
+     * @param int $perPage
+     * @param array $columns
+     * @param string|null $sortField
+     * @param string $sortOrder
+     * @param array $relations
+     * @param string|null $search
+     * @param array|null $filters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(int $perPage = 15, array $columns = ['*'], ?string $sortField = null, string $sortOrder = 'asc', array $relations = [], ?string $search = null, ?array $filters = null): LengthAwarePaginator
+    {
+        return $this->buildFilteredQuery($columns, $sortField, $sortOrder, $relations, $search, $filters)
+            ->paginate($perPage, $columns);
     }
 
     /**

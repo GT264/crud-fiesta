@@ -132,6 +132,7 @@ abstract class CrudBaseController extends Controller
         ], now()->addHours(24));
 
         ExportDataJob::dispatch(
+            repository: $this->crud_base_repository,
             exportId: $exportId,
             modelClass: $this->model::class,
             modelName: $modelName,

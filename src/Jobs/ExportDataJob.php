@@ -14,11 +14,14 @@ use OpenSpout\Writer\CSV\Writer as CSVWriter;
 use OpenSpout\Writer\WriterInterface;
 use OpenSpout\Common\Entity\Row;
 
+use GT264\CrudFiesta\Repositories\CrudBaseRepository;
+
 class ExportDataJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
+        private CrudBaseRepository $repository,
         private string $exportId,
         private string $modelClass,
         private string $modelName,
@@ -35,79 +38,18 @@ class ExportDataJob implements ShouldQueue
     public function handle(): void
     {
         $cacheKey = "crud-fiesta:export:{$this->exportId}";
-        $modelClass = $this->modelClass;
 
-        // 1. Build query (mirrors CrudBaseRepository::paginate() logic)
-        $query = $modelClass::query();
+        // 1. Build query using the shared repository method (no duplication)
+        $query = $this->repository->buildFilteredQuery(
+            $this->columns,
+            $this->sortField,
+            $this->sortDirection,
+            $this->relationMap,
+            $this->search,
+            $this->filters
+        );
 
-        if ($this->sortField !== null) {
-            $query->orderBy($this->sortField, $this->sortDirection);
-        }
-
-        if ($this->search !== null && $this->search !== '') {
-            $searchableColumns = $this->columns;
-            $query->where(function ($q) use ($searchableColumns) {
-                if (!empty($searchableColumns)) {
-                    foreach ($searchableColumns as $col) {
-                        if (isset($this->relationMap[$col])) {
-                            $relationName = $this->relationMap[$col]['relation'];
-                            $displayField = $this->relationMap[$col]['display_field'];
-                            $q->orWhereHas($relationName, function ($r) use ($displayField) {
-                                $r->where($displayField, 'LIKE', '%' . $this->search . '%');
-                            });
-                        } else {
-                            $q->orWhere($col, 'LIKE', '%' . $this->search . '%');
-                        }
-                    }
-                }
-            });
-        }
-
-        if ($this->filters !== null && !empty($this->filters)) {
-            foreach ($this->filters as $field => $filterConfig) {
-                $type = $filterConfig['type'] ?? 'select';
-                $value = $filterConfig['value'] ?? null;
-
-                if ($value === null || $value === '' || (is_array($value) && empty($value))) {
-                    continue;
-                }
-
-                if (isset($this->relationMap[$field])) {
-                    $relationName = $this->relationMap[$field]['relation'];
-                    $displayField = $this->relationMap[$field]['display_field'];
-
-                    $query->whereHas($relationName, function ($r) use ($type, $displayField, $value) {
-                        $keyName = $r->getModel()->getKeyName();
-                        match ($type) {
-                            'multiselect' => $r->whereIn($keyName, (array) $value),
-                            'date_range' => $r->whereBetween($displayField, [$value['start'], $value['end']]),
-                            default => $r->where($keyName, $value),
-                        };
-                    });
-                } else {
-                    match ($type) {
-                        'multiselect' => $query->whereIn($field, (array) $value),
-                        'date_range' => $query->whereBetween($field, [$value['start'], $value['end']]),
-                        default => $query->where($field, $value),
-                    };
-                }
-            }
-        }
-
-        // Eager-load relations
-        foreach ($this->relationMap as $foreignKey => $relationConfig) {
-            $relationName = $relationConfig['relation'];
-            $displayField = $relationConfig['display_field'];
-
-            $query->with([
-                $relationName => function ($q) use ($displayField) {
-                    $relatedModel = $q->getModel();
-                    $q->select([$relatedModel->getKeyName(), $displayField]);
-                }
-            ]);
-        }
-
-        // 2. Get total count
+        // 2. Get total count (filtered, not all records)
         $total = $query->count();
 
         Cache::put($cacheKey, [
@@ -138,7 +80,7 @@ class ExportDataJob implements ShouldQueue
 
         // Chunk and write
         $processed = 0;
-        $chunkSize = config('crud-fiesta.export.chunk_size', 1000);
+        $chunkSize = config('crud-fiesta.export.chunk_size', 50);
 
         $query->chunk($chunkSize, function ($rows) use ($writer, &$processed, $total, $cacheKey) {
             foreach ($rows as $row) {
@@ -186,13 +128,18 @@ class ExportDataJob implements ShouldQueue
 
     private function createWriter(string $filePath): WriterInterface
     {
-        if ($this->format === 'csv') {
+        if (
+            $this->format === 'csv'
+        ) {
             $writer = new CSVWriter();
-            $writer->openToFile($filePath);
-            return $writer;
+        } else if (
+             $this->format === 'xlsx'
+        ) {
+            $writer = new XLSXWriter();
+        } else {
+            throw new \InvalidArgumentException("Unsupported export format: {$this->format}");
         }
 
-        $writer = new XLSXWriter();
         $writer->openToFile($filePath);
         return $writer;
     }
