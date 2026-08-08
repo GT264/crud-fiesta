@@ -1,0 +1,23 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-form",
+  "type": "registry:component",
+  "dependencies": ["vue"],
+  "registryDependencies": [
+    "Button",
+    "Input",
+    "Select",
+    "Textarea",
+    "Checkbox",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-utils.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-file-input.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-rich-text-input.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-masked-input.json"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/CfForm.vue",
+      "type": "registry:component"
+    }
+  ]
+}

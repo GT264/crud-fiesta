@@ -13,7 +13,7 @@ export default defineConfig({
         rollupOptions: {
             // Vue e shadcn-vue sono nel consumer: non bundliamo per evitare
             // istanze doppie
-            external: ['vue', /^vue\//, '@inertiajs/vue3', 'ziggy-js', 'lucide-vue-next', '@vueuse/core', 'maska', '@tiptap/vue-3', '@tiptap/starter-kit', 'clsx', 'tailwind-merge', 'class-variance-authority'],
+            external: ['vue', /^vue\//, '@inertiajs/vue3'],
             output: {
                 // Preserva la struttura delle cartelle in dist/
                 preserveModules: true,

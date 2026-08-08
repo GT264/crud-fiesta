@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-actions",
+  "type": "registry:component",
+  "dependencies": ["vue", "@inertiajs/vue3"],
+  "registryDependencies": [
+    "Button",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/CfActions.vue",
+      "type": "registry:component"
+    }
+  ]
+}

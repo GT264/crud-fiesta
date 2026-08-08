@@ -28,5 +28,9 @@
     "lucide-vue-next": "^0.460.0",
     "maska": "^2.0.0",
     "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@tanstack/vue-table": "^9.1.0",
+    "vue-sonner": "^2.0.9"
   }
 }

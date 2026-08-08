@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-index",
+  "type": "registry:component",
+  "dependencies": ["vue", "@inertiajs/vue3", "@vueuse/core", "vue-sonner", "ziggy-js", "lucide-vue-next"],
+  "registryDependencies": [
+    "Card",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-data-table.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-actions.json",
+    "https://raw.githubusercontent.com/GT264/crud-fiesta/refs/heads/master/registry/r/cf-form.json"
+  ],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/CfIndex.vue",
+      "type": "registry:component"
+    }
+  ]
+}

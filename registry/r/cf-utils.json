@@ -1,0 +1,13 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cf-utils",
+  "type": "registry:lib",
+  "dependencies": ["vue", "ziggy-js", "lucide-vue-next"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/resources/js/Components/Crud/utils/useCrudFiesta.ts",
+      "type": "registry:lib"
+    }
+  ]
+}
