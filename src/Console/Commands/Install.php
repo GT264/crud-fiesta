@@ -60,7 +60,7 @@ class Install extends Command
 
         $content = File::get(__DIR__ . '/../../Stubs/AppResource.stub');
 
-        File::makeDirectory($resources_path, 0777, true);
+        File::makeDirectory('app/Enums/', 0777, true);
 
         File::put($resources_path, $content);
 
