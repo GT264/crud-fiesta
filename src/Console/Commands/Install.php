@@ -49,7 +49,7 @@ class Install extends Command
     // ----------------------------------------------------------------
     protected function createAppResources(): void
     {
-        $resources_path = base_path('app/Enums/AppResourceStubs/AppResource.php');
+        $resources_path = base_path('app/Enums/AppResource.php');
         $enums_path = base_path('app/Enums');
 
         if (file_exists($resources_path)) {
@@ -59,7 +59,7 @@ class Install extends Command
 
         $this->info("📥 Creazione di {$resources_path}...");
 
-        $content = File::get(__DIR__ . '/../../Stubs/AppResource.stub');
+        $content = File::get(__DIR__ . '/../../Stubs/AppResourceStubs/AppResource.stub');
 
          if (
             !File::exists($enums_path)
