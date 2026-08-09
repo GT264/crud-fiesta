@@ -3,7 +3,6 @@
     "description": "A Laravel package for rapid CRUD operations with Inertia.js, Vue3 and Spatie Permissions support",
     "type": "library",
     "license": "MIT",
-    "version": "1.0",
     "authors": [
         {
             "name": "Michele Ferretti",
