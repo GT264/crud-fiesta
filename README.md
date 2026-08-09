@@ -48,29 +48,56 @@ npm install
 npm run build
 ```
 
-### 3. Configura il plugin Vue
+> **Nota**: `crud-fiesta:install` installa automaticamente le dipendenze npm necessarie e stampa le istruzioni per i passaggi successivi.
+
+### 3. Configura l'alias Vite
+
+Poiché il pacchetto **non è pubblicato su npm** ma installato via Composer in `vendor/gt264/crud-fiesta/`, devi configurare un alias nel `vite.config.ts` del tuo progetto:
+
+```typescript
+// vite.config.ts
+import path from 'path'
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      '@crud-fiesta': path.resolve(__dirname, 'vendor/gt264/crud-fiesta/dist'),
+    },
+  },
+})
+```
+
+Senza questo alias, gli import `from '@crud-fiesta'` non possono essere risolti perché il package non esiste in `node_modules`.
+
+### 4. Configura il plugin Vue
 
 Nel tuo `resources/js/app.js` (o `main.js`):
 
 ```javascript
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
 
-// Importa i plugin dal pacchetto
-import { CrudPlugin, ShadcnPlugin } from 'crud-fiesta'
+// Importa i plugin dal pacchetto (usa l'alias @crud-fiesta configurato sopra)
+import { CrudPlugin, ShadcnPlugin } from '@crud-fiesta'
 
-const app = createApp(App)
-
-app.use(CrudPlugin)     // Registra i componenti CRUD (CfIndex, CfDataTable, CfForm, CfActions)
-app.use(ShadcnPlugin)   // Placeholder per compatibilità cross-package
-app.use(router)
-app.mount('#app')
+createInertiaApp({
+  resolve: (name) => {
+    const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
+    return pages[`./Pages/${name}.vue`]
+  },
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(CrudPlugin)     // Registra i componenti CRUD (CfIndex, CfDataTable, CfForm, CfActions)
+      .use(ShadcnPlugin)   // Placeholder per compatibilità cross-package
+      .mount(el)
+  },
+})
 ```
 
 Fatto! I componenti CRUD sono ora disponibili globalmente come `<CfIndex />`, `<CfDataTable />`, `<CfForm />`, `<CfActions />`.
 
-### 4. Configura l'enum delle risorse
+### 5. Configura l'enum delle risorse
 
 Crea un file `app/Enums/AppResource.php`:
 
@@ -290,7 +317,7 @@ Il controller `CrudBaseController` passa automaticamente queste props alla pagin
 
 ## TypeScript Types
 
-Il pacchetto esporta le seguenti interfacce TypeScript (importabili da `crud-fiesta`):
+Il pacchetto esporta le seguenti interfacce TypeScript (importabili da `@crud-fiesta`):
 
 ```typescript
 import type {
@@ -306,7 +333,7 @@ import type {
   FieldConfig,
   CfFormProps,
   CfActionsProps,
-} from 'crud-fiesta'
+} from '@crud-fiesta'
 ```
 
 ### Interfacce Principali
@@ -351,7 +378,7 @@ import type {
 Il pacchetto esporta il composable `useCrudFiesta` con helper per routing e formattazione:
 
 ```typescript
-import { useCrudFiesta } from 'crud-fiesta'
+import { useCrudFiesta } from '@crud-fiesta'
 
 const { buildRoute, formatColumnValue, getSortIcon, getNextSortOrder } = useCrudFiesta()
 ```
