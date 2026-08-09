@@ -64,9 +64,6 @@ class {{ model_name }}DataTable extends CrudBaseDataTable
 
     protected function columnFilters(): array
     {
-        return [
-            // 'column_name' => [
-            //     'type' => 'select', // select|multiselect|date|date_range
-            //     'options' => [       // optional: for select/multiselect only
-            //         ['label' => 'Option A', 'value' => 'a'],
-            //         ['label' => 'Option B', 'value' => 'b
+        return [];
+    }
+}
