@@ -60,6 +60,8 @@ class Install extends Command
 
         $content = File::get(__DIR__ . '/../../Stubs/AppResource.stub');
 
+        File::makeDirectory($resources_path, 0777, true);
+
         File::put($resources_path, $content);
 
         $this->info('✅ Enum delle risorse creato.');
