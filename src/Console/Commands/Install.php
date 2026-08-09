@@ -50,6 +50,7 @@ class Install extends Command
     protected function createAppResources(): void
     {
         $resources_path = base_path('app/Enums/AppResource.php');
+        $enums_path = base_path('app/Enums');
 
         if (file_exists($resources_path)) {
             $this->warn('⚠️  Il file AppResource.php esiste già. Ignorato.');
@@ -60,7 +61,11 @@ class Install extends Command
 
         $content = File::get(__DIR__ . '/../../Stubs/AppResource.stub');
 
-        File::makeDirectory('app/Enums/', 0777, true);
+         if (
+            !File::exists($enums_path)
+        ) {
+            File::makeDirectory($enums_path, 0777, true);
+        }
 
         File::put($resources_path, $content);
 
