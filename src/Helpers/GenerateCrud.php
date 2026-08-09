@@ -14,7 +14,7 @@ class GenerateCrud
     ) : void
     {
         // Get Stubs
-        $stub_folder =__DIR__ . '/../Stubs';
+        $stub_folder = __DIR__ . '/../Stubs';
 
         if (
             !File::exists($stub_folder)

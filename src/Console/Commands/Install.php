@@ -4,6 +4,7 @@ namespace GT264\CrudFiesta\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\File;
 
 class Install extends Command
 {
@@ -15,6 +16,8 @@ class Install extends Command
         $this->info('🚀 Installazione CrudFiesta...');
 
         $this->installNpmPackages();
+
+        $this->createAppResources();
 
         $this->newLine();
         $this->info('📋 Aggiungi l\'alias nel tuo vite.config.ts:');
@@ -38,6 +41,28 @@ class Install extends Command
         $this->info('✅ CrudFiesta pronto!');
 
         return self::SUCCESS;
+    }
+
+
+    // ----------------------------------------------------------------
+    // Step 1 — Crea l'enum delle risorse
+    // ----------------------------------------------------------------
+    protected function createAppResources(): void
+    {
+        $resources_path = base_path('app/Enums/AppResource.php');
+
+        if (file_exists($resources_path)) {
+            $this->warn('⚠️  Il file AppResource.php esiste già. Ignorato.');
+            return;
+        }
+
+        $this->info("📥 Creazione di {$resources_path}...");
+
+        $content = File::get(__DIR__ . '/../../Stubs/AppResource.stub');
+
+        File::put($resources_path, $content);
+
+        $this->info('✅ Enum delle risorse creato.');
     }
 
     // ----------------------------------------------------------------

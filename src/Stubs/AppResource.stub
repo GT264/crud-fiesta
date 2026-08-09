@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Enums;
+
+use GT264\CrudFiesta\Enums\Resource;
+
+enum AppResource: string implements Resource
+{
+    case USERS = 'users';
+
+    public static function getResourceFromModel(string $model_class): self
+    {
+        return match($model_class) {
+            \App\Models\User::class => self::USERS,
+            default => throw new \InvalidArgumentException("Unknown model: $model_class"),
+        };
+    }
+}
