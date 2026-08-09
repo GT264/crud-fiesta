@@ -15,9 +15,9 @@ class Install extends Command
     {
         $this->info('🚀 Installazione CrudFiesta...');
 
-        $this->installNpmPackages();
-
         $this->createAppResources();
+
+        $this->installNpmPackages();
 
         $this->newLine();
         $this->info('📋 Aggiungi l\'alias nel tuo vite.config.ts:');
@@ -49,7 +49,7 @@ class Install extends Command
     // ----------------------------------------------------------------
     protected function createAppResources(): void
     {
-        $resources_path = base_path('app/Enums/AppResource.php');
+        $resources_path = base_path('app/Enums/AppResourceStubs/AppResource.php');
         $enums_path = base_path('app/Enums');
 
         if (file_exists($resources_path)) {
